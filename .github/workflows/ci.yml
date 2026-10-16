@@ -39,19 +39,24 @@ jobs:
         run: python3 -m unittest discover -s tests -v
 
       - name: Routing engine and ad tests
-        run: node --test tests/engine.test.mjs tests/ads.test.mjs
+        run: node --test tests/engine.test.mjs tests/ads.test.mjs tests/admin.test.mjs
 
       - name: Script syntax check
         run: |
           python3 - <<'EOF'
           import re, subprocess, sys
-          html = open("dist/index.html", encoding="utf-8").read()
-          js = re.search(r"<script>(.*)</script>", html, re.S).group(1)
-          open("/tmp/app.js", "w", encoding="utf-8").write(js)
-          sys.exit(subprocess.call(["node", "--check", "/tmp/app.js"]))
+          code = 0
+          for i, page in enumerate(["dist/index.html", "dist/site/admin/index.html"]):
+              html = open(page, encoding="utf-8").read()
+              js = re.search(r"<script>(.*)</script>", html, re.S).group(1)
+              open(f"/tmp/page{i}.js", "w", encoding="utf-8").write(js)
+              code |= subprocess.call(["node", "--check", f"/tmp/page{i}.js"])
+          sys.exit(code)
           EOF
 
       - name: Generated iOS resources are committed and current
         run: |
-          git diff --exit-code -- ios/Masar/Resources \
+          # ads.json in the app is only a fallback (the app reads the live feed), and the admin page
+          # commits data/ads.json without rebuilding, so it is left out of this check.
+          git diff --exit-code -- ios/Masar/Resources ':!ios/Masar/Resources/ads.json' \
             || (echo "::error::Run 'python3 tools/build.py' and commit ios/Masar/Resources" && exit 1)

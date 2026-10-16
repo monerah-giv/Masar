@@ -62,6 +62,11 @@ def ads_feed(net, ads, strings, app):
         cid = c.get("id") or err("campaign without id")
         if cid in seen: err(f"duplicate campaign id {cid}")
         seen.add(cid)
+        status = c.get("status", "active")
+        if status not in ("active", "suspended", "cancelled"): err(f"{cid}: status must be active, suspended or cancelled")
+        if c.get("paidUntil") is not None and not DATE.match(str(c["paidUntil"])): err(f"{cid}: paidUntil must be YYYY-MM-DD")
+        if status == "cancelled":
+            continue                      # kept in the book for the record; frees the slot
         if c.get("network"):
             sts = sorted(ids)
         else:
@@ -93,8 +98,8 @@ def ads_feed(net, ads, strings, app):
                 print(f"warning: {cid} is more than 2.5 km from {far}")
         w = c.get("weight", 1)
         if not isinstance(w, (int, float)) or w <= 0: err(f"{cid}: weight must be > 0")
-        item = {k: c[k] for k in ("id", "name", "category", "title", "body", "url", "phone", "lat", "lng", "start", "end") if c.get(k) is not None}
-        item["stations"] = sts; item["weight"] = w
+        item = {k: c[k] for k in ("id", "name", "category", "title", "body", "url", "phone", "lat", "lng", "start", "end", "paidUntil") if c.get(k) is not None}
+        item["stations"] = sts; item["weight"] = w; item["status"] = status
         out.append(item)
     # no station may be sold more often than it has slots on any day
     cap = ads["slotsPerStation"]
@@ -104,7 +109,9 @@ def ads_feed(net, ads, strings, app):
             day = c["start"]
             n = sum(1 for o in mine if o["start"] <= day <= o["end"])
             if n > cap: err(f"station {sid} is overbooked on {day} ({n} campaigns, {cap} slots)")
+    if not isinstance(ads.get("graceDays", 0), int) or ads.get("graceDays", 0) < 0: err("graceDays must be a whole number ≥ 0")
     feed = {k: ads[k] for k in ("contact", "currency", "vat", "slotsPerStation", "rates", "durations", "packages")}
+    feed["graceDays"] = ads.get("graceDays", 0)
     feed.update({"version": 1, "tierOf": tier_of,
                  "issueUrl": app.get("repoUrl", "").rstrip("/") + "/issues/new" if app.get("repoUrl") else "",
                  "feedUrl": (app.get("siteUrl") or "").rstrip("/") + "/ads.json" if app.get("siteUrl") else "",
@@ -181,6 +188,40 @@ SITE_HEAD = """<!doctype html>
 <body>
 """
 
+ADMIN_HEAD = """<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0B1A22">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Readex+Pro:wght@600;700&display=swap">
+</head>
+<body>
+"""
+
+def admin(net, app):
+    """dist/site/admin: the management control page. It holds no data or secrets itself: it signs in with the
+    admin's own GitHub token, reads data/ads.json and the encrypted ledger, and commits changes back."""
+    src = open(D("web", "admin.html"), encoding="utf-8").read()
+    dump = lambda o: json.dumps(o, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    slim = {"stations": [{k: s[k] for k in ("id", "ar", "en")} for s in net["stations"]],
+            "lines": [{"id": l["id"], "stations": l["stations"]} for l in net["lines"]]}
+    for tag, obj in (("NET", slim), ("APP", {k: app.get(k) for k in ("repoUrl", "admins", "siteUrl")})):
+        token = f"/*{tag}*/null"
+        if token not in src:
+            sys.exit(f"placeholder {token} missing in web/admin.html")
+        src = src.replace(token, dump(obj))
+    out = D("dist", "site", "admin"); os.makedirs(out, exist_ok=True)
+    with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
+        f.write(ADMIN_HEAD + src + "\n</body>\n</html>\n")
+    with open(D("dist", "site", "robots.txt"), "w", encoding="utf-8") as f:
+        f.write("User-agent: *\nDisallow: /Masar/admin/\nDisallow: /admin/\n")
+
 def site(page):
     """dist/site: the same app as a standalone HTTPS-ready site. Outside Claude the browser can grant
     location, so the app opens already located; it can also be added to the Home Screen."""
@@ -211,6 +252,8 @@ if __name__ == "__main__":
     ads_src = json.load(open(os.environ["MASAR_ADS"], encoding="utf-8")) if os.environ.get("MASAR_ADS") else load("ads.json")
     ADS = ads_feed(net, ads_src, strings, load("app.json") if os.path.exists(D("data", "app.json")) else {})
     web(net, fares, strings)
+    if os.path.exists(D("web", "admin.html")):
+        admin(net, load("app.json") if os.path.exists(D("data", "app.json")) else {})
     if os.path.isdir(D("ios")):
         ios(net, fares, strings)
     print("built:", len(net["stations"]), "stations,", len(net["lines"]), "lines,",

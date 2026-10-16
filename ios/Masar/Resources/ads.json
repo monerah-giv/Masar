@@ -30,6 +30,7 @@
   "line": 0.35,
   "network": 0.5
  },
+ "graceDays": 0,
  "version": 1,
  "tierOf": {
   "kafd": "A",

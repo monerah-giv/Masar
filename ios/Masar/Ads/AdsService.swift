@@ -17,11 +17,23 @@ struct AdCampaign: Codable, Identifiable, Hashable {
     let end: String
     let stations: [String]
     let weight: Double
+    /// Last day the advertiser has paid for; nil = nothing paid yet. Set from the admin page.
+    let paidUntil: String?
+    /// "active" or "suspended" (cancelled bookings never reach the feed).
+    let status: String?
+
+    /// Shown only while running, not suspended and paid for (plus grace days). An unpaid ad
+    /// disappears by itself the day after its paid period, even before the feed refreshes.
+    func isShown(on day: String, graceDays: Int) -> Bool {
+        guard status != "suspended", start <= day, day <= end, let paid = paidUntil else { return false }
+        return day <= AdsService.addDays(paid, graceDays)
+    }
 }
 
 struct AdFeed: Codable {
     let version: Int
     let slotsPerStation: Int
+    var graceDays: Int? = 0
     let feedUrl: String?
     let campaigns: [AdCampaign]
 }
@@ -68,7 +80,7 @@ final class AdsService {
     /// Active campaigns at a station in a weighted rotation that stays the same all day.
     /// Same hash as the web app, so a rider sees the same ad on both.
     func ads(at station: String, day: String = AdsService.today(), limit: Int = 1) -> [AdCampaign] {
-        Self.rotate(feed.campaigns, at: station, day: day, limit: limit)
+        Self.rotate(feed.campaigns, at: station, day: day, limit: limit, graceDays: feed.graceDays ?? 0)
     }
 
     func freeSlots(at station: String, day: String = AdsService.today()) -> Int {
@@ -84,8 +96,8 @@ final class AdsService {
 
     // MARK: pure helpers (unit-tested)
 
-    nonisolated static func rotate(_ all: [AdCampaign], at station: String, day: String, limit: Int) -> [AdCampaign] {
-        all.filter { $0.stations.contains(station) && $0.start <= day && day <= $0.end }
+    nonisolated static func rotate(_ all: [AdCampaign], at station: String, day: String, limit: Int, graceDays: Int = 0) -> [AdCampaign] {
+        all.filter { $0.stations.contains(station) && $0.isShown(on: day, graceDays: graceDays) }
             .map { (c: $0, k: -log(hash01("\($0.id)|\(station)|\(day)")) / $0.weight) }
             .sorted { $0.k < $1.k }
             .prefix(limit)
@@ -97,6 +109,18 @@ final class AdsService {
         var h: UInt32 = 2_166_136_261
         for u in s.utf16 { h ^= UInt32(u); h = h &* 16_777_619 }
         return (Double(h) + 0.5) / 4_294_967_296
+    }
+
+    nonisolated static func addDays(_ iso: String, _ n: Int) -> String {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let f = DateFormatter()
+        f.calendar = cal
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.timeZone = cal.timeZone
+        f.dateFormat = "yyyy-MM-dd"
+        guard n != 0, let d = f.date(from: iso), let r = cal.date(byAdding: .day, value: n, to: d) else { return iso }
+        return f.string(from: r)
     }
 
     /// Today's date in Riyadh as YYYY-MM-DD (campaign dates are Riyadh calendar days).

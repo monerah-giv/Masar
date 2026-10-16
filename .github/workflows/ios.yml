@@ -4,11 +4,12 @@ name: iOS
 # Signing is off: this checks the code compiles and the tests pass; archiving for the App Store
 # happens on a Mac with your Apple Developer team (see README).
 on:
+  # Admin saves (ads and the ledger) do not change the app, so they do not start a 12-minute macOS build.
   push:
     branches: [main]
-    paths: ["ios/**", "data/**", "tools/**", ".github/workflows/ios.yml"]
+    paths: ["ios/**", "data/**", "tools/**", ".github/workflows/ios.yml", "!data/ads.json", "!data/billing.enc"]
   pull_request:
-    paths: ["ios/**", "data/**", "tools/**", ".github/workflows/ios.yml"]
+    paths: ["ios/**", "data/**", "tools/**", ".github/workflows/ios.yml", "!data/ads.json", "!data/billing.enc"]
   workflow_dispatch:
 
 permissions:

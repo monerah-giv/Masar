@@ -1,4 +1,7 @@
 {
  "siteUrl": "https://monerah-giv.github.io/Masar/",
- "repoUrl": "https://github.com/monerah-giv/Masar"
+ "repoUrl": "https://github.com/monerah-giv/Masar",
+ "admins": [
+  "monerah-giv"
+ ]
 }

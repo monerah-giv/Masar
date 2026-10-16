@@ -6,6 +6,7 @@
  "currency": "SAR",
  "vat": 0.15,
  "slotsPerStation": 2,
+ "graceDays": 0,
  "rates": {"A": 1200, "B": 700, "C": 400},
  "tiers": {
   "A": ["kafd", "stc", "museum", "qasrhokm", "moe", "hamra", "naseem", "rabi", "uthman", "sabic", "t12", "t34", "t5"],

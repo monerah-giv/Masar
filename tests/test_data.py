@@ -120,7 +120,8 @@ class AdsTests(unittest.TestCase):
     def test_live_book_and_sample_are_valid(self):
         self.feed(self.ads)
         f = self.feed(load("tests", "fixtures", "ads.sample.json"))
-        self.assertEqual(len(f["campaigns"]), 3)
+        self.assertEqual(len(f["campaigns"]), 5)          # the cancelled one is left out of the feed
+        self.assertTrue(all("status" in c for c in f["campaigns"]))
 
     def test_rate_card_is_sane(self):
         r = self.ads["rates"]
@@ -140,7 +141,8 @@ class AdsTests(unittest.TestCase):
     def test_bad_campaigns_are_rejected(self):
         bad = [self.camp(stations=["nowhere"]), self.camp(category="casino"), self.camp(start="2027-02-01"),
                self.camp(url="http://insecure.example"), self.camp(lat=21.5, lng=39.2), self.camp(start="1/1/2027"),
-               self.camp(title={"xx": "?"}), self.camp(weight=0), self.camp(stations=[])]
+               self.camp(title={"xx": "?"}), self.camp(weight=0), self.camp(stations=[]),
+               self.camp(status="paused"), self.camp(paidUntil="31/01/2027")]
         for c in bad:
             with self.assertRaises(SystemExit, msg=c):
                 self.feed(self.book(c))
@@ -153,8 +155,24 @@ class AdsTests(unittest.TestCase):
         self.feed(self.book(*ok))
         with self.assertRaises(SystemExit):
             self.feed(self.book(*ok, self.camp(id="extra", start="2027-01-20", end="2027-02-20")))
+        # a cancelled booking frees its slot
+        self.feed(self.book(*ok, self.camp(id="gone", status="cancelled")))
         # back-to-back bookings share a slot
         self.feed(self.book(*ok, self.camp(id="next", start="2027-02-01", end="2027-02-28")))
+
+
+class LedgerTests(unittest.TestCase):
+    def test_ledger_in_the_repo_is_only_ciphertext(self):
+        path = os.path.join(ROOT, "data", "billing.enc")
+        if not os.path.exists(path):
+            self.skipTest("no ledger yet")
+        f = load("data", "billing.enc")
+        self.assertEqual(set(f), {"v", "alg", "kdf", "iter", "salt", "iv", "ct"})
+        self.assertEqual(f["alg"], "AES-256-GCM")
+        self.assertGreaterEqual(f["iter"], 100000)
+        raw = open(path, encoding="utf-8").read()
+        for word in ("advertiser", "payments", "phone"):
+            self.assertNotIn(word, raw)
 
 
 if __name__ == "__main__":

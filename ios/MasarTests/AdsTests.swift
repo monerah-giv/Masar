@@ -3,9 +3,21 @@ import XCTest
 
 final class AdsTests: XCTestCase {
     private func camp(_ id: String, stations: [String] = ["qasrhokm"], start: String = "2026-10-01",
-                      end: String = "2026-12-31", weight: Double = 1, url: String? = nil) -> AdCampaign {
+                      end: String = "2026-12-31", weight: Double = 1, url: String? = nil,
+                      paidUntil: String? = "2026-12-31", status: String? = "active") -> AdCampaign {
         AdCampaign(id: id, name: ["ar": "اسم", "en": "Name"], category: "cafe", title: ["ar": "عرض"], body: nil,
-                   url: url, phone: nil, lat: nil, lng: nil, start: start, end: end, stations: stations, weight: weight)
+                   url: url, phone: nil, lat: nil, lng: nil, start: start, end: end, stations: stations, weight: weight,
+                   paidUntil: paidUntil, status: status)
+    }
+
+    func testUnpaidAndSuspendedAdsAreHidden() {
+        let all = [camp("paid"), camp("oct", paidUntil: "2026-10-31"), camp("never", paidUntil: nil),
+                   camp("off", status: "suspended")]
+        XCTAssertEqual(Set(AdsService.rotate(all, at: "qasrhokm", day: "2026-10-31", limit: 9).map(\.id)), ["paid", "oct"])
+        XCTAssertEqual(AdsService.rotate(all, at: "qasrhokm", day: "2026-11-01", limit: 9).map(\.id), ["paid"])
+        XCTAssertEqual(Set(AdsService.rotate(all, at: "qasrhokm", day: "2026-11-02", limit: 9, graceDays: 2).map(\.id)), ["paid", "oct"])
+        XCTAssertEqual(AdsService.addDays("2026-12-31", 1), "2027-01-01")
+        XCTAssertEqual(AdsService.addDays("2028-02-28", 1), "2028-02-29")
     }
 
     /// The web app computes the same values (tests/ads.test.mjs), so both apps rotate ads identically.

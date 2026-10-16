@@ -39,7 +39,7 @@ jobs:
       - name: Test before publishing
         run: |
           python3 -m unittest discover -s tests
-          node --test tests/engine.test.mjs tests/ads.test.mjs
+          node --test tests/engine.test.mjs tests/ads.test.mjs tests/admin.test.mjs
 
       - uses: actions/configure-pages@v5
 
