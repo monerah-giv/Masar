@@ -49,14 +49,27 @@ test("only campaigns running that day at that station are shown", () => {
 test("rotation is stable within a day and follows the weights", () => {
   assert.equal(E.adsAt("qasrhokm", "2026-10-20")[0].id, E.adsAt("qasrhokm", "2026-10-20")[0].id);
   let heavy = 0, n = 0;
-  for (let d = "2026-10-10"; d <= "2026-11-30"; d = E.addDays(d, 1)) {
+  for (let d = "2026-10-10"; d <= "2026-10-31"; d = E.addDays(d, 1)) {
     n++; if (E.adsAt("qasrhokm", d)[0].id === "demo-qasr-2") heavy++;   // weight 2 vs 1
   }
   assert.ok(heavy / n > 0.45 && heavy / n < 0.9, `weight-2 share ${heavy}/${n}`);
 });
 
+test("an ad shows only while paid for; suspended, unpaid and cancelled ads never show", () => {
+  assert.deepEqual([...E.adsAt("qasrhokm", "2026-10-31", 5).map(c => c.id)].sort(), ["demo-qasr-1", "demo-qasr-2"]);
+  assert.deepEqual([...E.adsAt("qasrhokm", "2026-11-01", 5).map(c => c.id)], ["demo-qasr-1"]);   // paid to Oct 31
+  assert.equal(E.adsAt("malaz", "2026-11-01", 5).length, 0);                                     // suspended
+  assert.equal(E.adsAt("owd", "2026-11-01", 5).length, 0);                                       // never paid
+  assert.ok(!E.ADS.campaigns.some(c => c.id === "demo-cancelled"));                              // dropped at build
+  E.ADS.graceDays = 2;
+  assert.equal(E.adsAt("qasrhokm", "2026-11-02", 5).length, 2);
+  assert.equal(E.adsAt("qasrhokm", "2026-11-03", 5).length, 1);
+  E.ADS.graceDays = 0;
+});
+
 test("free slots account for every overlapping booking", () => {
-  assert.equal(E.freeSlots("malaz", "2026-10-01", "2026-12-31"), 2);
+  assert.equal(E.freeSlots("malaz", "2026-10-01", "2026-12-31"), 1);   // a suspended booking still holds its slot
+  assert.equal(E.freeSlots("malaz", "2027-01-01", "2027-01-07"), 2);
   assert.equal(E.freeSlots("qasrhokm", "2026-10-01", "2026-10-05"), 1);
   assert.equal(E.freeSlots("qasrhokm", "2026-10-01", "2026-10-15"), 0);   // second booking starts on the 10th
   assert.equal(E.freeSlots("qasrhokm", "2027-01-01", "2027-01-28"), 2);

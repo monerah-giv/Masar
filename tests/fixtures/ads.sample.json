@@ -90,7 +90,8 @@
    "end": "2026-12-31",
    "stations": [
     "qasrhokm"
-   ]
+   ],
+   "paidUntil": "2026-12-31"
   },
   {
    "id": "demo-qasr-2",
@@ -102,7 +103,8 @@
    "stations": [
     "qasrhokm"
    ],
-   "weight": 2
+   "weight": 2,
+   "paidUntil": "2026-10-31"
   },
   {
    "id": "demo-line4",
@@ -117,7 +119,45 @@
    "end": "2026-10-31",
    "lines": [
     4
+   ],
+   "paidUntil": "2026-10-31"
+  },
+  {
+   "id": "demo-suspended",
+   "name": "موقوف",
+   "category": "shop",
+   "title": "x",
+   "start": "2026-10-01",
+   "end": "2026-12-31",
+   "paidUntil": "2026-12-31",
+   "stations": [
+    "malaz"
+   ],
+   "status": "suspended"
+  },
+  {
+   "id": "demo-cancelled",
+   "name": "ملغى",
+   "category": "shop",
+   "title": "x",
+   "start": "2026-10-01",
+   "end": "2026-12-31",
+   "stations": [
+    "qasrhokm"
+   ],
+   "status": "cancelled"
+  },
+  {
+   "id": "demo-unpaid",
+   "name": "لم يدفع",
+   "category": "shop",
+   "title": "x",
+   "start": "2026-10-01",
+   "end": "2026-12-31",
+   "stations": [
+    "owd"
    ]
   }
- ]
+ ],
+ "graceDays": 0
 }

@@ -8,7 +8,7 @@ All stations, fares and text live in `data/`. Never hand-edit generated files:
 ```bash
 python3 tools/build.py                      # يولّد الويب والموقع وموارد iOS
 python3 -m unittest discover -s tests       # فحص البيانات والترجمات
-node --test tests/engine.test.mjs tests/ads.test.mjs           # فحص محرك المسارات
+node --test tests/engine.test.mjs tests/ads.test.mjs tests/admin.test.mjs           # فحص محرك المسارات
 ```
 
 ## قواعد / Rules

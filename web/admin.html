@@ -1,0 +1,660 @@
+<title>لوحة تحكم مسار</title>
+<style>
+/* Masar control room: management only. Ads money in, ads visibility out.
+   Public data (data/ads.json) and the encrypted ledger (data/billing.enc) live in the repo; this page edits both in one commit. */
+:root{
+  --bg:#EEF3F1; --surface:#FFFFFF; --soft:#E3ECE8; --ink:#0B1A22; --muted:#51635D; --rule:#D3DED9;
+  --accent:#00795C; --accent-ink:#FFFFFF; --accent-soft:#D6EEE5;
+  --gold:#F6B53C; --gold-soft:#FCEFD2; --warn:#8F5300; --warn-bg:#FBEFD9; --danger:#B3261E; --danger-bg:#FBE4E2;
+  --shadow:0 1px 2px rgba(11,26,34,.06),0 10px 28px rgba(11,26,34,.07); --r:16px;
+  --f-display:"Readex Pro","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#08141A; --surface:#0F2129; --soft:#16303A; --ink:#E6F0EC; --muted:#93AAA3; --rule:#21404A;
+    --accent:#34C495; --accent-ink:#03140E; --accent-soft:#0F3B2F; --gold:#FFC65A; --gold-soft:#3A2D10;
+    --warn:#F2B85B; --warn-bg:#2B2210; --danger:#FF8A80; --danger-bg:#3A1714; --shadow:0 1px 2px rgba(0,0,0,.35); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08141A; --surface:#0F2129; --soft:#16303A; --ink:#E6F0EC; --muted:#93AAA3; --rule:#21404A;
+  --accent:#34C495; --accent-ink:#03140E; --accent-soft:#0F3B2F; --gold:#FFC65A; --gold-soft:#3A2D10;
+  --warn:#F2B85B; --warn-bg:#2B2210; --danger:#FF8A80; --danger-bg:#3A1714; --shadow:0 1px 2px rgba(0,0,0,.35); color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{font-size:15px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.55;padding:0 max(16px,env(safe-area-inset-left,0px)) 110px}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1080px;margin:0 auto}
+.top{display:flex;align-items:center;gap:12px;padding:16px 0 12px;flex-wrap:wrap}
+.top .grow{flex:1;min-width:180px}
+.top h1{font-size:1.25rem}
+.top p{margin:0;color:var(--muted);font-size:.85rem}
+.mark{width:40px;height:40px;border-radius:11px;background:var(--accent);display:grid;place-items:center;flex:none}
+.mark i{width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px #fff}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:16px}
+.btn{border:0;background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:12px;font-weight:700;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;white-space:nowrap}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.line{background:transparent;border:1px solid var(--rule);color:var(--ink)}
+.btn.danger{background:var(--danger-bg);color:var(--danger)}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:.86rem;border-radius:10px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:4px 0 14px}
+@media (max-width:980px){ .kpis{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:560px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+.kpi{padding:14px 16px}
+.kpi small{display:block;color:var(--muted);font-size:.8rem;font-weight:600}
+.kpi b+small{font-weight:400;margin-top:2px}
+.kpi b{display:block;font-family:var(--f-display);font-size:1.45rem;line-height:1.25;margin-top:2px}
+.kpi.bad b{color:var(--danger)} .kpi.good b{color:var(--accent)}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
+.bar .grow{flex:1}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips button{border:1px solid var(--rule);background:var(--surface);border-radius:99px;padding:6px 12px;font-weight:600;font-size:.86rem;white-space:nowrap;min-height:36px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips .n{opacity:.7;margin-inline-start:4px}
+.seg{display:inline-grid;grid-auto-flow:column;background:var(--soft);border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;padding:8px 14px;border-radius:9px;font-weight:600;color:var(--muted);min-height:38px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.list{display:grid;gap:10px}
+.camp{padding:14px 16px;display:grid;gap:10px}
+.camp-h{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.camp-h .grow{flex:1;min-width:200px}
+.camp-h h3{font-size:1.05rem}
+.camp-h p{margin:2px 0 0;color:var(--muted);font-size:.85rem}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap;font-family:var(--f-display)}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-live{background:var(--accent-soft);color:var(--accent)}
+.s-due_soon,.s-awaiting{background:var(--warn-bg);color:var(--warn)}
+.s-overdue,.s-ended_due{background:var(--danger-bg);color:var(--danger)}
+.s-scheduled{background:var(--soft);color:var(--accent)}
+.s-suspended,.s-ended,.s-cancelled,.s-noinv{background:var(--soft);color:var(--muted)}
+.money{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px 14px;font-size:.88rem}
+.money small{display:block;color:var(--muted);font-size:.76rem}
+.money b{font-family:var(--f-display)}
+.prog{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent);border-radius:inherit}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.note{color:var(--muted);font-size:.84rem;margin:0}
+.warnline{color:var(--danger);font-weight:700;font-size:.86rem;margin:0}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:9px 10px;border-bottom:1px solid var(--soft);text-align:start;vertical-align:top}
+th{color:var(--muted);font-weight:700;font-size:.8rem}
+.tablewrap{overflow-x:auto}
+/* dialogs */
+dialog{border:0;border-radius:20px;padding:0;background:var(--surface);color:var(--ink);width:min(640px,calc(100vw - 24px));max-height:calc(100vh - 32px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(5,12,16,.5)}
+.dlg{padding:18px;display:grid;gap:12px}
+.dlg h2{font-size:1.15rem}
+.form{display:grid;gap:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){ .row2{grid-template-columns:1fr} }
+label.f{display:grid;gap:4px;font-weight:700;font-size:.84rem}
+label.f small{font-weight:400;color:var(--muted)}
+.txt{width:100%;font-size:16px;background:var(--soft);border:1.5px solid transparent;border-radius:12px;padding:10px 12px;min-height:44px;color:var(--ink);font-weight:400}
+.txt:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+textarea.txt{min-height:70px;resize:vertical}
+fieldset{border:1px solid var(--rule);border-radius:14px;padding:10px 12px 12px;margin:0;display:grid;gap:10px}
+legend{font-weight:800;font-family:var(--f-display);padding:0 6px;font-size:.9rem}
+.quote{background:var(--soft);border-radius:12px;padding:10px 12px;font-size:.9rem;display:grid;gap:2px}
+.quote b{font-family:var(--f-display);font-size:1.25rem}
+.err{background:var(--danger-bg);color:var(--danger);border-radius:12px;padding:10px 12px;font-weight:600;font-size:.9rem}
+.dlg-acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.check{display:flex;gap:8px;align-items:center;font-size:.9rem}
+.check input{width:20px;height:20px;accent-color:var(--accent)}
+/* login */
+.login{max-width:460px;margin:8vh auto 0;padding:22px;display:grid;gap:14px}
+.login ol{margin:0;padding-inline-start:20px;color:var(--muted);font-size:.85rem}
+/* publish bar */
+.savebar{position:fixed;inset-inline:0;bottom:0;z-index:20;background:var(--ink);color:var(--bg);padding:12px max(16px,env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px))}
+.savebar .in{max-width:1080px;margin:0 auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.savebar .grow{flex:1;min-width:180px;font-weight:600}
+.savebar small{display:block;opacity:.75;font-weight:400}
+.savebar .btn{background:var(--gold);color:#2B1C00}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;z-index:30;max-width:calc(100vw - 32px)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+
+<div class="wrap" id="app"></div>
+<dialog id="dlg" aria-labelledby="dlg-h"></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+"use strict";
+const NET = /*NET*/null, APP = /*APP*/null;
+const S_BY = {}; NET.stations.forEach(s => S_BY[s.id] = s);
+const LBY = {}; NET.lines.forEach(l => LBY[l.id] = l);
+
+/* ---------- billing ---------- */
+const isoAdd = (iso, n) => { const d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const isoDiff = (a, b) => Math.round((Date.parse(b + "T12:00:00Z") - Date.parse(a + "T12:00:00Z")) / 864e5);
+const riyadhToday = () => new Intl.DateTimeFormat("en-CA", {timeZone: "Asia/Riyadh"}).format(new Date());
+const round2 = x => Math.round(x * 100) / 100;
+const ISO = /^\d{4}-\d{2}-\d{2}$/;
+
+function stationsOf(c){
+  if(c.network) return NET.stations.map(s => s.id);
+  const set = new Set(c.stations || []);
+  (c.lines || []).forEach(l => (LBY[l] ? LBY[l].stations : []).forEach(x => set.add(x)));
+  return [...set];
+}
+function targetOf(c){ return c.network ? {kind: "network"} : (c.lines && c.lines.length) ? {kind: "line", id: c.lines[0]} : {kind: "station", id: (c.stations || [])[0]}; }
+function tierOf(book, id){ for(const k in book.tiers) if(book.tiers[k].includes(id)) return k; return "C"; }
+/* Same rate card as the public «أعلن معنا» page; a booking of any length takes the best duration discount it qualifies for. */
+function quoteFor(book, target, weeks){
+  const sts = target.kind === "network" ? NET.stations.map(s => s.id) : target.kind === "line" ? LBY[target.id].stations.slice() : [target.id];
+  const base = sts.reduce((s, id) => s + book.rates[tierOf(book, id)], 0) * weeks;
+  const dur = book.durations.filter(d => d.weeks <= weeks).reduce((m, d) => d.weeks > m.weeks ? d : m, {weeks: 0, off: 0}).off;
+  const pk = book.packages[target.kind] || 0;
+  const net = Math.round(base * (1 - dur) * (1 - pk)), vat = Math.round(net * book.vat);
+  return {sts, base, dur, pk, net, vat, total: net + vat};
+}
+/* Instalments: everything up front, or equal parts every 7 / 28 days from the start date. */
+function schedule(inv, c){
+  const days = isoDiff(c.start, c.end) + 1, total = inv.total;
+  if(inv.plan !== "weekly" && inv.plan !== "monthly" || total <= 0) return [{due: c.start, amount: round2(total)}];
+  const step = inv.plan === "weekly" ? 7 : 28, n = Math.max(1, Math.ceil(days / step)), out = [];
+  let acc = 0;
+  for(let i = 0; i < n; i++){
+    const amt = i < n - 1 ? round2(total / n) : round2(total - acc);
+    acc = round2(acc + amt); out.push({due: isoAdd(c.start, i * step), amount: amt});
+  }
+  return out;
+}
+const paidOf = inv => round2((inv && inv.payments || []).reduce((s, p) => s + (+p.amount || 0), 0));
+/* Money buys days: each riyal paid covers its share of the booking, day by day from the start.
+   The ad is shown up to the last covered day and hides itself after it (see isShown in app.html). */
+function paidUntilFor(inv, c){
+  const days = isoDiff(c.start, c.end) + 1, paid = paidOf(inv);
+  if(inv.total <= 0 || paid >= inv.total - 0.005) return c.end;
+  const covered = Math.min(days, Math.floor(paid / (inv.total / days) + 1e-9));
+  return covered > 0 ? isoAdd(c.start, covered - 1) : null;
+}
+function nextDue(inv, c){
+  let cum = 0; const paid = paidOf(inv);
+  for(const s of schedule(inv, c)){ cum = round2(cum + s.amount); if(cum > paid + 0.005) return {due: s.due, amount: round2(cum - paid)}; }
+  return null;
+}
+const dueByToday = (inv, c, today) => round2(schedule(inv, c).filter(s => s.due <= today).reduce((a, s) => a + s.amount, 0));
+function statusOf(c, inv, today, grace){
+  if(c.status === "cancelled") return "cancelled";
+  if(c.status === "suspended") return "suspended";
+  const bal = inv ? round2(inv.total - paidOf(inv)) : 0;
+  if(today > c.end) return bal > 0.005 ? "ended_due" : "ended";
+  const pu = c.paidUntil;
+  if(today < c.start) return pu && pu >= c.start ? "scheduled" : "awaiting";
+  if(!pu || today > isoAdd(pu, grace || 0)) return "overdue";
+  if(today > pu || (pu < c.end && isoDiff(today, pu) <= 3)) return "due_soon";
+  return "live";
+}
+const VISIBLE = new Set(["live", "due_soon"]);
+/* The ledger decides paidUntil for every campaign that has an invoice. */
+function applyBilling(book, ledger){
+  for(const c of book.campaigns){
+    const inv = ledger.invoices[c.id]; if(!inv) continue;
+    const pu = paidUntilFor(inv, c);
+    if(pu) c.paidUntil = pu; else delete c.paidUntil;
+  }
+}
+function kpis(book, ledger, today){
+  const month = today.slice(0, 7), k = {collected: 0, month: 0, outstanding: 0, overdue: 0, live: 0, hidden: 0, used: 0};
+  for(const c of book.campaigns){
+    const inv = ledger.invoices[c.id], st = statusOf(c, inv, today, book.graceDays);
+    if(inv){
+      (inv.payments || []).forEach(p => { k.collected += +p.amount || 0; if(String(p.date).slice(0, 7) === month) k.month += +p.amount || 0; });
+      if(st !== "cancelled"){ k.outstanding += Math.max(0, inv.total - paidOf(inv)); k.overdue += Math.max(0, dueByToday(inv, c, today) - paidOf(inv)); }
+    }
+    if(VISIBLE.has(st)){ k.live++; k.used += stationsOf(c).length; }
+    if(st === "overdue" || st === "ended_due") k.hidden++;
+  }
+  ["collected", "month", "outstanding", "overdue"].forEach(x => k[x] = round2(k[x]));
+  k.occupancy = k.used / (NET.stations.length * book.slotsPerStation);
+  return k;
+}
+/* Stations where one more booking over [start, end] would exceed the slots. */
+function overbooked(book, cand, ignoreId){
+  const cap = book.slotsPerStation, others = book.campaigns.filter(c => c.id !== ignoreId && c.status !== "cancelled"), bad = [];
+  for(const id of stationsOf(cand)){
+    const mine = others.filter(c => stationsOf(c).includes(id) && c.start <= cand.end && cand.start <= c.end);
+    const days = [cand.start].concat(mine.map(c => c.start).filter(d => d > cand.start && d <= cand.end));
+    const peak = days.reduce((m, d) => Math.max(m, mine.filter(c => c.start <= d && d <= c.end).length), 0);
+    if(peak + 1 > cap) bad.push(id);
+  }
+  return bad;
+}
+function waNumber(p){
+  let d = String(p || "").replace(/\D/g, "");
+  if(d.startsWith("00")) d = d.slice(2);
+  if(d.length === 10 && d.startsWith("05")) d = "966" + d.slice(1);
+  if(d.length === 9 && d.startsWith("5")) d = "966" + d;
+  return d;
+}
+function parseLatLng(s){
+  s = String(s || "").replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632).replace(/٫/g, ".");
+  const m = s.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) || s.match(/@(-?\d+\.\d+),\s*(-?\d+\.\d+)/) || s.match(/[?&](?:q|query|ll|daddr)=(-?\d+\.\d+),\s*(-?\d+\.\d+)/) || s.match(/(-?\d{1,2}\.\d+)\s*[,،\s]\s*(-?\d{1,3}\.\d+)/);
+  if(!m) return null;
+  let a = +m[1], b = +m[2]; if(a > 40 && b < 30){ const x = a; a = b; b = x; }
+  return a > 24.3 && a < 25.3 && b > 46.2 && b < 47.3 ? {lat: +a.toFixed(6), lng: +b.toFixed(6)} : null;
+}
+/* Ledger encryption: AES-256-GCM with a key from the admin's passphrase (PBKDF2-SHA256). The repo only ever holds ciphertext. */
+const b64 = buf => { const u = new Uint8Array(buf); let s = ""; for(let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+const unb64 = s => Uint8Array.from(atob(String(s).replace(/\s/g, "")), ch => ch.charCodeAt(0));
+async function keyFrom(pass, salt, iter){
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({name: "PBKDF2", salt, iterations: iter, hash: "SHA-256"}, base, {name: "AES-GCM", length: 256}, false, ["encrypt", "decrypt"]);
+}
+async function seal(obj, pass, iter){
+  iter = iter || 310000;
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({name: "AES-GCM", iv}, await keyFrom(pass, salt, iter), new TextEncoder().encode(JSON.stringify(obj)));
+  return JSON.stringify({v: 1, alg: "AES-256-GCM", kdf: "PBKDF2-SHA256", iter, salt: b64(salt), iv: b64(iv), ct: b64(ct)}, null, 1) + "\n";
+}
+async function unseal(text, pass){
+  const f = JSON.parse(text);
+  const pt = await crypto.subtle.decrypt({name: "AES-GCM", iv: unb64(f.iv)}, await keyFrom(pass, unb64(f.salt), f.iter), unb64(f.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+
+/* ---------- github ---------- */
+const [OWNER, REPO] = String(APP.repoUrl || "").replace(/^https:\/\/github\.com\//, "").split("/");
+const ADS_PATH = "data/ads.json", BILL_PATH = "data/billing.enc", BRANCH = "main";
+const GH = {token: ""};
+async function gh(path, opts){
+  opts = opts || {};
+  const r = await fetch("https://api.github.com" + path, {method: opts.method || "GET", cache: "no-store",
+    headers: Object.assign({"Accept": "application/vnd.github+json", "Authorization": "Bearer " + GH.token, "X-GitHub-Api-Version": "2022-11-28"}, opts.body ? {"Content-Type": "application/json"} : {}),
+    body: opts.body ? JSON.stringify(opts.body) : undefined});
+  if(opts.allow404 && r.status === 404) return null;
+  if(!r.ok){ const e = new Error("GitHub " + r.status); e.status = r.status; try{ e.detail = (await r.json()).message; }catch(_){} throw e; }
+  return r.status === 204 ? null : r.json();
+}
+const repoPath = p => "/repos/" + OWNER + "/" + REPO + p;
+async function getFile(path){
+  const j = await gh(repoPath("/contents/" + path + "?ref=" + BRANCH), {allow404: true});
+  return j ? {text: new TextDecoder().decode(unb64(j.content)), sha: j.sha} : null;
+}
+/* Both files in one commit, so the public feed and the ledger never disagree. */
+async function commitFiles(files, message){
+  const ref = await gh(repoPath("/git/ref/heads/" + BRANCH)), head = ref.object.sha;
+  const base = await gh(repoPath("/git/commits/" + head));
+  const tree = await gh(repoPath("/git/trees"), {method: "POST", body: {base_tree: base.tree.sha,
+    tree: Object.keys(files).map(path => ({path, mode: "100644", type: "blob", content: files[path]}))}});
+  const c = await gh(repoPath("/git/commits"), {method: "POST", body: {message, tree: tree.sha, parents: [head]}});
+  await gh(repoPath("/git/refs/heads/" + BRANCH), {method: "PATCH", body: {sha: c.sha}});
+  return c.sha;
+}
+
+/* ---------- state ---------- */
+const st = {phase: "login", me: null, book: null, ledger: null, pass: "", sha: {ads: null, bill: null}, dirty: false, log: [], view: "camps", filter: "all", q: "", today: riyadhToday(), busy: false, err: ""};
+const TOKEN_KEY = "masar.admin.token";
+const store = {get(){ try{ return sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY) || ""; }catch(e){ return ""; } },
+  set(v, remember){ try{ sessionStorage.setItem(TOKEN_KEY, v); if(remember) localStorage.setItem(TOKEN_KEY, v); }catch(e){} },
+  clear(){ try{ sessionStorage.removeItem(TOKEN_KEY); localStorage.removeItem(TOKEN_KEY); }catch(e){} }};
+
+/* ---------- formatting ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const NF = new Intl.NumberFormat("ar-SA-u-nu-latn", {maximumFractionDigits: 2});
+const sar = n => NF.format(n) + " ريال";
+const DF = new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn", {day: "numeric", month: "short", year: "numeric", timeZone: "UTC"});
+const day = iso => iso ? DF.format(new Date(iso + "T12:00:00Z")) : "—";
+const loc = o => !o ? "" : typeof o === "string" ? o : (o.ar || o.en || Object.values(o)[0] || "");
+const STATUS = {live: "نشط — مدفوع", due_soon: "يستحق قريباً", overdue: "متأخر — مخفي", awaiting: "بانتظار الدفعة الأولى", scheduled: "مجدول — مدفوع",
+  suspended: "موقوف", ended: "منتهٍ", ended_due: "منتهٍ — عليه مستحقات", cancelled: "ملغى", noinv: "بلا سجل مالي"};
+const FILTERS = [["all", "الكل", () => true], ["visible", "ظاهرة الآن", s => VISIBLE.has(s)], ["due_soon", "تستحق قريباً", s => s === "due_soon"],
+  ["overdue", "متأخرة ومخفية", s => s === "overdue" || s === "ended_due"], ["awaiting", "لم تبدأ", s => s === "awaiting" || s === "scheduled"],
+  ["suspended", "موقوفة", s => s === "suspended"], ["ended", "منتهية وملغاة", s => s === "ended" || s === "cancelled"]];
+const CATS = {food: "مطعم", cafe: "مقهى", shop: "متجر", health: "صحة وجمال", services: "خدمات", hotel: "فندق", fun: "ترفيه"};
+const METHODS = {transfer: "تحويل بنكي", mada: "مدى / بطاقة", stcpay: "STC Pay", link: "رابط دفع", cash: "نقداً", other: "أخرى"};
+const PLANS = {full: "كامل مقدماً", monthly: "شهري (كل 28 يوماً)", weekly: "أسبوعي"};
+const lineName = id => "المسار " + id;
+function targetText(c){
+  if(c.network) return "كل الشبكة · " + NET.stations.length + " محطة";
+  if(c.lines && c.lines.length) return c.lines.map(lineName).join("، ") + " · " + stationsOf(c).length + " محطة";
+  const s = (c.stations || []).map(id => S_BY[id] ? S_BY[id].ar : id);
+  return s.length === 1 ? "محطة " + s[0] : s.join("، ");
+}
+let toastT = 0;
+function toast(m){ const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200); }
+function errText(e){
+  if(e && e.status === 401) return "مفتاح GitHub غير صالح أو منتهي.";
+  if(e && e.status === 403) return "المفتاح لا يملك صلاحية الكتابة على المستودع.";
+  if(e && e.status === 404) return "المستودع غير موجود أو المفتاح لا يصل إليه.";
+  if(e && e.status === 409 || e && e.status === 422) return "تغيّر المستودع أثناء العمل. أعد التحميل ثم كرر.";
+  if(e && e.name === "OperationError") return "عبارة المرور غير صحيحة.";
+  return (e && (e.detail || e.message)) || "حدث خطأ غير متوقع.";
+}
+
+/* ---------- sign in ---------- */
+function viewLogin(){
+  const firstTime = st.phase === "setup";
+  return '<form class="card login" id="loginf" autocomplete="off"><div class="top" style="padding:0"><span class="mark" aria-hidden="true"><i></i></span><div class="grow"><h1>لوحة تحكم مسار</h1><p>للإدارة فقط</p></div></div>'+
+    (firstTime ? '<p class="note">لا يوجد سجل مالي بعد. اختر عبارة مرور تُشفَّر بها بيانات المعلنين والمدفوعات. <b>احفظها في مكان آمن: لا يمكن استرجاع السجل بدونها.</b></p>' +
+      '<label class="f">عبارة المرور الجديدة<input class="txt" type="password" id="np1" minlength="10" required autocomplete="new-password"><small>10 أحرف على الأقل</small></label>' +
+      '<label class="f">أعد كتابتها<input class="txt" type="password" id="np2" required autocomplete="new-password"></label>' :
+      '<label class="f">مفتاح GitHub<input class="txt" type="password" id="tok" required dir="ltr" value="'+esc(store.get())+'" spellcheck="false"><small>مفتاح دقيق (fine-grained) بصلاحية Contents: Read and write على مستودع '+esc(REPO)+' فقط</small></label>' +
+      '<label class="f">عبارة مرور السجل المالي<input class="txt" type="password" id="pass" autocomplete="current-password"><small>اتركها فارغة إن كانت هذه أول مرة</small></label>' +
+      '<label class="check"><input type="checkbox" id="remember"'+(store.get() ? ' checked' : '')+'> تذكّر المفتاح على هذا الجهاز</label>') +
+    (st.err ? '<div class="err" role="alert">'+esc(st.err)+'</div>' : '') +
+    '<button class="btn" type="submit"'+(st.busy ? ' disabled' : '')+'>'+(st.busy ? 'جارٍ التحقق…' : firstTime ? 'إنشاء السجل والدخول' : 'دخول')+'</button>' +
+    (firstTime ? '' : '<details><summary class="note">كيف أُنشئ المفتاح؟</summary><ol><li>GitHub ← Settings ← Developer settings ← Fine-grained tokens ← Generate new token.</li><li>Repository access: Only select repositories ← '+esc(REPO)+'.</li><li>Permissions ← Contents: Read and write.</li><li>انسخه والصقه هنا. لا تشاركه مع أحد.</li></ol></details>') +
+    '</form>';
+}
+async function signIn(token, pass, remember){
+  st.busy = true; st.err = ""; render();
+  try{
+    GH.token = token;
+    const me = await gh("/user");
+    const admins = (APP.admins || []).map(x => String(x).toLowerCase());
+    if(!admins.includes(String(me.login).toLowerCase())) throw Object.assign(new Error("هذا الحساب ليس من الإدارة."), {detail: "هذا الحساب (" + me.login + ") ليس من الإدارة."});
+    const repo = await gh(repoPath(""));
+    if(!repo.permissions || !repo.permissions.push) throw Object.assign(new Error(), {status: 403});
+    const [ads, bill] = await Promise.all([getFile(ADS_PATH), getFile(BILL_PATH)]);
+    if(!ads) throw new Error("لم يُعثر على data/ads.json");
+    st.me = me; st.book = JSON.parse(ads.text); st.sha = {ads: ads.sha, bill: bill ? bill.sha : null};
+    store.set(token, remember); if(!remember) try{ localStorage.removeItem(TOKEN_KEY); }catch(e){}
+    if(bill){
+      if(!pass) throw Object.assign(new Error(), {detail: "اكتب عبارة مرور السجل المالي."});
+      st.ledger = await unseal(bill.text, pass); st.pass = pass; st.phase = "app";
+    } else { st.phase = "setup"; }
+  }catch(e){ st.err = errText(e); if(st.phase !== "setup") st.phase = "login"; }
+  st.busy = false; render();
+}
+
+/* ---------- main view ---------- */
+function computed(){
+  const g = st.book.graceDays || 0;
+  return st.book.campaigns.map(c => { const inv = st.ledger.invoices[c.id]; return {c, inv, s: inv || c.status === "cancelled" ? statusOf(c, inv, st.today, g) : (VISIBLE.has(statusOf(c, null, st.today, g)) ? statusOf(c, null, st.today, g) : "noinv")}; });
+}
+function viewApp(){
+  const k = kpis(st.book, st.ledger, st.today), rows = computed();
+  const head = '<header class="top"><span class="mark" aria-hidden="true"><i></i></span><div class="grow"><h1>لوحة تحكم مسار</h1><p>'+esc(st.me.login)+' · '+esc(day(st.today))+'</p></div>'+
+    '<button class="btn" id="new">+ حجز جديد</button><button class="btn ghost" id="settings">الأسعار والإعدادات</button><button class="btn line" id="out">خروج</button></header>';
+  const tiles = '<section class="kpis" aria-label="ملخص">'+
+    '<div class="card kpi good"><small>المحصَّل هذا الشهر</small><b class="num">'+esc(sar(k.month))+'</b><small class="num">الإجمالي '+esc(sar(k.collected))+'</small></div>'+
+    '<div class="card kpi"><small>المتبقي على المعلنين</small><b class="num">'+esc(sar(k.outstanding))+'</b></div>'+
+    '<div class="card kpi'+(k.overdue > 0 ? ' bad' : '')+'"><small>متأخرات مستحقة الآن</small><b class="num">'+esc(sar(k.overdue))+'</b></div>'+
+    '<div class="card kpi good"><small>إعلانات ظاهرة الآن</small><b class="num">'+NF.format(k.live)+'</b></div>'+
+    '<div class="card kpi'+(k.hidden ? ' bad' : '')+'"><small>مخفية لعدم الدفع</small><b class="num">'+NF.format(k.hidden)+'</b></div>'+
+    '<div class="card kpi"><small>إشغال المساحات اليوم</small><b class="num">'+NF.format(Math.round(k.occupancy * 1000) / 10)+'٪</b></div></section>';
+  const tabs = '<div class="bar"><div class="seg" role="group" aria-label="العرض"><button data-view="camps" aria-pressed="'+(st.view === "camps")+'">الحملات</button><button data-view="pays" aria-pressed="'+(st.view === "pays")+'">المدفوعات</button></div><span class="grow"></span>'+
+    '<input class="txt" id="q" type="search" placeholder="بحث باسم النشاط أو المعلن" style="max-width:280px" value="'+esc(st.q)+'"></div>';
+  let body = "";
+  if(st.view === "camps"){
+    const q = st.q.trim().toLowerCase();
+    const match = r => !q || (loc(r.c.name) + " " + (r.inv ? r.inv.advertiser.name + " " + r.inv.advertiser.phone : "") + " " + targetText(r.c)).toLowerCase().includes(q);
+    const f = FILTERS.find(x => x[0] === st.filter) || FILTERS[0];
+    body = '<div class="chips" role="group" aria-label="تصفية">'+FILTERS.map(([id, label, fn]) => '<button data-filter="'+id+'" aria-pressed="'+(st.filter === id)+'">'+esc(label)+'<span class="n num">'+NF.format(rows.filter(r => fn(r.s) && match(r)).length)+'</span></button>').join("")+'</div><div style="height:10px"></div>';
+    const list = rows.filter(r => f[2](r.s) && match(r)).sort((a, b) => order(a.s) - order(b.s) || (a.c.start < b.c.start ? 1 : -1));
+    body += list.length ? '<div class="list">'+list.map(campCard).join("")+'</div>' : '<div class="card empty">'+(st.book.campaigns.length ? 'لا توجد حملات بهذا التصنيف.' : 'لا توجد حملات بعد. ابدأ بـ «حجز جديد» بعد الاتفاق مع المعلن.')+'</div>';
+  } else body = viewPayments();
+  return head + tiles + tabs + body;
+}
+const order = s => ["overdue", "due_soon", "ended_due", "awaiting", "live", "scheduled", "noinv", "suspended", "ended", "cancelled"].indexOf(s);
+function campCard(r){
+  const {c, inv, s} = r, paid = paidOf(inv), total = inv ? inv.total : 0, nd = inv ? nextDue(inv, c) : null;
+  const weeks = Math.round((isoDiff(c.start, c.end) + 1) / 7);
+  const hiddenNote = s === "overdue" ? '<p class="warnline">الإعلان مخفي عن الركاب منذ '+esc(day(isoAdd(c.paidUntil || isoAdd(c.start, -1), 1 + (st.book.graceDays || 0))))+' لعدم الدفع. يعود تلقائياً بعد تسجيل الدفعة ونشرها.</p>' :
+    s === "awaiting" ? '<p class="note">لن يظهر عند بدء الحملة ما لم تُسجَّل الدفعة الأولى.</p>' : s === "noinv" ? '<p class="note">هذه الحملة أُضيفت يدوياً إلى الملف. أنشئ لها سجلاً مالياً ليُحسب ظهورها من المدفوعات.</p>' : '';
+  return '<article class="card camp" aria-labelledby="h-'+esc(c.id)+'"><div class="camp-h"><div class="grow"><h3 id="h-'+esc(c.id)+'">'+esc(loc(c.name))+'</h3><p>'+esc(targetText(c))+' · '+esc(CATS[c.category] || c.category)+'</p></div><span class="pill s-'+s+'">'+esc(STATUS[s])+'</span></div>'+
+    '<div class="money num"><div><small>المدة</small>'+esc(day(c.start))+' ← '+esc(day(c.end))+' ('+NF.format(weeks)+' أسبوع)</div>'+
+    (inv ? '<div><small>الإجمالي شامل الضريبة</small><b>'+esc(sar(total))+'</b></div><div><small>المدفوع</small><b>'+esc(sar(paid))+'</b></div><div><small>المتبقي</small><b>'+esc(sar(Math.max(0, round2(total - paid))))+'</b></div>' : '')+
+    '<div><small>مدفوع حتى</small><b>'+esc(c.paidUntil ? day(c.paidUntil) : "لم يُدفع")+'</b></div>'+
+    (nd && s !== "cancelled" ? '<div><small>القسط التالي</small><b>'+esc(sar(nd.amount))+'</b> · '+esc(day(nd.due))+'</div>' : '')+
+    (inv ? '<div><small>المعلن</small>'+esc(inv.advertiser.name)+(inv.advertiser.phone ? ' · <bdi dir="ltr">'+esc(inv.advertiser.phone)+'</bdi>' : '')+'</div>' : '')+'</div>'+
+    (inv && total > 0 ? '<div class="prog" role="img" aria-label="نسبة المدفوع '+Math.round(paid / total * 100)+'٪"><i style="width:'+Math.min(100, paid / total * 100).toFixed(1)+'%"></i></div>' : '')+
+    hiddenNote+
+    '<div class="acts">'+
+      (inv && s !== "cancelled" ? '<button class="btn sm" data-act="pay" data-id="'+esc(c.id)+'">تسجيل دفعة</button>' : '')+
+      (!inv && s !== "cancelled" ? '<button class="btn sm" data-act="invoice" data-id="'+esc(c.id)+'">إنشاء سجل مالي</button>' : '')+
+      (inv && nd && inv.advertiser.phone && s !== "cancelled" ? '<a class="btn sm ghost" target="_blank" rel="noopener" href="'+esc(reminderURL(c, inv, nd))+'">تذكير واتساب</a>' : '')+
+      '<button class="btn sm ghost" data-act="details" data-id="'+esc(c.id)+'">التفاصيل</button>'+
+      (s !== "cancelled" ? '<button class="btn sm line" data-act="edit" data-id="'+esc(c.id)+'">تعديل</button>' : '')+
+      (s !== "cancelled" && s !== "ended" ? '<button class="btn sm line" data-act="toggle" data-id="'+esc(c.id)+'">'+(c.status === "suspended" ? 'استئناف الظهور' : 'إيقاف الظهور')+'</button>' : '')+
+      (s !== "cancelled" ? '<button class="btn sm danger" data-act="cancel" data-id="'+esc(c.id)+'">إلغاء الحجز</button>' : '')+
+    '</div></article>';
+}
+function reminderURL(c, inv, nd){
+  const msg = "مرحباً " + inv.advertiser.name + "،\nنذكّركم بدفعة إعلان «" + loc(c.name) + "» في تطبيق مسار: " + NF.format(nd.amount) + " ريال شاملة الضريبة، " +
+    (nd.due <= st.today ? "مستحقة منذ " : "تستحق في ") + day(nd.due) + "." + (inv.payLink ? "\nرابط الدفع: " + inv.payLink : "") +
+    "\nيظهر الإعلان للركاب " + (c.paidUntil ? "حتى " + day(c.paidUntil) : "بعد استلام الدفعة") + "، ويتوقف تلقائياً إذا لم تصل الدفعة. شكراً لكم.";
+  return "https://wa.me/" + waNumber(inv.advertiser.phone) + "?text=" + encodeURIComponent(msg);
+}
+function viewPayments(){
+  const all = [];
+  for(const c of st.book.campaigns){ const inv = st.ledger.invoices[c.id]; if(inv) (inv.payments || []).forEach(p => all.push({c, inv, p})); }
+  all.sort((a, b) => (a.p.date < b.p.date ? 1 : -1));
+  if(!all.length) return '<div class="card empty">لم تُسجَّل مدفوعات بعد.</div>';
+  return '<div class="card"><div class="bar pad" style="margin:0;padding-bottom:0"><h2 class="grow" style="font-size:1rem">سجل المدفوعات</h2><button class="btn sm ghost" id="csv">تصدير CSV</button></div><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>الحملة</th><th>المعلن</th><th>المبلغ</th><th>الطريقة</th><th>المرجع</th></tr></thead><tbody>'+
+    all.map(x => '<tr><td class="num">'+esc(day(x.p.date))+'</td><td>'+esc(loc(x.c.name))+'</td><td>'+esc(x.inv.advertiser.name)+'</td><td class="num">'+esc(sar(x.p.amount))+'</td><td>'+esc(METHODS[x.p.method] || x.p.method)+'</td><td dir="ltr">'+esc(x.p.ref || "")+'</td></tr>').join("")+
+    '</tbody></table></div></div>';
+}
+function exportCSV(){
+  const rows = [["date", "campaign_id", "campaign", "advertiser", "amount_sar", "method", "reference"]];
+  for(const c of st.book.campaigns){ const inv = st.ledger.invoices[c.id]; if(inv) (inv.payments || []).forEach(p => rows.push([p.date, c.id, loc(c.name), inv.advertiser.name, p.amount, p.method, p.ref || ""])); }
+  const csv = "﻿" + rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\r\n");
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], {type: "text/csv;charset=utf-8"})); a.download = "masar-payments-" + st.today + ".csv"; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ---------- changes ---------- */
+function changed(msg){ applyBilling(st.book, st.ledger); st.dirty = true; st.log.push(msg); render(); }
+function saveBar(){
+  if(!st.dirty) return "";
+  return '<div class="savebar" role="region" aria-label="نشر التغييرات"><div class="in"><div class="grow">'+NF.format(st.log.length)+' تغيير غير منشور<small>'+esc(st.log.slice(-2).join(" · "))+'</small></div>'+
+    '<button class="btn ghost" id="discard" style="background:transparent;color:inherit;border:1px solid rgba(255,255,255,.3)">تراجع</button><button class="btn" id="publish"'+(st.busy ? ' disabled' : '')+'>'+(st.busy ? 'جارٍ النشر…' : 'نشر للتطبيق')+'</button></div></div>';
+}
+async function publish(){
+  st.busy = true; render();
+  try{
+    const [ads, bill] = await Promise.all([getFile(ADS_PATH), getFile(BILL_PATH)]);
+    if((ads && ads.sha) !== st.sha.ads || (bill ? bill.sha : null) !== st.sha.bill) throw Object.assign(new Error(), {status: 409});
+    const files = {[ADS_PATH]: JSON.stringify(st.book, null, 1) + "\n", [BILL_PATH]: await seal(st.ledger, st.pass)};
+    const msg = "admin: " + (st.log.length === 1 ? st.log[0] : st.log.length + " changes") + "\n\n" + st.log.map(x => "- " + x).join("\n");
+    await commitFiles(files, msg);
+    const [a2, b2] = await Promise.all([getFile(ADS_PATH), getFile(BILL_PATH)]);
+    st.sha = {ads: a2.sha, bill: b2.sha}; st.dirty = false; st.log = [];
+    toast("نُشر. يصل التغيير إلى الموقع والتطبيق خلال دقائق.");
+  }catch(e){ toast(errText(e)); }
+  st.busy = false; render();
+}
+async function reload(){ if(st.dirty && !confirm("ستُفقد التغييرات غير المنشورة. متابعة؟")) return; st.dirty = false; st.log = []; await signIn(GH.token, st.pass, !!localStorage.getItem(TOKEN_KEY)); }
+
+/* ---------- dialogs ---------- */
+const dlg = () => $("dlg");
+function openDlg(html, bind){ const d = dlg(); d.innerHTML = '<div class="dlg">'+html+'</div>'; bind && bind(d); if(!d.open) d.showModal(); const f = d.querySelector("input,select,textarea"); if(f) f.focus(); }
+function closeDlg(){ const d = dlg(); if(d.open) d.close(); d.innerHTML = ""; }
+
+function bookingDialog(id){
+  const old = id ? st.book.campaigns.find(c => c.id === id) : null, oinv = id ? st.ledger.invoices[id] : null;
+  const c0 = old || {name: {ar: "", en: ""}, title: {ar: "", en: ""}, body: {}, category: "food", stations: ["kafd"], start: isoAdd(st.today, 1), end: isoAdd(st.today, 28), weight: 1, status: "active"};
+  const inv0 = oinv || {advertiser: {name: "", phone: "", email: ""}, plan: "full", payLink: "", notes: "", payments: []};
+  const t0 = targetOf(c0), weeks0 = Math.max(1, Math.round((isoDiff(c0.start, c0.end) + 1) / 7));
+  const stOpts = NET.lines.map(L => '<optgroup label="'+esc(lineName(L.id))+'">'+L.stations.map(x => '<option value="'+x+'"'+(t0.kind === "station" && t0.id === x ? ' selected' : '')+'>'+esc(S_BY[x].ar)+'</option>').join("")+'</optgroup>').join("");
+  const v = (o, k) => esc(o && o[k] || "");
+  openDlg('<h2 id="dlg-h">'+(old ? (oinv ? 'تعديل الحجز' : 'إنشاء سجل مالي') : 'حجز جديد')+'</h2><form class="form" id="bf" novalidate>'+
+    '<fieldset><legend>المعلن</legend><div class="row2"><label class="f">الاسم<input class="txt" id="b-adv" required value="'+v(inv0.advertiser, "name")+'"></label><label class="f">الجوال (واتساب)<input class="txt" id="b-advp" dir="ltr" inputmode="tel" value="'+v(inv0.advertiser, "phone")+'"></label></div>'+
+      '<label class="f">البريد<input class="txt" id="b-adve" type="email" dir="ltr" value="'+v(inv0.advertiser, "email")+'"></label></fieldset>'+
+    '<fieldset><legend>الإعلان كما يراه الراكب</legend><div class="row2"><label class="f">اسم النشاط (عربي)<input class="txt" id="b-nar" maxlength="40" required value="'+v(c0.name, "ar")+'"></label><label class="f">اسم النشاط (إنجليزي)<input class="txt" id="b-nen" dir="ltr" maxlength="40" value="'+v(c0.name, "en")+'"></label></div>'+
+      '<div class="row2"><label class="f">العرض (عربي)<input class="txt" id="b-tar" maxlength="80" required value="'+v(c0.title, "ar")+'"></label><label class="f">العرض (إنجليزي)<input class="txt" id="b-ten" dir="ltr" maxlength="80" value="'+v(c0.title, "en")+'"></label></div>'+
+      '<div class="row2"><label class="f">وصف قصير (اختياري)<input class="txt" id="b-bar" maxlength="90" value="'+v(c0.body, "ar")+'"></label><label class="f">النوع<select class="txt" id="b-cat">'+Object.keys(CATS).map(k => '<option value="'+k+'"'+(c0.category === k ? ' selected' : '')+'>'+CATS[k]+'</option>').join("")+'</select></label></div>'+
+      '<div class="row2"><label class="f">رابط الموقع أو الحساب<input class="txt" id="b-url" dir="ltr" placeholder="https://" value="'+esc(c0.url || "")+'"></label><label class="f">هاتف النشاط للركاب<input class="txt" id="b-ph" dir="ltr" inputmode="tel" value="'+esc(c0.phone || "")+'"></label></div>'+
+      '<label class="f">موقع النشاط<input class="txt" id="b-loc" dir="ltr" placeholder="24.6301, 46.7149 أو رابط خرائط" value="'+(c0.lat != null ? c0.lat + ", " + c0.lng : "")+'"><small>يفعّل «اتجاهات المشي» ومدة المشي من المحطة</small></label></fieldset>'+
+    '<fieldset><legend>المكان والمدة</legend><div class="row2"><label class="f">الاستهداف<select class="txt" id="b-kind"><option value="station"'+(t0.kind === "station" ? ' selected' : '')+'>محطة</option><option value="line"'+(t0.kind === "line" ? ' selected' : '')+'>مسار كامل</option><option value="network"'+(t0.kind === "network" ? ' selected' : '')+'>كل الشبكة</option></select></label>'+
+      '<label class="f" id="b-stw">المحطة<select class="txt" id="b-st">'+stOpts+'</select></label><label class="f" id="b-lnw">المسار<select class="txt" id="b-ln">'+NET.lines.map(L => '<option value="'+L.id+'"'+(t0.kind === "line" && t0.id === L.id ? ' selected' : '')+'>'+lineName(L.id)+'</option>').join("")+'</select></label></div>'+
+      '<div class="row2"><label class="f">تاريخ البدء<input class="txt" type="date" id="b-start" required value="'+esc(c0.start)+'"></label><label class="f">عدد الأسابيع<input class="txt num" type="number" id="b-weeks" min="1" max="104" required value="'+weeks0+'"></label></div></fieldset>'+
+    '<fieldset><legend>السعر والدفع</legend><div class="quote" id="b-quote" aria-live="polite"></div>'+
+      '<div class="row2"><label class="f">سعر متفق عليه قبل الضريبة (اختياري)<input class="txt num" type="number" min="0" step="1" id="b-net" value="'+(oinv && oinv.custom ? oinv.net : "")+'"><small>اتركه فارغاً لاستخدام سعر الجدول</small></label>'+
+      '<label class="f">خطة الدفع<select class="txt" id="b-plan">'+Object.keys(PLANS).map(k => '<option value="'+k+'"'+(inv0.plan === k ? ' selected' : '')+'>'+PLANS[k]+'</option>').join("")+'</select></label></div>'+
+      '<label class="f">رابط دفع إلكتروني (اختياري)<input class="txt" id="b-link" dir="ltr" placeholder="https://" value="'+esc(inv0.payLink || "")+'"><small>رابط من بوابة الدفع لديك (ميسّر، تاب، …) يُرسل مع التذكير</small></label>'+
+      '<label class="f">ملاحظات داخلية<textarea class="txt" id="b-notes">'+esc(inv0.notes || "")+'</textarea></label></fieldset>'+
+    '<div class="err" id="b-err" role="alert" hidden></div>'+
+    '<div class="dlg-acts"><button type="button" class="btn ghost" id="b-cancel">إلغاء</button><button type="submit" class="btn">'+(old ? 'حفظ' : 'إضافة الحجز')+'</button></div></form>', d => {
+    const kind = () => $("b-kind").value;
+    const target = () => kind() === "network" ? {kind: "network"} : kind() === "line" ? {kind: "line", id: +$("b-ln").value} : {kind: "station", id: $("b-st").value};
+    const weeks = () => Math.max(1, Math.min(104, Math.round(+$("b-weeks").value || 1)));
+    function upd(){
+      $("b-stw").hidden = kind() !== "station"; $("b-lnw").hidden = kind() !== "line";
+      const q = quoteFor(st.book, target(), weeks()), custom = $("b-net").value !== "";
+      const net = custom ? Math.round(+$("b-net").value) : q.net, vat = Math.round(net * st.book.vat);
+      const start = $("b-start").value, end = ISO.test(start) ? isoAdd(start, weeks() * 7 - 1) : "";
+      const sched = end ? schedule({total: net + vat, plan: $("b-plan").value}, {start, end}) : [];
+      $("b-quote").innerHTML = '<span>سعر الجدول '+esc(sar(q.net))+(q.dur || q.pk ? ' (بعد خصم '+[q.dur, q.pk].filter(Boolean).map(x => Math.round(x * 100) + '٪').join(' + ')+')' : '')+'</span>'+
+        '<b class="num">'+esc(sar(net + vat))+'</b><span class="note">'+esc(sar(net))+' + ضريبة '+esc(sar(vat))+' · ينتهي '+esc(day(end))+'</span>'+
+        (sched.length > 1 ? '<span class="note">'+NF.format(sched.length)+' أقساط: '+esc(sar(sched[0].amount))+' كل '+($("b-plan").value === "weekly" ? 'أسبوع' : '28 يوماً')+'</span>' : '');
+    }
+    d.querySelectorAll("input,select").forEach(x => x.addEventListener("input", upd));
+    $("b-cancel").onclick = closeDlg; upd();
+    $("bf").onsubmit = e => {
+      e.preventDefault();
+      const errs = [], start = $("b-start").value, url = $("b-url").value.trim(), link = $("b-link").value.trim(), locRaw = $("b-loc").value.trim();
+      if(!$("b-adv").value.trim()) errs.push("اسم المعلن مطلوب.");
+      if(!$("b-nar").value.trim()) errs.push("اسم النشاط بالعربية مطلوب.");
+      if(!$("b-tar").value.trim()) errs.push("نص العرض بالعربية مطلوب.");
+      if(!ISO.test(start)) errs.push("تاريخ البدء غير صحيح.");
+      if(url && !/^https:\/\/\S+$/.test(url)) errs.push("رابط الموقع يجب أن يبدأ بـ https://");
+      if(link && !/^https:\/\/\S+$/.test(link)) errs.push("رابط الدفع يجب أن يبدأ بـ https://");
+      const ph = $("b-ph").value.trim(); if(ph && !/^\+?[0-9 ]{7,16}$/.test(ph)) errs.push("هاتف النشاط غير صحيح.");
+      const ll = locRaw ? parseLatLng(locRaw) : null; if(locRaw && !ll) errs.push("لم أتعرّف على موقع داخل الرياض.");
+      const t = target(), end = ISO.test(start) ? isoAdd(start, weeks() * 7 - 1) : start;
+      const c = Object.assign({}, old || {}, {
+        id: old ? old.id : "ad-" + start.replace(/-/g, "") + "-" + Math.random().toString(36).slice(2, 6),
+        name: clean({ar: $("b-nar").value.trim(), en: $("b-nen").value.trim()}), title: clean({ar: $("b-tar").value.trim(), en: $("b-ten").value.trim()}),
+        category: $("b-cat").value, start, end, weight: old && old.weight || 1, status: old && old.status || "active"});
+      const body = clean({ar: $("b-bar").value.trim(), en: old && old.body && old.body.en || ""}); if(Object.keys(body).length) c.body = body; else delete c.body;
+      if(url) c.url = url; else delete c.url; if(ph) c.phone = ph; else delete c.phone;
+      if(ll){ c.lat = ll.lat; c.lng = ll.lng; } else { delete c.lat; delete c.lng; }
+      delete c.stations; delete c.lines; delete c.network;
+      if(t.kind === "network") c.network = true; else if(t.kind === "line") c.lines = [t.id]; else c.stations = [t.id];
+      if(!errs.length){ const bad = overbooked(st.book, c, old && old.id); if(bad.length) errs.push("لا توجد مساحة في هذه الفترة في: " + bad.slice(0, 6).map(x => S_BY[x].ar).join("، ") + (bad.length > 6 ? "…" : "") + ". غيّر التاريخ أو الاستهداف."); }
+      if(errs.length){ const el = $("b-err"); el.innerHTML = errs.map(esc).join("<br>"); el.hidden = false; el.scrollIntoView({block: "nearest"}); return; }
+      const q = quoteFor(st.book, t, weeks()), custom = $("b-net").value !== "", net = custom ? Math.round(+$("b-net").value) : q.net, vat = Math.round(net * st.book.vat);
+      const inv = Object.assign({}, inv0, {advertiser: {name: $("b-adv").value.trim(), phone: $("b-advp").value.trim(), email: $("b-adve").value.trim()},
+        net, vat, total: net + vat, custom, plan: $("b-plan").value, payLink: link, notes: $("b-notes").value.trim(), payments: inv0.payments || [], createdAt: inv0.createdAt || st.today});
+      if(old) st.book.campaigns[st.book.campaigns.indexOf(old)] = c; else st.book.campaigns.push(c);
+      st.ledger.invoices[c.id] = inv;
+      closeDlg(); changed((old ? "update booking " : "new booking ") + c.id);
+      if(!old && !inv.payments.length) setTimeout(() => paymentDialog(c.id), 50);
+    };
+  });
+}
+function clean(o){ const r = {}; for(const k in o) if(o[k]) r[k] = o[k]; return r; }
+
+function paymentDialog(id){
+  const c = st.book.campaigns.find(x => x.id === id), inv = st.ledger.invoices[id], nd = nextDue(inv, c), left = round2(inv.total - paidOf(inv));
+  openDlg('<h2 id="dlg-h">تسجيل دفعة · '+esc(loc(c.name))+'</h2><p class="note">المتبقي '+esc(sar(left))+(nd ? ' · القسط التالي '+esc(sar(nd.amount))+' بتاريخ '+esc(day(nd.due)) : '')+'</p>'+
+    '<form class="form" id="pf"><div class="row2"><label class="f">المبلغ (ريال)<input class="txt num" type="number" min="0.01" step="0.01" id="p-amt" required value="'+(nd ? nd.amount : left)+'"></label>'+
+    '<label class="f">التاريخ<input class="txt" type="date" id="p-date" required value="'+st.today+'" max="'+st.today+'"></label></div>'+
+    '<div class="row2"><label class="f">الطريقة<select class="txt" id="p-m">'+Object.keys(METHODS).map(k => '<option value="'+k+'">'+METHODS[k]+'</option>').join("")+'</select></label>'+
+    '<label class="f">المرجع / رقم العملية<input class="txt" id="p-ref" dir="ltr"></label></div>'+
+    '<div class="quote" id="p-eff" aria-live="polite"></div><div class="err" id="p-err" role="alert" hidden></div>'+
+    '<div class="dlg-acts"><button type="button" class="btn ghost" id="p-cancel">إلغاء</button><button class="btn" type="submit">تسجيل</button></div></form>', () => {
+    const eff = () => { const a = +$("p-amt").value || 0, pu = paidUntilFor(Object.assign({}, inv, {payments: (inv.payments || []).concat([{amount: a}])}), c);
+      $("p-eff").innerHTML = '<span>بعد هذه الدفعة يظهر الإعلان حتى</span><b>'+esc(pu ? day(pu) : "—")+'</b>'+(a > left + 0.005 ? '<span class="warnline">المبلغ أكبر من المتبقي.</span>' : ''); };
+    $("p-amt").addEventListener("input", eff); eff();
+    $("p-cancel").onclick = closeDlg;
+    $("pf").onsubmit = e => {
+      e.preventDefault();
+      const a = round2(+$("p-amt").value), d = $("p-date").value;
+      if(!(a > 0) || !ISO.test(d)){ const el = $("p-err"); el.textContent = "أدخل مبلغاً وتاريخاً صحيحين."; el.hidden = false; return; }
+      inv.payments = (inv.payments || []).concat([{id: Math.random().toString(36).slice(2, 10), date: d, amount: a, method: $("p-m").value, ref: $("p-ref").value.trim()}]);
+      closeDlg(); changed("payment " + a + " SAR for " + c.id);
+    };
+  });
+}
+function detailsDialog(id){
+  const c = st.book.campaigns.find(x => x.id === id), inv = st.ledger.invoices[id];
+  const sched = inv ? schedule(inv, c) : [];
+  let cum = 0; const paid = paidOf(inv);
+  openDlg('<h2 id="dlg-h">'+esc(loc(c.name))+'</h2><p class="note">'+esc(targetText(c))+' · '+esc(day(c.start))+' ← '+esc(day(c.end))+' · <bdi dir="ltr">'+esc(c.id)+'</bdi></p>'+
+    (inv ? '<h3 style="font-size:.95rem">جدول الأقساط · '+esc(PLANS[inv.plan] || inv.plan)+'</h3><div class="tablewrap"><table><thead><tr><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th></tr></thead><tbody>'+
+      sched.map(s => { cum = round2(cum + s.amount); const ok = paid + 0.005 >= cum; return '<tr><td class="num">'+esc(day(s.due))+'</td><td class="num">'+esc(sar(s.amount))+'</td><td>'+(ok ? 'مدفوع' : s.due <= st.today ? '<b style="color:var(--danger)">متأخر</b>' : 'قادم')+'</td></tr>'; }).join("")+'</tbody></table></div>'+
+      '<h3 style="font-size:.95rem">المدفوعات</h3>'+((inv.payments || []).length ? '<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>المبلغ</th><th>الطريقة</th><th></th></tr></thead><tbody>'+
+        inv.payments.map(p => '<tr><td class="num">'+esc(day(p.date))+'</td><td class="num">'+esc(sar(p.amount))+'</td><td>'+esc(METHODS[p.method] || p.method)+(p.ref ? ' · <bdi dir="ltr">'+esc(p.ref)+'</bdi>' : '')+'</td><td><button class="btn sm danger" data-delpay="'+esc(p.id)+'" aria-label="حذف الدفعة">حذف</button></td></tr>').join("")+'</tbody></table></div>' : '<p class="note">لا مدفوعات بعد.</p>')+
+      (inv.notes ? '<p class="note">'+esc(inv.notes)+'</p>' : '') : '<p class="note">لا يوجد سجل مالي لهذه الحملة.</p>')+
+    '<div class="dlg-acts"><button class="btn ghost" id="d-close">إغلاق</button></div>', d => {
+    $("d-close").onclick = closeDlg;
+    d.querySelectorAll("[data-delpay]").forEach(b => b.onclick = () => {
+      if(!confirm("حذف هذه الدفعة؟ سيُعاد حساب فترة الظهور.")) return;
+      inv.payments = inv.payments.filter(p => p.id !== b.dataset.delpay); closeDlg(); changed("remove payment from " + c.id);
+    });
+  });
+}
+function settingsDialog(){
+  const b = st.book;
+  openDlg('<h2 id="dlg-h">الأسعار والإعدادات</h2><form class="form" id="sf">'+
+    '<fieldset><legend>سعر الأسبوع لكل مساحة (قبل الضريبة)</legend><div class="row2"><label class="f">فئة A مميزة<input class="txt num" type="number" min="1" id="r-A" value="'+b.rates.A+'"></label><label class="f">فئة B رئيسية<input class="txt num" type="number" min="1" id="r-B" value="'+b.rates.B+'"></label></div>'+
+      '<label class="f">فئة C حي<input class="txt num" type="number" min="1" id="r-C" value="'+b.rates.C+'"></label></fieldset>'+
+    '<fieldset><legend>قواعد الظهور</legend><div class="row2"><label class="f">مساحات لكل محطة<input class="txt num" type="number" min="1" max="6" id="s-slots" value="'+b.slotsPerStation+'"></label>'+
+      '<label class="f">أيام سماح بعد انتهاء المدفوع<input class="txt num" type="number" min="0" max="14" id="s-grace" value="'+(b.graceDays || 0)+'"><small>0 = يختفي الإعلان في اليوم التالي مباشرة</small></label></div></fieldset>'+
+    '<fieldset><legend>استقبال طلبات المعلنين</legend><div class="row2"><label class="f">واتساب<input class="txt" id="s-wa" dir="ltr" inputmode="tel" value="'+esc(b.contact.whatsapp || "")+'"></label><label class="f">البريد<input class="txt" id="s-em" dir="ltr" type="email" value="'+esc(b.contact.email || "")+'"></label></div></fieldset>'+
+    '<div class="err" id="s-err" role="alert" hidden></div><div class="dlg-acts"><button type="button" class="btn ghost" id="s-cancel">إلغاء</button><button class="btn" type="submit">حفظ</button></div></form>', () => {
+    $("s-cancel").onclick = closeDlg;
+    $("sf").onsubmit = e => {
+      e.preventDefault();
+      const A = Math.round(+$("r-A").value), B = Math.round(+$("r-B").value), C = Math.round(+$("r-C").value), slots = Math.round(+$("s-slots").value), grace = Math.round(+$("s-grace").value);
+      const err = !(A > B && B > C && C > 0) ? "يجب أن يكون سعر A أعلى من B وB أعلى من C." : !(slots >= 1) ? "عدد المساحات غير صحيح." : !(grace >= 0) ? "أيام السماح غير صحيحة." : "";
+      if(!err && slots < b.slotsPerStation && NET.stations.some(s => overbookedAt(s.id, slots))) return show("لا يمكن تقليل المساحات: توجد محطات محجوزة بأكثر من ذلك.");
+      if(err) return show(err);
+      b.rates = {A, B, C}; b.slotsPerStation = slots; b.graceDays = grace;
+      b.contact = {whatsapp: $("s-wa").value.trim(), email: $("s-em").value.trim()};
+      closeDlg(); changed("settings: rates " + A + "/" + B + "/" + C + ", slots " + slots + ", grace " + grace);
+    };
+    function show(m){ const el = $("s-err"); el.textContent = m; el.hidden = false; }
+  });
+  function overbookedAt(id, cap){ const mine = b.campaigns.filter(c => c.status !== "cancelled" && stationsOf(c).includes(id)); return mine.some(c => mine.filter(o => o.start <= c.start && c.start <= o.end).length > cap); }
+}
+
+/* ---------- render + events ---------- */
+function render(){
+  const app = $("app");
+  app.innerHTML = st.phase === "app" ? viewApp() + saveBar() : viewLogin();
+  bind();
+}
+function bind(){
+  const lf = $("loginf");
+  if(lf) lf.onsubmit = async e => {
+    e.preventDefault();
+    if(st.phase === "setup"){
+      const a = $("np1").value, b = $("np2").value;
+      if(a.length < 10){ st.err = "عبارة المرور قصيرة: 10 أحرف على الأقل."; return render(); }
+      if(a !== b){ st.err = "العبارتان غير متطابقتين."; return render(); }
+      st.pass = a; st.ledger = {v: 1, invoices: {}}; st.phase = "app"; st.err = "";
+      st.dirty = true; st.log = ["create encrypted ledger"]; render(); return;
+    }
+    await signIn($("tok").value.trim(), $("pass").value, $("remember").checked);
+  };
+  if(st.phase !== "app") return;
+  $("new").onclick = () => bookingDialog();
+  $("settings").onclick = settingsDialog;
+  $("out").onclick = () => { if(st.dirty && !confirm("لديك تغييرات غير منشورة. الخروج يحذفها. متابعة؟")) return; store.clear(); location.reload(); };
+  document.querySelectorAll("[data-view]").forEach(b => b.onclick = () => { st.view = b.dataset.view; render(); });
+  document.querySelectorAll("[data-filter]").forEach(b => b.onclick = () => { st.filter = b.dataset.filter; render(); });
+  const q = $("q"); if(q) q.oninput = () => { st.q = q.value; const pos = q.selectionStart; render(); const q2 = $("q"); q2.focus(); try{ q2.setSelectionRange(pos, pos); }catch(e){} };
+  const csv = $("csv"); if(csv) csv.onclick = exportCSV;
+  document.querySelectorAll("[data-act]").forEach(b => b.onclick = () => {
+    const id = b.dataset.id, c = st.book.campaigns.find(x => x.id === id);
+    const a = b.dataset.act;
+    if(a === "pay") paymentDialog(id);
+    else if(a === "details") detailsDialog(id);
+    else if(a === "edit" || a === "invoice") bookingDialog(id);
+    else if(a === "toggle"){ c.status = c.status === "suspended" ? "active" : "suspended"; changed((c.status === "suspended" ? "suspend " : "resume ") + id); }
+    else if(a === "cancel"){ if(confirm("إلغاء حجز «" + loc(c.name) + "»؟ يختفي الإعلان وتتحرر المساحة، ويبقى سجله المالي.")){ c.status = "cancelled"; changed("cancel " + id); } }
+  });
+  const pub = $("publish"); if(pub) pub.onclick = publish;
+  const dis = $("discard"); if(dis) dis.onclick = reload;
+}
+window.addEventListener("beforeunload", e => { if(st.dirty){ e.preventDefault(); e.returnValue = ""; } });
+dlg().addEventListener("close", () => { dlg().innerHTML = ""; });
+render();
+})();
+</script>

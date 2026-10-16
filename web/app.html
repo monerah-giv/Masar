@@ -1177,10 +1177,13 @@ const ADS = /*ADS*/null;
 const todayISO = () => new Intl.DateTimeFormat("en-CA", {timeZone: "Asia/Riyadh"}).format(new Date());
 const addDays = (iso, n) => { const d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
 function hash01(s){ let h = 2166136261; for(let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return ((h >>> 0) + 0.5) / 4294967296; }
+/* An ad shows only while it runs, is not suspended, and is paid for (plus any grace days).
+   Unpaid ads disappear on their own the day after the paid period ends — no rebuild needed. */
+const isShown = (c, day) => c.status !== "suspended" && c.start <= day && day <= c.end && !!c.paidUntil && day <= addDays(c.paidUntil, ADS.graceDays || 0);
 /* Active campaigns at a station: a weighted rotation (exponential race) that stays stable for the day. */
 function adsAt(id, day, n){
   day = day || todayISO();
-  return ADS.campaigns.filter(c => c.stations.includes(id) && c.start <= day && day <= c.end)
+  return ADS.campaigns.filter(c => c.stations.includes(id) && isShown(c, day))
     .map(c => ({c, k: -Math.log(hash01(c.id + "|" + id + "|" + day)) / c.weight}))
     .sort((a, b) => a.k - b.k).slice(0, n || 1).map(x => x.c);
 }
