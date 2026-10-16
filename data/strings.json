@@ -1,0 +1,1826 @@
+{
+ "languages": [
+  {
+   "code": "ar",
+   "name": "العربية",
+   "dir": "rtl"
+  },
+  {
+   "code": "en",
+   "name": "English",
+   "dir": "ltr"
+  },
+  {
+   "code": "ur",
+   "name": "اردو",
+   "dir": "rtl"
+  },
+  {
+   "code": "hi",
+   "name": "हिन्दी",
+   "dir": "ltr"
+  },
+  {
+   "code": "bn",
+   "name": "বাংলা",
+   "dir": "ltr"
+  },
+  {
+   "code": "fil",
+   "name": "Filipino",
+   "dir": "ltr"
+  },
+  {
+   "code": "id",
+   "name": "Bahasa Indonesia",
+   "dir": "ltr"
+  },
+  {
+   "code": "zh",
+   "name": "简体中文",
+   "dir": "ltr"
+  }
+ ],
+ "plurals": {
+  "p_min": {
+   "ar": {
+    "zero": "{n} دقيقة",
+    "one": "دقيقة واحدة",
+    "two": "دقيقتان",
+    "few": "{n} دقائق",
+    "many": "{n} دقيقة",
+    "other": "{n} دقيقة"
+   },
+   "en": {
+    "one": "{n} minute",
+    "other": "{n} minutes"
+   },
+   "ur": {
+    "one": "{n} منٹ",
+    "other": "{n} منٹ"
+   },
+   "hi": {
+    "one": "{n} मिनट",
+    "other": "{n} मिनट"
+   },
+   "bn": {
+    "one": "{n} মিনিট",
+    "other": "{n} মিনিট"
+   },
+   "fil": {
+    "one": "{n} minuto",
+    "other": "{n} minuto"
+   },
+   "id": {
+    "other": "{n} menit"
+   },
+   "zh": {
+    "other": "{n} 分钟"
+   }
+  },
+  "p_stop": {
+   "ar": {
+    "zero": "{n} محطة",
+    "one": "محطة واحدة",
+    "two": "محطتان",
+    "few": "{n} محطات",
+    "many": "{n} محطة",
+    "other": "{n} محطة"
+   },
+   "en": {
+    "one": "{n} stop",
+    "other": "{n} stops"
+   },
+   "ur": {
+    "one": "{n} اسٹیشن",
+    "other": "{n} اسٹیشن"
+   },
+   "hi": {
+    "one": "{n} स्टेशन",
+    "other": "{n} स्टेशन"
+   },
+   "bn": {
+    "one": "{n}টি স্টেশন",
+    "other": "{n}টি স্টেশন"
+   },
+   "fil": {
+    "one": "{n} istasyon",
+    "other": "{n} istasyon"
+   },
+   "id": {
+    "other": "{n} stasiun"
+   },
+   "zh": {
+    "other": "{n} 站"
+   }
+  },
+  "p_station": {
+   "ar": {
+    "zero": "{n} محطة",
+    "one": "محطة واحدة",
+    "two": "محطتان",
+    "few": "{n} محطات",
+    "many": "{n} محطة",
+    "other": "{n} محطة"
+   },
+   "en": {
+    "one": "{n} station",
+    "other": "{n} stations"
+   },
+   "ur": {
+    "one": "{n} اسٹیشن",
+    "other": "{n} اسٹیشن"
+   },
+   "hi": {
+    "one": "{n} स्टेशन",
+    "other": "{n} स्टेशन"
+   },
+   "bn": {
+    "one": "{n}টি স্টেশন",
+    "other": "{n}টি স্টেশন"
+   },
+   "fil": {
+    "one": "{n} istasyon",
+    "other": "{n} istasyon"
+   },
+   "id": {
+    "other": "{n} stasiun"
+   },
+   "zh": {
+    "other": "{n} 个车站"
+   }
+  },
+  "p_xfer": {
+   "ar": {
+    "zero": "بدون تحويل",
+    "one": "تحويل واحد",
+    "two": "تحويلان",
+    "few": "{n} تحويلات",
+    "many": "{n} تحويلاً",
+    "other": "{n} تحويل"
+   },
+   "en": {
+    "one": "{n} change",
+    "other": "{n} changes"
+   },
+   "ur": {
+    "one": "{n} تبدیلی",
+    "other": "{n} تبدیلیاں"
+   },
+   "hi": {
+    "one": "{n} बदलाव",
+    "other": "{n} बदलाव"
+   },
+   "bn": {
+    "one": "{n}টি বদল",
+    "other": "{n}টি বদল"
+   },
+   "fil": {
+    "one": "{n} lipat",
+    "other": "{n} lipat"
+   },
+   "id": {
+    "other": "{n} transit"
+   },
+   "zh": {
+    "other": "{n} 次换乘"
+   }
+  }
+ },
+ "strings": {
+  "app_name": {
+   "ar": "مسار",
+   "en": "Masar",
+   "ur": "مسار",
+   "hi": "मसार",
+   "bn": "মাসার",
+   "fil": "Masar",
+   "id": "Masar",
+   "zh": "Masar"
+  },
+  "tagline": {
+   "ar": "مخطط رحلات مترو الرياض",
+   "en": "Riyadh Metro trip planner",
+   "ur": "ریاض میٹرو سفر پلانر",
+   "hi": "रियाद मेट्रो यात्रा योजनाकार",
+   "bn": "রিয়াদ মেট্রো যাত্রা পরিকল্পনাকারী",
+   "fil": "Tagaplano ng biyahe sa Riyadh Metro",
+   "id": "Perencana perjalanan Metro Riyadh",
+   "zh": "利雅得地铁行程规划"
+  },
+  "tab_plan": {
+   "ar": "الرحلة",
+   "en": "Trip",
+   "ur": "سفر",
+   "hi": "यात्रा",
+   "bn": "যাত্রা",
+   "fil": "Biyahe",
+   "id": "Perjalanan",
+   "zh": "行程"
+  },
+  "tab_saved": {
+   "ar": "المحفوظات",
+   "en": "Saved",
+   "ur": "محفوظ",
+   "hi": "सहेजे गए",
+   "bn": "সংরক্ষিত",
+   "fil": "Naka-save",
+   "id": "Tersimpan",
+   "zh": "收藏"
+  },
+  "tab_fares": {
+   "ar": "التذاكر",
+   "en": "Tickets",
+   "ur": "ٹکٹ",
+   "hi": "टिकट",
+   "bn": "টিকিট",
+   "fil": "Tiket",
+   "id": "Tiket",
+   "zh": "票价"
+  },
+  "tab_account": {
+   "ar": "حسابي",
+   "en": "Account",
+   "ur": "اکاؤنٹ",
+   "hi": "खाता",
+   "bn": "অ্যাকাউন্ট",
+   "fil": "Account",
+   "id": "Akun",
+   "zh": "账户"
+  },
+  "from": {
+   "ar": "من",
+   "en": "From",
+   "ur": "سے",
+   "hi": "से",
+   "bn": "থেকে",
+   "fil": "Mula",
+   "id": "Dari",
+   "zh": "出发"
+  },
+  "to": {
+   "ar": "إلى",
+   "en": "To",
+   "ur": "تک",
+   "hi": "तक",
+   "bn": "পর্যন্ত",
+   "fil": "Papunta",
+   "id": "Ke",
+   "zh": "到达"
+  },
+  "from_ph": {
+   "ar": "محطة الانطلاق",
+   "en": "Starting station",
+   "ur": "روانگی کا اسٹیشن",
+   "hi": "प्रस्थान स्टेशन",
+   "bn": "যাত্রা শুরুর স্টেশন",
+   "fil": "Istasyong pagmumulan",
+   "id": "Stasiun awal",
+   "zh": "出发站"
+  },
+  "to_ph": {
+   "ar": "محطة الوصول",
+   "en": "Destination station",
+   "ur": "منزل کا اسٹیشن",
+   "hi": "गंतव्य स्टेशन",
+   "bn": "গন্তব্য স্টেশন",
+   "fil": "Istasyong pupuntahan",
+   "id": "Stasiun tujuan",
+   "zh": "目的站"
+  },
+  "swap": {
+   "ar": "تبديل الانطلاق والوصول",
+   "en": "Swap start and destination",
+   "ur": "روانگی اور منزل بدلیں",
+   "hi": "प्रस्थान और गंतव्य बदलें",
+   "bn": "শুরু ও গন্তব্য অদলবদল করুন",
+   "fil": "Pagpalitin ang simula at pupuntahan",
+   "id": "Tukar awal dan tujuan",
+   "zh": "交换起点和终点"
+  },
+  "fastest": {
+   "ar": "الأسرع",
+   "en": "Fastest",
+   "ur": "تیز ترین",
+   "hi": "सबसे तेज़",
+   "bn": "দ্রুততম",
+   "fil": "Pinakamabilis",
+   "id": "Tercepat",
+   "zh": "最快"
+  },
+  "fewest": {
+   "ar": "أقل تحويلات",
+   "en": "Fewest changes",
+   "ur": "کم سے کم تبدیلیاں",
+   "hi": "सबसे कम बदलाव",
+   "bn": "সবচেয়ে কম বদল",
+   "fil": "Pinakakaunting lipat",
+   "id": "Transit paling sedikit",
+   "zh": "最少换乘"
+  },
+  "leave_now": {
+   "ar": "انطلق الآن",
+   "en": "Leave now",
+   "ur": "ابھی روانہ ہوں",
+   "hi": "अभी निकलें",
+   "bn": "এখনই রওনা",
+   "fil": "Umalis ngayon",
+   "id": "Berangkat sekarang",
+   "zh": "现在出发"
+  },
+  "depart_at": {
+   "ar": "انطلق عند",
+   "en": "Leave at",
+   "ur": "روانگی کا وقت",
+   "hi": "निकलने का समय",
+   "bn": "রওনার সময়",
+   "fil": "Aalis nang",
+   "id": "Berangkat pukul",
+   "zh": "出发时间"
+  },
+  "approx_min": {
+   "ar": "دقيقة تقريباً",
+   "en": "min approx.",
+   "ur": "منٹ تقریباً",
+   "hi": "मिनट लगभग",
+   "bn": "মিনিট প্রায়",
+   "fil": "minuto (tantiya)",
+   "id": "menit (perkiraan)",
+   "zh": "分钟（约）"
+  },
+  "no_xfer": {
+   "ar": "بدون تحويل",
+   "en": "Direct, no changes",
+   "ur": "براہِ راست، کوئی تبدیلی نہیں",
+   "hi": "सीधी, कोई बदलाव नहीं",
+   "bn": "সরাসরি, কোনো বদল নেই",
+   "fil": "Diretso, walang lipat",
+   "id": "Langsung, tanpa transit",
+   "zh": "直达，无需换乘"
+  },
+  "fare_chip": {
+   "ar": "{price} · تذكرة ساعتين",
+   "en": "{price} · 2-hour ticket",
+   "ur": "{price} · دو گھنٹے کا ٹکٹ",
+   "hi": "{price} · 2 घंटे का टिकट",
+   "bn": "{price} · 2 ঘণ্টার টিকিট",
+   "fil": "{price} · tiket na 2 oras",
+   "id": "{price} · tiket 2 jam",
+   "zh": "{price} · 2小时票"
+  },
+  "arrive_at": {
+   "ar": "إن انطلقت الآن تصل نحو {time}",
+   "en": "Leave now and arrive around {time}",
+   "ur": "ابھی روانہ ہوں تو تقریباً {time} پہنچیں گے",
+   "hi": "अभी निकलें तो लगभग {time} पहुँचेंगे",
+   "bn": "এখন রওনা দিলে প্রায় {time}-এ পৌঁছাবেন",
+   "fil": "Kung aalis ngayon, darating bandang {time}",
+   "id": "Berangkat sekarang, tiba sekitar {time}",
+   "zh": "现在出发，约 {time} 到达"
+  },
+  "arrive_at_t": {
+   "ar": "انطلق {dep} وتصل نحو {time}",
+   "en": "Leave at {dep} and arrive around {time}",
+   "ur": "{dep} روانگی، تقریباً {time} آمد",
+   "hi": "{dep} पर निकलें, लगभग {time} पहुँचें",
+   "bn": "{dep}-এ রওনা, প্রায় {time}-এ পৌঁছানো",
+   "fil": "Aalis {dep}, darating bandang {time}",
+   "id": "Berangkat {dep}, tiba sekitar {time}",
+   "zh": "{dep} 出发，约 {time} 到达"
+  },
+  "closed_at": {
+   "ar": "المترو لا يعمل في {time}. يبدأ التشغيل {open}.",
+   "en": "The metro isn't running at {time}. It opens at {open}.",
+   "ur": "{time} پر میٹرو بند ہے۔ یہ {open} پر کھلتی ہے۔",
+   "hi": "{time} पर मेट्रो बंद है। यह {open} पर खुलती है।",
+   "bn": "{time}-এ মেট্রো বন্ধ। এটি {open}-এ খোলে।",
+   "fil": "Sarado ang metro nang {time}. Bubukas ito nang {open}.",
+   "id": "Metro tidak beroperasi pukul {time}. Buka pukul {open}.",
+   "zh": "{time} 地铁不运营，{open} 开始运营。"
+  },
+  "alt_show": {
+   "ar": "اعرض هذا الخيار",
+   "en": "Show this option",
+   "ur": "یہ آپشن دکھائیں",
+   "hi": "यह विकल्प दिखाएँ",
+   "bn": "এই বিকল্প দেখান",
+   "fil": "Ipakita ito",
+   "id": "Tampilkan opsi ini",
+   "zh": "查看此方案"
+  },
+  "alt_fewer": {
+   "ar": "{x} مقابل {m} إضافية",
+   "en": "With {x}, {m} longer",
+   "ur": "{x} کے ساتھ، {m} زیادہ",
+   "hi": "{x} के साथ, {m} अधिक",
+   "bn": "{x} সহ, {m} বেশি",
+   "fil": "May {x}, {m} na mas matagal",
+   "id": "Dengan {x}, {m} lebih lama",
+   "zh": "{x}，多 {m}"
+  },
+  "alt_faster": {
+   "ar": "الأسرع: {m} مع {x}",
+   "en": "Fastest: {m} with {x}",
+   "ur": "تیز ترین: {m}، {x}",
+   "hi": "सबसे तेज़: {m}, {x}",
+   "bn": "দ্রুততম: {m}, {x}",
+   "fil": "Pinakamabilis: {m}, {x}",
+   "id": "Tercepat: {m}, {x}",
+   "zh": "最快：{m}，{x}"
+  },
+  "start_sub": {
+   "ar": "نقطة الانطلاق · انتظار تقديري {m}",
+   "en": "Start · estimated wait {m}",
+   "ur": "آغاز · متوقع انتظار {m}",
+   "hi": "शुरुआत · अनुमानित प्रतीक्षा {m}",
+   "bn": "শুরু · আনুমানিক অপেক্ষা {m}",
+   "fil": "Simula · tantiyang paghihintay {m}",
+   "id": "Mulai · perkiraan menunggu {m}",
+   "zh": "起点 · 预计等候 {m}"
+  },
+  "ride": {
+   "ar": "اركب {line} باتجاه {st}",
+   "en": "Take the {line} towards {st}",
+   "ur": "{line} لیں، {st} کی سمت",
+   "hi": "{st} की ओर जाने वाली {line} लें",
+   "bn": "{st}-গামী {line} ধরুন",
+   "fil": "Sumakay sa {line} papuntang {st}",
+   "id": "Naik {line} arah {st}",
+   "zh": "乘坐{line}，往{st}方向"
+  },
+  "also_line": {
+   "ar": "يمكنك أيضاً ركوب {line} على هذا المقطع المشترك",
+   "en": "The {line} also runs on this section",
+   "ur": "اس حصے پر {line} بھی چلتی ہے",
+   "hi": "इस हिस्से पर {line} भी चलती है",
+   "bn": "এই অংশে {line}-ও চলে",
+   "fil": "Dumadaan din dito ang {line}",
+   "id": "{line} juga melintasi bagian ini",
+   "zh": "{line}也经过此段"
+  },
+  "mid_stops": {
+   "ar": "المحطات الوسيطة ({n})",
+   "en": "Stops in between ({n})",
+   "ur": "درمیانی اسٹیشن ({n})",
+   "hi": "बीच के स्टेशन ({n})",
+   "bn": "মাঝের স্টেশন ({n})",
+   "fil": "Mga istasyon sa pagitan ({n})",
+   "id": "Stasiun di antaranya ({n})",
+   "zh": "途经站（{n}）"
+  },
+  "change_at": {
+   "ar": "تحويل في {st}",
+   "en": "Change at {st}",
+   "ur": "{st} پر لائن بدلیں",
+   "hi": "{st} पर लाइन बदलें",
+   "bn": "{st}-এ লাইন বদলান",
+   "fil": "Lumipat sa {st}",
+   "id": "Pindah di {st}",
+   "zh": "在{st}换乘"
+  },
+  "change_sub": {
+   "ar": "من {a} إلى {b} · مشي وانتظار نحو {m}",
+   "en": "From the {a} to the {b} · walk and wait about {m}",
+   "ur": "{a} سے {b} · پیدل اور انتظار تقریباً {m}",
+   "hi": "{a} से {b} · पैदल और प्रतीक्षा लगभग {m}",
+   "bn": "{a} থেকে {b} · হাঁটা ও অপেক্ষা প্রায় {m}",
+   "fil": "Mula {a} papuntang {b} · lakad at hintay mga {m}",
+   "id": "Dari {a} ke {b} · jalan dan menunggu sekitar {m}",
+   "zh": "从{a}到{b} · 步行及等候约 {m}"
+  },
+  "arrive": {
+   "ar": "الوصول",
+   "en": "Arrive",
+   "ur": "آمد",
+   "hi": "पहुँचें",
+   "bn": "পৌঁছানো",
+   "fil": "Pagdating",
+   "id": "Tiba",
+   "zh": "到达"
+  },
+  "pick_both": {
+   "ar": "اختر محطتي الانطلاق والوصول.",
+   "en": "Choose where you start and where you're going.",
+   "ur": "روانگی اور منزل کے اسٹیشن منتخب کریں۔",
+   "hi": "प्रस्थान और गंतव्य स्टेशन चुनें।",
+   "bn": "শুরুর ও গন্তব্য স্টেশন বেছে নিন।",
+   "fil": "Piliin kung saan ka magsisimula at pupunta.",
+   "id": "Pilih stasiun awal dan tujuan.",
+   "zh": "请选择出发站和目的站。"
+  },
+  "same_station": {
+   "ar": "محطة الانطلاق والوصول متطابقتان.",
+   "en": "Start and destination are the same station.",
+   "ur": "روانگی اور منزل ایک ہی اسٹیشن ہیں۔",
+   "hi": "प्रस्थान और गंतव्य एक ही स्टेशन हैं।",
+   "bn": "শুরু ও গন্তব্য একই স্টেশন।",
+   "fil": "Iisang istasyon ang simula at pupuntahan.",
+   "id": "Stasiun awal dan tujuan sama.",
+   "zh": "出发站和目的站相同。"
+  },
+  "save_route": {
+   "ar": "احفظ المسار",
+   "en": "Save route",
+   "ur": "راستہ محفوظ کریں",
+   "hi": "मार्ग सहेजें",
+   "bn": "রুট সংরক্ষণ",
+   "fil": "I-save ang ruta",
+   "id": "Simpan rute",
+   "zh": "收藏路线"
+  },
+  "route_saved": {
+   "ar": "محفوظ",
+   "en": "Saved",
+   "ur": "محفوظ",
+   "hi": "सहेजा गया",
+   "bn": "সংরক্ষিত",
+   "fil": "Naka-save",
+   "id": "Tersimpan",
+   "zh": "已收藏"
+  },
+  "copy_trip": {
+   "ar": "انسخ الرحلة",
+   "en": "Copy trip",
+   "ur": "سفر کاپی کریں",
+   "hi": "यात्रा कॉपी करें",
+   "bn": "যাত্রা কপি",
+   "fil": "Kopyahin ang biyahe",
+   "id": "Salin perjalanan",
+   "zh": "复制行程"
+  },
+  "copied": {
+   "ar": "تم النسخ",
+   "en": "Copied",
+   "ur": "کاپی ہو گیا",
+   "hi": "कॉपी हो गया",
+   "bn": "কপি হয়েছে",
+   "fil": "Nakopya",
+   "id": "Tersalin",
+   "zh": "已复制"
+  },
+  "map_title": {
+   "ar": "خريطة الشبكة",
+   "en": "Network map",
+   "ur": "نیٹ ورک نقشہ",
+   "hi": "नेटवर्क नक्शा",
+   "bn": "নেটওয়ার্ক মানচিত্র",
+   "fil": "Mapa ng network",
+   "id": "Peta jaringan",
+   "zh": "线网图"
+  },
+  "map_hint": {
+   "ar": "اضغط على محطة لاختيارها",
+   "en": "Tap a station to choose it",
+   "ur": "منتخب کرنے کے لیے اسٹیشن پر ٹیپ کریں",
+   "hi": "चुनने के लिए स्टेशन पर टैप करें",
+   "bn": "বেছে নিতে স্টেশনে ট্যাপ করুন",
+   "fil": "I-tap ang istasyon para piliin",
+   "id": "Ketuk stasiun untuk memilih",
+   "zh": "点击车站进行选择"
+  },
+  "interchange": {
+   "ar": "محطة تحويل",
+   "en": "Interchange",
+   "ur": "انٹرچینج",
+   "hi": "इंटरचेंज",
+   "bn": "ইন্টারচেঞ্জ",
+   "fil": "Lipatan",
+   "id": "Stasiun transit",
+   "zh": "换乘站"
+  },
+  "start_here": {
+   "ar": "انطلق من هنا",
+   "en": "Start here",
+   "ur": "یہاں سے شروع",
+   "hi": "यहाँ से शुरू",
+   "bn": "এখান থেকে শুরু",
+   "fil": "Dito magsimula",
+   "id": "Mulai dari sini",
+   "zh": "从这里出发"
+  },
+  "go_here": {
+   "ar": "الوصول هنا",
+   "en": "Go here",
+   "ur": "یہاں جائیں",
+   "hi": "यहाँ जाएँ",
+   "bn": "এখানে যান",
+   "fil": "Pumunta rito",
+   "id": "Ke sini",
+   "zh": "去这里"
+  },
+  "save_place": {
+   "ar": "احفظ كمكان",
+   "en": "Save place",
+   "ur": "جگہ محفوظ کریں",
+   "hi": "स्थान सहेजें",
+   "bn": "স্থান সংরক্ষণ",
+   "fil": "I-save ang lugar",
+   "id": "Simpan tempat",
+   "zh": "收藏地点"
+  },
+  "close": {
+   "ar": "إغلاق",
+   "en": "Close",
+   "ur": "بند کریں",
+   "hi": "बंद करें",
+   "bn": "বন্ধ",
+   "fil": "Isara",
+   "id": "Tutup",
+   "zh": "关闭"
+  },
+  "no_match": {
+   "ar": "لا توجد محطة بهذا الاسم",
+   "en": "No station matches that name",
+   "ur": "اس نام کا کوئی اسٹیشن نہیں",
+   "hi": "इस नाम का कोई स्टेशन नहीं",
+   "bn": "এই নামে কোনো স্টেশন নেই",
+   "fil": "Walang istasyong tugma",
+   "id": "Tidak ada stasiun dengan nama itu",
+   "zh": "没有匹配的车站"
+  },
+  "lines_title": {
+   "ar": "المسارات والمحطات",
+   "en": "Lines and stations",
+   "ur": "لائنیں اور اسٹیشن",
+   "hi": "लाइनें और स्टेशन",
+   "bn": "লাইন ও স্টেশন",
+   "fil": "Mga linya at istasyon",
+   "id": "Jalur dan stasiun",
+   "zh": "线路与车站"
+  },
+  "line_1": {
+   "ar": "المسار الأزرق",
+   "en": "Blue Line",
+   "ur": "بلیو لائن",
+   "hi": "ब्लू लाइन",
+   "bn": "ব্লু লাইন",
+   "fil": "Blue Line",
+   "id": "Jalur Biru",
+   "zh": "蓝线"
+  },
+  "line_2": {
+   "ar": "المسار الأحمر",
+   "en": "Red Line",
+   "ur": "ریڈ لائن",
+   "hi": "रेड लाइन",
+   "bn": "রেড লাইন",
+   "fil": "Red Line",
+   "id": "Jalur Merah",
+   "zh": "红线"
+  },
+  "line_3": {
+   "ar": "المسار البرتقالي",
+   "en": "Orange Line",
+   "ur": "اورنج لائن",
+   "hi": "ऑरेंज लाइन",
+   "bn": "অরেঞ্জ লাইন",
+   "fil": "Orange Line",
+   "id": "Jalur Oranye",
+   "zh": "橙线"
+  },
+  "line_4": {
+   "ar": "المسار الأصفر",
+   "en": "Yellow Line",
+   "ur": "یلو لائن",
+   "hi": "येलो लाइन",
+   "bn": "ইয়েলো লাইন",
+   "fil": "Yellow Line",
+   "id": "Jalur Kuning",
+   "zh": "黄线"
+  },
+  "line_5": {
+   "ar": "المسار الأخضر",
+   "en": "Green Line",
+   "ur": "گرین لائن",
+   "hi": "ग्रीन लाइन",
+   "bn": "গ্রিন লাইন",
+   "fil": "Green Line",
+   "id": "Jalur Hijau",
+   "zh": "绿线"
+  },
+  "line_6": {
+   "ar": "المسار البنفسجي",
+   "en": "Purple Line",
+   "ur": "پرپل لائن",
+   "hi": "पर्पल लाइन",
+   "bn": "পার্পল লাইন",
+   "fil": "Purple Line",
+   "id": "Jalur Ungu",
+   "zh": "紫线"
+  },
+  "places": {
+   "ar": "أماكني",
+   "en": "My places",
+   "ur": "میری جگہیں",
+   "hi": "मेरे स्थान",
+   "bn": "আমার স্থান",
+   "fil": "Aking mga lugar",
+   "id": "Tempat saya",
+   "zh": "我的地点"
+  },
+  "routes": {
+   "ar": "المسارات المحفوظة",
+   "en": "Saved routes",
+   "ur": "محفوظ راستے",
+   "hi": "सहेजे गए मार्ग",
+   "bn": "সংরক্ষিত রুট",
+   "fil": "Mga naka-save na ruta",
+   "id": "Rute tersimpan",
+   "zh": "收藏的路线"
+  },
+  "recent": {
+   "ar": "الرحلات الأخيرة",
+   "en": "Recent trips",
+   "ur": "حالیہ سفر",
+   "hi": "हाल की यात्राएँ",
+   "bn": "সাম্প্রতিক যাত্রা",
+   "fil": "Mga kamakailang biyahe",
+   "id": "Perjalanan terakhir",
+   "zh": "最近行程"
+  },
+  "clear": {
+   "ar": "مسح",
+   "en": "Clear",
+   "ur": "صاف کریں",
+   "hi": "साफ़ करें",
+   "bn": "মুছুন",
+   "fil": "Burahin",
+   "id": "Hapus",
+   "zh": "清除"
+  },
+  "empty_places": {
+   "ar": "احفظ المنزل أو العمل أو أي محطة تستخدمها كثيراً.",
+   "en": "Save home, work or any station you use often.",
+   "ur": "گھر، دفتر یا اکثر استعمال ہونے والا کوئی اسٹیشن محفوظ کریں۔",
+   "hi": "घर, दफ़्तर या अक्सर इस्तेमाल होने वाला स्टेशन सहेजें।",
+   "bn": "বাড়ি, অফিস বা প্রায়ই ব্যবহৃত স্টেশন সংরক্ষণ করুন।",
+   "fil": "I-save ang bahay, trabaho, o istasyong madalas mong gamitin.",
+   "id": "Simpan rumah, kantor, atau stasiun yang sering Anda gunakan.",
+   "zh": "收藏家、公司或常用车站。"
+  },
+  "empty_routes": {
+   "ar": "اضغط «احفظ المسار» في أي رحلة لتظهر هنا.",
+   "en": "Tap Save route on a trip to keep it here.",
+   "ur": "کسی سفر پر «راستہ محفوظ کریں» دبائیں تاکہ یہاں آ جائے۔",
+   "hi": "किसी यात्रा पर «मार्ग सहेजें» दबाएँ, वह यहाँ दिखेगा।",
+   "bn": "কোনো যাত্রায় «রুট সংরক্ষণ» চাপুন, এখানে দেখা যাবে।",
+   "fil": "I-tap ang I-save ang ruta para makita rito.",
+   "id": "Ketuk Simpan rute pada perjalanan agar muncul di sini.",
+   "zh": "在行程中点击“收藏路线”即可保存到这里。"
+  },
+  "empty_recent": {
+   "ar": "تظهر هنا الرحلات التي تخططها.",
+   "en": "Trips you plan appear here.",
+   "ur": "آپ کے منصوبہ بند سفر یہاں نظر آئیں گے۔",
+   "hi": "आपकी योजनाबद्ध यात्राएँ यहाँ दिखेंगी।",
+   "bn": "আপনার পরিকল্পিত যাত্রা এখানে দেখা যাবে।",
+   "fil": "Lalabas dito ang mga biyaheng pinlano mo.",
+   "id": "Perjalanan yang Anda rencanakan muncul di sini.",
+   "zh": "你规划的行程会显示在这里。"
+  },
+  "add_place": {
+   "ar": "أضف مكاناً",
+   "en": "Add place",
+   "ur": "جگہ شامل کریں",
+   "hi": "स्थान जोड़ें",
+   "bn": "স্থান যোগ করুন",
+   "fil": "Magdagdag ng lugar",
+   "id": "Tambah tempat",
+   "zh": "添加地点"
+  },
+  "place_name": {
+   "ar": "الاسم",
+   "en": "Name",
+   "ur": "نام",
+   "hi": "नाम",
+   "bn": "নাম",
+   "fil": "Pangalan",
+   "id": "Nama",
+   "zh": "名称"
+  },
+  "kind_home": {
+   "ar": "المنزل",
+   "en": "Home",
+   "ur": "گھر",
+   "hi": "घर",
+   "bn": "বাড়ি",
+   "fil": "Bahay",
+   "id": "Rumah",
+   "zh": "家"
+  },
+  "kind_work": {
+   "ar": "العمل",
+   "en": "Work",
+   "ur": "دفتر",
+   "hi": "दफ़्तर",
+   "bn": "অফিস",
+   "fil": "Trabaho",
+   "id": "Kantor",
+   "zh": "公司"
+  },
+  "kind_other": {
+   "ar": "أخرى",
+   "en": "Other",
+   "ur": "دیگر",
+   "hi": "अन्य",
+   "bn": "অন্যান্য",
+   "fil": "Iba pa",
+   "id": "Lainnya",
+   "zh": "其他"
+  },
+  "station": {
+   "ar": "المحطة",
+   "en": "Station",
+   "ur": "اسٹیشن",
+   "hi": "स्टेशन",
+   "bn": "স্টেশন",
+   "fil": "Istasyon",
+   "id": "Stasiun",
+   "zh": "车站"
+  },
+  "save": {
+   "ar": "حفظ",
+   "en": "Save",
+   "ur": "محفوظ کریں",
+   "hi": "सहेजें",
+   "bn": "সংরক্ষণ",
+   "fil": "I-save",
+   "id": "Simpan",
+   "zh": "保存"
+  },
+  "cancel": {
+   "ar": "إلغاء",
+   "en": "Cancel",
+   "ur": "منسوخ",
+   "hi": "रद्द करें",
+   "bn": "বাতিল",
+   "fil": "Kanselahin",
+   "id": "Batal",
+   "zh": "取消"
+  },
+  "delete": {
+   "ar": "حذف",
+   "en": "Delete",
+   "ur": "حذف کریں",
+   "hi": "हटाएँ",
+   "bn": "মুছুন",
+   "fil": "Burahin",
+   "id": "Hapus",
+   "zh": "删除"
+  },
+  "fares_title": {
+   "ar": "التذاكر والأسعار",
+   "en": "Tickets and fares",
+   "ur": "ٹکٹ اور کرایہ",
+   "hi": "टिकट और किराया",
+   "bn": "টিকিট ও ভাড়া",
+   "fil": "Tiket at pamasahe",
+   "id": "Tiket dan tarif",
+   "zh": "车票与票价"
+  },
+  "class_std": {
+   "ar": "عادية",
+   "en": "Standard",
+   "ur": "عام",
+   "hi": "सामान्य",
+   "bn": "সাধারণ",
+   "fil": "Standard",
+   "id": "Reguler",
+   "zh": "普通舱"
+  },
+  "class_first": {
+   "ar": "درجة أولى",
+   "en": "First class",
+   "ur": "فرسٹ کلاس",
+   "hi": "प्रथम श्रेणी",
+   "bn": "প্রথম শ্রেণি",
+   "fil": "First class",
+   "id": "Kelas satu",
+   "zh": "头等舱"
+  },
+  "t_2h": {
+   "ar": "ساعتان",
+   "en": "2 hours",
+   "ur": "2 گھنٹے",
+   "hi": "2 घंटे",
+   "bn": "2 ঘণ্টা",
+   "fil": "2 oras",
+   "id": "2 jam",
+   "zh": "2小时"
+  },
+  "t_3d": {
+   "ar": "3 أيام",
+   "en": "3 days",
+   "ur": "3 دن",
+   "hi": "3 दिन",
+   "bn": "3 দিন",
+   "fil": "3 araw",
+   "id": "3 hari",
+   "zh": "3天"
+  },
+  "t_7d": {
+   "ar": "7 أيام",
+   "en": "7 days",
+   "ur": "7 دن",
+   "hi": "7 दिन",
+   "bn": "7 দিন",
+   "fil": "7 araw",
+   "id": "7 hari",
+   "zh": "7天"
+  },
+  "t_30d": {
+   "ar": "30 يوماً",
+   "en": "30 days",
+   "ur": "30 دن",
+   "hi": "30 दिन",
+   "bn": "30 দিন",
+   "fil": "30 araw",
+   "id": "30 hari",
+   "zh": "30天"
+  },
+  "t_year": {
+   "ar": "سنة",
+   "en": "1 year",
+   "ur": "ایک سال",
+   "hi": "1 वर्ष",
+   "bn": "1 বছর",
+   "fil": "1 taon",
+   "id": "1 tahun",
+   "zh": "1年"
+  },
+  "t_sem": {
+   "ar": "فصل دراسي للطلاب",
+   "en": "Student semester",
+   "ur": "طلبہ سمسٹر",
+   "hi": "छात्र सेमेस्टर",
+   "bn": "শিক্ষার্থী সেমিস্টার",
+   "fil": "Semestre ng estudyante",
+   "id": "Semester pelajar",
+   "zh": "学生学期票"
+  },
+  "unlimited": {
+   "ar": "رحلات غير محدودة بالمترو والحافلات",
+   "en": "Unlimited metro and bus rides",
+   "ur": "میٹرو اور بس میں لامحدود سفر",
+   "hi": "मेट्रो और बस में असीमित यात्रा",
+   "bn": "মেট্রো ও বাসে সীমাহীন যাত্রা",
+   "fil": "Walang limitasyong sakay sa metro at bus",
+   "id": "Naik metro dan bus sepuasnya",
+   "zh": "地铁和公交不限次乘坐"
+  },
+  "sar": {
+   "ar": "{p} ريال",
+   "en": "SAR {p}",
+   "ur": "{p} ریال",
+   "hi": "{p} रियाल",
+   "bn": "{p} রিয়াল",
+   "fil": "SAR {p}",
+   "id": "SAR {p}",
+   "zh": "{p} 里亚尔"
+  },
+  "discount_title": {
+   "ar": "خصم 50%",
+   "en": "50% discount",
+   "ur": "50% رعایت",
+   "hi": "50% छूट",
+   "bn": "50% ছাড়",
+   "fil": "50% diskwento",
+   "id": "Diskon 50%",
+   "zh": "五折优惠"
+  },
+  "discount_body": {
+   "ar": "للطلاب من 6 إلى 18 سنة، وطلاب الجامعات، ومن هم في الستين فأكثر، والأشخاص ذوي الإعاقة ومرضى السرطان مع مرافق واحد لكل منهم، وذوي الشهداء من الدرجة الأولى.",
+   "en": "For students aged 6 to 18, university students, people aged 60 and over, people with disabilities and cancer patients (each with one companion), and first-degree relatives of martyrs.",
+   "ur": "6 سے 18 سال کے طلبہ، یونیورسٹی طلبہ، 60 سال یا زائد عمر کے افراد، معذور افراد اور کینسر کے مریض (ہر ایک کے ساتھ ایک ساتھی)، اور شہداء کے فرسٹ ڈگری رشتہ داروں کے لیے۔",
+   "hi": "6 से 18 वर्ष के छात्र, विश्वविद्यालय के छात्र, 60 वर्ष या अधिक आयु के लोग, दिव्यांगजन और कैंसर रोगी (प्रत्येक के साथ एक सहायक), और शहीदों के प्रथम-श्रेणी के परिजनों के लिए।",
+   "bn": "6 থেকে 18 বছর বয়সী শিক্ষার্থী, বিশ্ববিদ্যালয়ের শিক্ষার্থী, 60 বছর বা তার বেশি বয়সী ব্যক্তি, প্রতিবন্ধী ব্যক্তি ও ক্যান্সার রোগী (প্রত্যেকের সঙ্গে একজন সহযাত্রী), এবং শহীদদের প্রথম-স্তরের আত্মীয়দের জন্য।",
+   "fil": "Para sa mga estudyanteng 6 hanggang 18 taong gulang, mga estudyante sa unibersidad, mga edad 60 pataas, mga taong may kapansanan at may kanser (bawat isa may isang kasama), at mga kamag-anak sa unang antas ng mga martir.",
+   "id": "Untuk pelajar usia 6 sampai 18 tahun, mahasiswa, warga usia 60 tahun ke atas, penyandang disabilitas dan pasien kanker (masing-masing dengan satu pendamping), serta kerabat tingkat pertama para syuhada.",
+   "zh": "适用于6至18岁学生、大学生、60岁及以上人士、残障人士和癌症患者（各可带一名陪同者），以及烈士的直系亲属。"
+  },
+  "eligible": {
+   "ar": "أنا مؤهل للخصم",
+   "en": "I'm eligible",
+   "ur": "میں اہل ہوں",
+   "hi": "मैं पात्र हूँ",
+   "bn": "আমি যোগ্য",
+   "fil": "Kwalipikado ako",
+   "id": "Saya memenuhi syarat",
+   "zh": "我符合条件"
+  },
+  "kids_free": {
+   "ar": "الأطفال دون 6 سنوات مجاناً.",
+   "en": "Children under 6 ride free.",
+   "ur": "6 سال سے کم عمر بچوں کا سفر مفت ہے۔",
+   "hi": "6 वर्ष से कम उम्र के बच्चे मुफ़्त यात्रा करते हैं।",
+   "bn": "6 বছরের কম বয়সী শিশুরা বিনামূল্যে ভ্রমণ করে।",
+   "fil": "Libre ang mga batang wala pang 6 na taon.",
+   "id": "Anak di bawah 6 tahun gratis.",
+   "zh": "6岁以下儿童免费乘车。"
+  },
+  "advisor": {
+   "ar": "أي تذكرة أوفر لك؟",
+   "en": "Which ticket costs least?",
+   "ur": "کون سا ٹکٹ سب سے سستا ہے؟",
+   "hi": "कौन-सा टिकट सबसे सस्ता है?",
+   "bn": "কোন টিকিট সবচেয়ে সাশ্রয়ী?",
+   "fil": "Aling tiket ang pinakamura?",
+   "id": "Tiket mana yang paling hemat?",
+   "zh": "哪种票最划算？"
+  },
+  "trips_week": {
+   "ar": "عدد الرحلات أسبوعياً (الذهاب رحلة والعودة رحلة)",
+   "en": "One-way trips per week",
+   "ur": "ہفتہ وار یکطرفہ سفر",
+   "hi": "प्रति सप्ताह एकतरफ़ा यात्राएँ",
+   "bn": "সপ্তাহে একমুখী যাত্রা",
+   "fil": "Isang-daang biyahe kada linggo",
+   "id": "Perjalanan sekali jalan per minggu",
+   "zh": "每周单程次数"
+  },
+  "per_month": {
+   "ar": "{p} شهرياً",
+   "en": "{p} / month",
+   "ur": "{p} ماہانہ",
+   "hi": "{p} प्रति माह",
+   "bn": "{p} প্রতি মাসে",
+   "fil": "{p} kada buwan",
+   "id": "{p} per bulan",
+   "zh": "每月 {p}"
+  },
+  "best": {
+   "ar": "الأوفر",
+   "en": "Best value",
+   "ur": "سب سے کفایتی",
+   "hi": "सबसे किफ़ायती",
+   "bn": "সবচেয়ে সাশ্রয়ী",
+   "fil": "Pinakasulit",
+   "id": "Paling hemat",
+   "zh": "最划算"
+  },
+  "buy": {
+   "ar": "اشترِ من تطبيق درب",
+   "en": "Buy in the Darb app",
+   "ur": "درب ایپ میں خریدیں",
+   "hi": "Darb ऐप में खरीदें",
+   "bn": "Darb অ্যাপে কিনুন",
+   "fil": "Bumili sa Darb app",
+   "id": "Beli di aplikasi Darb",
+   "zh": "在 Darb 应用中购买"
+  },
+  "price_note": {
+   "ar": "الأسعار من الإعلانات الرسمية لعام 2026. تأكد منها في تطبيق درب قبل الشراء.",
+   "en": "Prices from public announcements for 2026. Confirm in Darb before you buy.",
+   "ur": "قیمتیں 2026 کے عوامی اعلانات سے ہیں۔ خریدنے سے پہلے درب میں تصدیق کریں۔",
+   "hi": "कीमतें 2026 की सार्वजनिक घोषणाओं से हैं। खरीदने से पहले Darb में पुष्टि करें।",
+   "bn": "দাম 2026 সালের সরকারি ঘোষণা থেকে। কেনার আগে Darb-এ নিশ্চিত করুন।",
+   "fil": "Mula sa mga pampublikong anunsyo para sa 2026 ang mga presyo. Kumpirmahin sa Darb bago bumili.",
+   "id": "Harga dari pengumuman publik 2026. Pastikan di Darb sebelum membeli.",
+   "zh": "价格来自2026年公开公告，购买前请在 Darb 中确认。"
+  },
+  "disc_note": {
+   "ar": "الأسعار المخفضة تقديرية، ويُتحقق من الأهلية في تطبيق درب.",
+   "en": "Discounted prices are estimates. Eligibility is checked in Darb.",
+   "ur": "رعایتی قیمتیں تخمینی ہیں۔ اہلیت کی جانچ درب میں ہوتی ہے۔",
+   "hi": "छूट वाली कीमतें अनुमानित हैं। पात्रता Darb में जाँची जाती है।",
+   "bn": "ছাড়ের দাম আনুমানিক। যোগ্যতা Darb-এ যাচাই হয়।",
+   "fil": "Tantiya lamang ang mga presyong may diskwento. Sinusuri sa Darb ang pagiging kwalipikado.",
+   "id": "Harga diskon adalah perkiraan. Kelayakan diperiksa di Darb.",
+   "zh": "优惠价格为估算，资格以 Darb 审核为准。"
+  },
+  "signed_in_as": {
+   "ar": "مسجّل الدخول باسم {name}",
+   "en": "Signed in as {name}",
+   "ur": "{name} کے نام سے سائن ان",
+   "hi": "{name} के रूप में साइन इन",
+   "bn": "{name} হিসেবে সাইন ইন",
+   "fil": "Naka-sign in bilang {name}",
+   "id": "Masuk sebagai {name}",
+   "zh": "已登录：{name}"
+  },
+  "signed_in": {
+   "ar": "تم تسجيل الدخول",
+   "en": "Signed in",
+   "ur": "سائن ان ہیں",
+   "hi": "साइन इन है",
+   "bn": "সাইন ইন করা আছে",
+   "fil": "Naka-sign in",
+   "id": "Sudah masuk",
+   "zh": "已登录"
+  },
+  "synced_body": {
+   "ar": "أماكنك ومساراتك وسجل رحلاتك وإعداداتك محفوظة في حسابك وتظهر على كل أجهزتك.",
+   "en": "Your places, routes, trip history and settings are saved to your account and follow you on every device.",
+   "ur": "آپ کی جگہیں، راستے، سفر کی تاریخ اور ترتیبات آپ کے اکاؤنٹ میں محفوظ ہیں اور ہر ڈیوائس پر دستیاب ہیں۔",
+   "hi": "आपके स्थान, मार्ग, यात्रा इतिहास और सेटिंग्स आपके खाते में सहेजे जाते हैं और हर डिवाइस पर मिलते हैं।",
+   "bn": "আপনার স্থান, রুট, যাত্রার ইতিহাস ও সেটিংস আপনার অ্যাকাউন্টে সংরক্ষিত থাকে এবং সব ডিভাইসে পাওয়া যায়।",
+   "fil": "Naka-save sa account mo ang iyong mga lugar, ruta, kasaysayan ng biyahe at setting, at kasama mo sa bawat device.",
+   "id": "Tempat, rute, riwayat perjalanan, dan pengaturan Anda tersimpan di akun dan ikut di setiap perangkat.",
+   "zh": "你的地点、路线、行程记录和设置会保存到账户，并在所有设备上同步。"
+  },
+  "guest": {
+   "ar": "زائر",
+   "en": "Guest",
+   "ur": "مہمان",
+   "hi": "अतिथि",
+   "bn": "অতিথি",
+   "fil": "Bisita",
+   "id": "Tamu",
+   "zh": "访客"
+  },
+  "guest_body": {
+   "ar": "أماكنك وسجلك محفوظة على هذا الجهاز فقط. سجّل الدخول لتحتفظ بها على كل أجهزتك.",
+   "en": "Your places and history are kept on this device only. Sign in to keep them on every device.",
+   "ur": "آپ کی جگہیں اور تاریخ صرف اس ڈیوائس پر محفوظ ہیں۔ انہیں ہر ڈیوائس پر رکھنے کے لیے سائن ان کریں۔",
+   "hi": "आपके स्थान और इतिहास केवल इस डिवाइस पर सहेजे गए हैं। हर डिवाइस पर रखने के लिए साइन इन करें।",
+   "bn": "আপনার স্থান ও ইতিহাস শুধু এই ডিভাইসে সংরক্ষিত। সব ডিভাইসে রাখতে সাইন ইন করুন।",
+   "fil": "Sa device na ito lang naka-save ang iyong mga lugar at kasaysayan. Mag-sign in para nasa bawat device.",
+   "id": "Tempat dan riwayat Anda hanya tersimpan di perangkat ini. Masuk agar tersedia di setiap perangkat.",
+   "zh": "你的地点和记录仅保存在本设备上。登录后可在所有设备上使用。"
+  },
+  "saving": {
+   "ar": "جارٍ الحفظ…",
+   "en": "Saving…",
+   "ur": "محفوظ ہو رہا ہے…",
+   "hi": "सहेजा जा रहा है…",
+   "bn": "সংরক্ষণ হচ্ছে…",
+   "fil": "Sine-save…",
+   "id": "Menyimpan…",
+   "zh": "正在保存…"
+  },
+  "saved_ok": {
+   "ar": "تم حفظ كل التغييرات",
+   "en": "All changes saved",
+   "ur": "تمام تبدیلیاں محفوظ",
+   "hi": "सभी बदलाव सहेजे गए",
+   "bn": "সব পরিবর্তন সংরক্ষিত",
+   "fil": "Naka-save ang lahat",
+   "id": "Semua perubahan tersimpan",
+   "zh": "所有更改已保存"
+  },
+  "save_err": {
+   "ar": "تعذّر الحفظ في حسابك. التغييرات محفوظة على هذا الجهاز.",
+   "en": "Couldn't save to your account. Changes are kept on this device.",
+   "ur": "اکاؤنٹ میں محفوظ نہیں ہو سکا۔ تبدیلیاں اس ڈیوائس پر محفوظ ہیں۔",
+   "hi": "खाते में सहेजा नहीं जा सका। बदलाव इस डिवाइस पर रखे गए हैं।",
+   "bn": "অ্যাকাউন্টে সংরক্ষণ করা যায়নি। পরিবর্তন এই ডিভাইসে রাখা হয়েছে।",
+   "fil": "Hindi na-save sa account. Nasa device na ito ang mga pagbabago.",
+   "id": "Gagal menyimpan ke akun. Perubahan disimpan di perangkat ini.",
+   "zh": "无法保存到账户，更改已保存在本设备上。"
+  },
+  "settings": {
+   "ar": "الإعدادات",
+   "en": "Settings",
+   "ur": "ترتیبات",
+   "hi": "सेटिंग्स",
+   "bn": "সেটিংস",
+   "fil": "Mga setting",
+   "id": "Pengaturan",
+   "zh": "设置"
+  },
+  "language": {
+   "ar": "اللغة",
+   "en": "Language",
+   "ur": "زبان",
+   "hi": "भाषा",
+   "bn": "ভাষা",
+   "fil": "Wika",
+   "id": "Bahasa",
+   "zh": "语言"
+  },
+  "text_size": {
+   "ar": "حجم الخط",
+   "en": "Text size",
+   "ur": "متن کا سائز",
+   "hi": "टेक्स्ट का आकार",
+   "bn": "লেখার আকার",
+   "fil": "Laki ng teksto",
+   "id": "Ukuran teks",
+   "zh": "文字大小"
+  },
+  "contrast": {
+   "ar": "تباين عالٍ",
+   "en": "High contrast",
+   "ur": "زیادہ کنٹراسٹ",
+   "hi": "उच्च कंट्रास्ट",
+   "bn": "উচ্চ কনট্রাস্ট",
+   "fil": "Mataas na contrast",
+   "id": "Kontras tinggi",
+   "zh": "高对比度"
+  },
+  "default_class": {
+   "ar": "فئة التذكرة الافتراضية",
+   "en": "Default ticket class",
+   "ur": "ڈیفالٹ ٹکٹ کلاس",
+   "hi": "डिफ़ॉल्ट टिकट श्रेणी",
+   "bn": "ডিফল্ট টিকিট শ্রেণি",
+   "fil": "Default na klase ng tiket",
+   "id": "Kelas tiket bawaan",
+   "zh": "默认舱位"
+  },
+  "hours": {
+   "ar": "ساعات التشغيل",
+   "en": "Operating hours",
+   "ur": "اوقاتِ کار",
+   "hi": "संचालन समय",
+   "bn": "চলাচলের সময়",
+   "fil": "Oras ng operasyon",
+   "id": "Jam operasional",
+   "zh": "运营时间"
+  },
+  "hours_body": {
+   "ar": "السبت إلى الخميس من 5:30 صباحاً حتى منتصف الليل. الجمعة من 8:00 صباحاً حتى منتصف الليل. تتغير الأوقات في رمضان والأعياد.",
+   "en": "Saturday to Thursday 5:30 AM to midnight. Friday 8:00 AM to midnight. Hours change in Ramadan and on holidays.",
+   "ur": "ہفتہ تا جمعرات صبح 5:30 سے آدھی رات تک۔ جمعہ صبح 8:00 سے آدھی رات تک۔ رمضان اور تعطیلات میں اوقات بدل جاتے ہیں۔",
+   "hi": "शनिवार से गुरुवार सुबह 5:30 से आधी रात तक। शुक्रवार सुबह 8:00 से आधी रात तक। रमज़ान और छुट्टियों में समय बदलता है।",
+   "bn": "শনিবার থেকে বৃহস্পতিবার সকাল 5:30 থেকে মধ্যরাত। শুক্রবার সকাল 8:00 থেকে মধ্যরাত। রমজান ও ছুটিতে সময় বদলায়।",
+   "fil": "Sabado hanggang Huwebes 5:30 AM hanggang hatinggabi. Biyernes 8:00 AM hanggang hatinggabi. Nagbabago ang oras tuwing Ramadan at pista opisyal.",
+   "id": "Sabtu sampai Kamis 05.30 hingga tengah malam. Jumat 08.00 hingga tengah malam. Jam berubah saat Ramadan dan hari libur.",
+   "zh": "周六至周四 5:30 至午夜；周五 8:00 至午夜。斋月和节假日时间会调整。"
+  },
+  "open_now": {
+   "ar": "يعمل الآن",
+   "en": "Running now",
+   "ur": "ابھی چل رہی ہے",
+   "hi": "अभी चालू",
+   "bn": "এখন চালু",
+   "fil": "Bukas ngayon",
+   "id": "Beroperasi sekarang",
+   "zh": "正在运营"
+  },
+  "closed_now": {
+   "ar": "متوقف · يبدأ {t}",
+   "en": "Closed · opens {t}",
+   "ur": "بند · {t} کھلے گی",
+   "hi": "बंद · {t} पर खुलेगी",
+   "bn": "বন্ধ · {t}-এ খুলবে",
+   "fil": "Sarado · bubukas {t}",
+   "id": "Tutup · buka {t}",
+   "zh": "已停运 · {t} 开始"
+  },
+  "about": {
+   "ar": "عن التطبيق",
+   "en": "About",
+   "ur": "ایپ کے بارے میں",
+   "hi": "ऐप के बारे में",
+   "bn": "অ্যাপ সম্পর্কে",
+   "fil": "Tungkol sa app",
+   "id": "Tentang aplikasi",
+   "zh": "关于"
+  },
+  "about_body": {
+   "ar": "مسار مخطط رحلات مستقل وغير تابع لقطار الرياض أو الهيئة الملكية لمدينة الرياض. أزمنة الرحلات تقديرية مبنية على أطوال المسارات.",
+   "en": "Masar is an independent trip planner and is not affiliated with Riyadh Metro or the Royal Commission for Riyadh City. Journey times are estimates based on line lengths.",
+   "ur": "مسار ایک آزاد سفر پلانر ہے اور ریاض میٹرو یا رائل کمیشن فار ریاض سٹی سے وابستہ نہیں۔ سفر کے اوقات لائنوں کی لمبائی پر مبنی اندازے ہیں۔",
+   "hi": "Masar एक स्वतंत्र यात्रा योजनाकार है और रियाद मेट्रो या रॉयल कमीशन फ़ॉर रियाद सिटी से संबद्ध नहीं है। यात्रा समय लाइनों की लंबाई पर आधारित अनुमान हैं।",
+   "bn": "Masar একটি স্বাধীন যাত্রা পরিকল্পনাকারী, রিয়াদ মেট্রো বা রয়্যাল কমিশন ফর রিয়াদ সিটির সঙ্গে যুক্ত নয়। যাত্রার সময় লাইনের দৈর্ঘ্যের ভিত্তিতে আনুমানিক।",
+   "fil": "Ang Masar ay isang independiyenteng tagaplano ng biyahe at hindi kaanib ng Riyadh Metro o ng Royal Commission for Riyadh City. Tantiya ang mga oras ng biyahe batay sa haba ng mga linya.",
+   "id": "Masar adalah perencana perjalanan independen dan tidak berafiliasi dengan Metro Riyadh atau Royal Commission for Riyadh City. Waktu perjalanan adalah perkiraan berdasarkan panjang jalur.",
+   "zh": "Masar 是独立的行程规划应用，与利雅得地铁及利雅得市皇家委员会无关。行程时间根据线路长度估算。"
+  },
+  "data_model": {
+   "ar": "البيانات والخوارزمية",
+   "en": "Data and algorithm",
+   "ur": "ڈیٹا اور الگورتھم",
+   "hi": "डेटा और एल्गोरिदम",
+   "bn": "ডেটা ও অ্যালগরিদম",
+   "fil": "Data at algorithm",
+   "id": "Data dan algoritme",
+   "zh": "数据与算法"
+  },
+  "model_body": {
+   "ar": "كل عقدة في الرسم البياني زوج (محطة، مسار). حواف الركوب تربط المحطات المتتالية بوزن زمني = (طول المسار ÷ عدد القطع) ÷ سرعة التشغيل + 0.5 دقيقة توقف، وحواف التحويل وزنها 5 دقائق. البحث بخوارزمية Dijkstra بتكلفة مركّبة: الزمن أولاً في «الأسرع»، وعدد التحويلات أولاً في «أقل تحويلات».",
+   "en": "Each graph node is a (station, line) pair. Ride edges join consecutive stations with weight = (line length ÷ segments) ÷ running speed + 0.5 min dwell; transfer edges weigh 5 min. Search is Dijkstra with a composite cost: time first for Fastest, transfer count first for Fewest changes."
+  },
+  "copy_json": {
+   "ar": "انسخ بيانات الشبكة JSON",
+   "en": "Copy network JSON",
+   "ur": "نیٹ ورک JSON کاپی کریں",
+   "hi": "नेटवर्क JSON कॉपी करें",
+   "bn": "নেটওয়ার্ক JSON কপি করুন",
+   "fil": "Kopyahin ang network JSON",
+   "id": "Salin JSON jaringan",
+   "zh": "复制线网 JSON"
+  },
+  "search_station": {
+   "ar": "ابحث عن محطة",
+   "en": "Search stations",
+   "ur": "اسٹیشن تلاش کریں",
+   "hi": "स्टेशन खोजें",
+   "bn": "স্টেশন খুঁজুন",
+   "fil": "Maghanap ng istasyon",
+   "id": "Cari stasiun",
+   "zh": "搜索车站"
+  },
+  "now": {
+   "ar": "الآن",
+   "en": "Now",
+   "ur": "ابھی",
+   "hi": "अभी",
+   "bn": "এখন",
+   "fil": "Ngayon",
+   "id": "Sekarang",
+   "zh": "现在"
+  },
+  "km": {
+   "ar": "{n} كم",
+   "en": "{n} km",
+   "ur": "{n} کلومیٹر",
+   "hi": "{n} किमी",
+   "bn": "{n} কিমি",
+   "fil": "{n} km",
+   "id": "{n} km",
+   "zh": "{n} 公里"
+  },
+  "sign_out": {
+   "ar": "تسجيل الخروج",
+   "en": "Sign out",
+   "ur": "سائن آؤٹ",
+   "hi": "साइन आउट",
+   "bn": "সাইন আউট",
+   "fil": "Mag-sign out",
+   "id": "Keluar",
+   "zh": "退出登录"
+  },
+  "delete_data": {
+   "ar": "احذف حسابي وبياناتي",
+   "en": "Delete my account and data",
+   "ur": "میرا اکاؤنٹ اور ڈیٹا حذف کریں",
+   "hi": "मेरा खाता और डेटा हटाएँ",
+   "bn": "আমার অ্যাকাউন্ট ও ডেটা মুছুন",
+   "fil": "Burahin ang account at data ko",
+   "id": "Hapus akun dan data saya",
+   "zh": "删除我的账户和数据"
+  },
+  "delete_confirm": {
+   "ar": "سيُحذف كل ما حفظته من أماكن ومسارات وسجل رحلات من هذا الجهاز ومن iCloud.",
+   "en": "This removes your places, routes and trip history from this device and iCloud.",
+   "ur": "اس سے آپ کی جگہیں، راستے اور سفر کی تاریخ اس ڈیوائس اور iCloud سے حذف ہو جائیں گی۔",
+   "hi": "इससे आपके स्थान, मार्ग और यात्रा इतिहास इस डिवाइस और iCloud से हट जाएँगे।",
+   "bn": "এতে আপনার স্থান, রুট ও যাত্রার ইতিহাস এই ডিভাইস ও iCloud থেকে মুছে যাবে।",
+   "fil": "Buburahin nito ang iyong mga lugar, ruta at kasaysayan ng biyahe sa device na ito at sa iCloud.",
+   "id": "Ini menghapus tempat, rute, dan riwayat perjalanan Anda dari perangkat ini dan iCloud.",
+   "zh": "这将从本设备和 iCloud 中删除你的地点、路线和行程记录。"
+  },
+  "privacy": {
+   "ar": "سياسة الخصوصية",
+   "en": "Privacy policy",
+   "ur": "رازداری کی پالیسی",
+   "hi": "गोपनीयता नीति",
+   "bn": "গোপনীয়তা নীতি",
+   "fil": "Patakaran sa privacy",
+   "id": "Kebijakan privasi",
+   "zh": "隐私政策"
+  },
+  "hero_q": {
+   "ar": "إلى أين اليوم؟",
+   "en": "Where to today?",
+   "ur": "آج کہاں جانا ہے؟",
+   "hi": "आज कहाँ जाना है?",
+   "bn": "আজ কোথায় যাবেন?",
+   "fil": "Saan ka pupunta ngayon?",
+   "id": "Mau ke mana hari ini?",
+   "zh": "今天去哪儿？"
+  },
+  "ribbon_label": {
+   "ar": "ملخص المسار",
+   "en": "Route at a glance",
+   "ur": "راستے کا خلاصہ",
+   "hi": "मार्ग एक नज़र में",
+   "bn": "এক নজরে রুট",
+   "fil": "Buod ng ruta",
+   "id": "Ringkasan rute",
+   "zh": "路线概览"
+  },
+  "most_used": {
+   "ar": "الأكثر استخداماً",
+   "en": "Most used",
+   "ur": "سب سے زیادہ استعمال",
+   "hi": "सबसे ज़्यादा इस्तेमाल",
+   "bn": "সবচেয়ে বেশি ব্যবহৃত",
+   "fil": "Pinakaginagamit",
+   "id": "Paling sering dipakai",
+   "zh": "最常用"
+  },
+  "use_location": {
+   "ar": "استخدم موقعي",
+   "en": "Use my location",
+   "ur": "میرا مقام استعمال کریں",
+   "hi": "मेरी लोकेशन इस्तेमाल करें",
+   "bn": "আমার অবস্থান ব্যবহার করুন",
+   "fil": "Gamitin ang lokasyon ko",
+   "id": "Gunakan lokasi saya",
+   "zh": "使用我的位置"
+  },
+  "near_btn": {
+   "ar": "أقرب محطة",
+   "en": "Nearest station",
+   "ur": "قریب ترین اسٹیشن",
+   "hi": "नज़दीकी स्टेशन",
+   "bn": "নিকটতম স্টেশন",
+   "fil": "Pinakamalapit",
+   "id": "Stasiun terdekat",
+   "zh": "最近车站"
+  },
+  "locating": {
+   "ar": "جارٍ تحديد موقعك…",
+   "en": "Finding you…",
+   "ur": "آپ کا مقام تلاش کیا جا رہا ہے…",
+   "hi": "आपकी लोकेशन ढूँढी जा रही है…",
+   "bn": "আপনার অবস্থান খোঁজা হচ্ছে…",
+   "fil": "Hinahanap ka…",
+   "id": "Mencari lokasi Anda…",
+   "zh": "正在定位…"
+  },
+  "loc_denied": {
+   "ar": "مسار لا يملك إذن الوصول إلى موقعك. فعّله من الإعدادات ← مسار ← الموقع.",
+   "en": "Masar can't see your location. Turn it on in Settings › Masar › Location.",
+   "ur": "مسار کو آپ کے مقام تک رسائی نہیں۔ ترتیبات › مسار › مقام سے اجازت دیں۔",
+   "hi": "Masar को आपकी लोकेशन की अनुमति नहीं है। सेटिंग्स › Masar › लोकेशन में चालू करें।",
+   "bn": "Masar আপনার অবস্থান দেখতে পারছে না। সেটিংস › Masar › অবস্থান থেকে চালু করুন।",
+   "fil": "Hindi makita ng Masar ang lokasyon mo. I-on ito sa Settings › Masar › Location.",
+   "id": "Masar tidak dapat melihat lokasi Anda. Aktifkan di Pengaturan › Masar › Lokasi.",
+   "zh": "Masar 无法获取你的位置。请在“设置 › Masar › 位置”中开启。"
+  },
+  "loc_failed": {
+   "ar": "تعذّر تحديد موقعك الآن. حاول مرة أخرى في مكان مفتوح.",
+   "en": "Couldn't find your location right now. Try again outdoors.",
+   "ur": "ابھی آپ کا مقام معلوم نہیں ہو سکا۔ کھلی جگہ پر دوبارہ کوشش کریں۔",
+   "hi": "अभी आपकी लोकेशन नहीं मिल सकी। खुली जगह पर फिर कोशिश करें।",
+   "bn": "এখন আপনার অবস্থান পাওয়া যায়নি। খোলা জায়গায় আবার চেষ্টা করুন।",
+   "fil": "Hindi makuha ang lokasyon mo ngayon. Subukan muli sa labas.",
+   "id": "Lokasi Anda belum bisa ditemukan. Coba lagi di tempat terbuka.",
+   "zh": "暂时无法定位，请到室外再试。"
+  },
+  "open_settings": {
+   "ar": "افتح الإعدادات",
+   "en": "Open Settings",
+   "ur": "ترتیبات کھولیں",
+   "hi": "सेटिंग्स खोलें",
+   "bn": "সেটিংস খুলুন",
+   "fil": "Buksan ang Settings",
+   "id": "Buka Pengaturan",
+   "zh": "打开设置"
+  },
+  "nearest_title": {
+   "ar": "أقرب المحطات إليك",
+   "en": "Stations near you",
+   "ur": "آپ کے قریب اسٹیشن",
+   "hi": "आपके पास के स्टेशन",
+   "bn": "আপনার কাছের স্টেশন",
+   "fil": "Mga istasyong malapit sa iyo",
+   "id": "Stasiun terdekat",
+   "zh": "附近车站"
+  },
+  "walk_info": {
+   "ar": "{m} مشياً · {d}",
+   "en": "{m} walk · {d}",
+   "ur": "{m} پیدل · {d}",
+   "hi": "{m} पैदल · {d}",
+   "bn": "{m} হাঁটা · {d}",
+   "fil": "{m} lakad · {d}",
+   "id": "{m} jalan kaki · {d}",
+   "zh": "步行 {m} · {d}"
+  },
+  "m_unit": {
+   "ar": "{n} م",
+   "en": "{n} m",
+   "ur": "{n} میٹر",
+   "hi": "{n} मी",
+   "bn": "{n} মি",
+   "fil": "{n} m",
+   "id": "{n} m",
+   "zh": "{n} 米"
+  },
+  "walk_dir": {
+   "ar": "الاتجاهات مشياً",
+   "en": "Walking directions",
+   "ur": "پیدل راستہ",
+   "hi": "पैदल रास्ता",
+   "bn": "হাঁটার পথ",
+   "fil": "Direksyon sa paglalakad",
+   "id": "Petunjuk jalan kaki",
+   "zh": "步行路线"
+  },
+  "walk_to": {
+   "ar": "امشِ إلى محطة {st}",
+   "en": "Walk to {st}",
+   "ur": "{st} تک پیدل جائیں",
+   "hi": "{st} तक पैदल जाएँ",
+   "bn": "{st} পর্যন্ত হাঁটুন",
+   "fil": "Maglakad papuntang {st}",
+   "id": "Jalan kaki ke {st}",
+   "zh": "步行前往{st}"
+  },
+  "apple_maps": {
+   "ar": "خرائط Apple",
+   "en": "Apple Maps",
+   "ur": "Apple Maps",
+   "hi": "Apple Maps",
+   "bn": "Apple Maps",
+   "fil": "Apple Maps",
+   "id": "Apple Maps",
+   "zh": "Apple 地图"
+  },
+  "google_maps": {
+   "ar": "خرائط Google",
+   "en": "Google Maps",
+   "ur": "Google Maps",
+   "hi": "Google Maps",
+   "bn": "Google Maps",
+   "fil": "Google Maps",
+   "id": "Google Maps",
+   "zh": "Google 地图"
+  },
+  "open_gmaps": {
+   "ar": "افتح خرائط Google",
+   "en": "Open Google Maps",
+   "ur": "گوگل میپس کھولیں",
+   "hi": "Google Maps खोलें",
+   "bn": "Google Maps খুলুন",
+   "fil": "Buksan ang Google Maps",
+   "id": "Buka Google Maps",
+   "zh": "打开 Google 地图"
+  },
+  "map_city": {
+   "ar": "خريطة المدينة",
+   "en": "City map",
+   "ur": "شہر کا نقشہ",
+   "hi": "शहर का नक्शा",
+   "bn": "শহরের মানচিত্র",
+   "fil": "Mapa ng lungsod",
+   "id": "Peta kota",
+   "zh": "城市地图"
+  },
+  "map_schematic": {
+   "ar": "المخطط",
+   "en": "Line diagram",
+   "ur": "لائن خاکہ",
+   "hi": "लाइन आरेख",
+   "bn": "লাইন চিত্র",
+   "fil": "Diagram ng linya",
+   "id": "Diagram jalur",
+   "zh": "线路示意图"
+  },
+  "approx_pos": {
+   "ar": "مواقع المحطات تقريبية",
+   "en": "Station positions are approximate",
+   "ur": "اسٹیشنوں کے مقامات تقریبی ہیں",
+   "hi": "स्टेशनों की स्थितियाँ अनुमानित हैं",
+   "bn": "স্টেশনের অবস্থান আনুমানিক",
+   "fil": "Tantiya ang lokasyon ng mga istasyon",
+   "id": "Posisi stasiun adalah perkiraan",
+   "zh": "车站位置为近似值"
+  },
+  "you_here": {
+   "ar": "موقعك",
+   "en": "You",
+   "ur": "آپ",
+   "hi": "आप",
+   "bn": "আপনি",
+   "fil": "Ikaw",
+   "id": "Anda",
+   "zh": "你"
+  },
+  "loc_reason": {
+   "ar": "يستخدم مسار موقعك لإيجاد أقرب محطة مترو وعرضك على الخريطة. لا يغادر موقعك جهازك.",
+   "en": "Masar uses your location to find the nearest metro station and show you on the map. Your location stays on your device.",
+   "ur": "مسار آپ کا مقام قریب ترین میٹرو اسٹیشن تلاش کرنے اور نقشے پر دکھانے کے لیے استعمال کرتا ہے۔ آپ کا مقام آپ کے آلے پر ہی رہتا ہے۔",
+   "hi": "Masar आपकी लोकेशन से सबसे नज़दीकी मेट्रो स्टेशन ढूँढता है और आपको नक्शे पर दिखाता है। आपकी लोकेशन आपके डिवाइस पर ही रहती है।",
+   "bn": "Masar আপনার অবস্থান ব্যবহার করে নিকটতম মেট্রো স্টেশন খোঁজে এবং মানচিত্রে আপনাকে দেখায়। আপনার অবস্থান আপনার ডিভাইসেই থাকে।",
+   "fil": "Ginagamit ng Masar ang lokasyon mo para hanapin ang pinakamalapit na istasyon at ipakita ka sa mapa. Nananatili sa device mo ang lokasyon mo.",
+   "id": "Masar memakai lokasi Anda untuk mencari stasiun metro terdekat dan menampilkan Anda di peta. Lokasi Anda tetap di perangkat Anda.",
+   "zh": "Masar 使用你的位置查找最近的地铁站并在地图上显示你。你的位置只保留在设备上。"
+  },
+  "loc_web_title": {
+   "ar": "أين أنت؟",
+   "en": "Where are you?",
+   "ur": "آپ کہاں ہیں؟",
+   "hi": "आप कहाँ हैं?",
+   "bn": "আপনি কোথায়?",
+   "fil": "Nasaan ka?",
+   "id": "Anda di mana?",
+   "zh": "你在哪里？"
+  },
+  "loc_web_body": {
+   "ar": "لا تسمح هذه الصفحة بقراءة موقع جهازك. افتح خرائط Google، واضغط على النقطة الزرقاء، وانسخ الرابط أو الإحداثيات والصقها هنا. في تطبيق iPhone يُحدَّد موقعك تلقائياً.",
+   "en": "This page can't read your device's location. In Google Maps, tap your blue dot, copy the link or coordinates and paste them here. The iPhone app finds you automatically.",
+   "ur": "یہ صفحہ آپ کے آلے کا مقام نہیں پڑھ سکتا۔ گوگل میپس میں اپنے نیلے نقطے پر ٹیپ کریں، لنک یا کوآرڈینیٹس کاپی کر کے یہاں چسپاں کریں۔ iPhone ایپ آپ کا مقام خود معلوم کرتی ہے۔",
+   "hi": "यह पेज आपके डिवाइस की लोकेशन नहीं पढ़ सकता। Google Maps में अपने नीले बिंदु पर टैप करें, लिंक या निर्देशांक कॉपी करके यहाँ चिपकाएँ। iPhone ऐप आपकी लोकेशन अपने आप ढूँढता है।",
+   "bn": "এই পেজ আপনার ডিভাইসের অবস্থান পড়তে পারে না। Google Maps-এ নীল বিন্দুতে ট্যাপ করুন, লিংক বা স্থানাঙ্ক কপি করে এখানে পেস্ট করুন। iPhone অ্যাপ আপনার অবস্থান নিজেই খুঁজে নেয়।",
+   "fil": "Hindi mabasa ng page na ito ang lokasyon ng device mo. Sa Google Maps, i-tap ang asul na tuldok, kopyahin ang link o coordinates at i-paste dito. Awtomatikong nahahanap ka ng iPhone app.",
+   "id": "Halaman ini tidak dapat membaca lokasi perangkat Anda. Di Google Maps, ketuk titik biru Anda, salin tautan atau koordinatnya lalu tempel di sini. Aplikasi iPhone menemukan lokasi Anda otomatis.",
+   "zh": "此页面无法读取设备位置。请在 Google 地图中点按蓝点，复制链接或坐标后粘贴到这里。iPhone 应用会自动定位。"
+  },
+  "loc_web_ph": {
+   "ar": "رابط خرائط Google أو 24.7136, 46.6753",
+   "en": "Google Maps link or 24.7136, 46.6753",
+   "ur": "گوگل میپس لنک یا 24.7136, 46.6753",
+   "hi": "Google Maps लिंक या 24.7136, 46.6753",
+   "bn": "Google Maps লিংক বা 24.7136, 46.6753",
+   "fil": "Link ng Google Maps o 24.7136, 46.6753",
+   "id": "Tautan Google Maps atau 24.7136, 46.6753",
+   "zh": "Google 地图链接或 24.7136, 46.6753"
+  },
+  "loc_find": {
+   "ar": "ابحث عن أقرب محطة",
+   "en": "Find nearest station",
+   "ur": "قریب ترین اسٹیشن تلاش کریں",
+   "hi": "नज़दीकी स्टेशन ढूँढें",
+   "bn": "নিকটতম স্টেশন খুঁজুন",
+   "fil": "Hanapin ang pinakamalapit",
+   "id": "Cari stasiun terdekat",
+   "zh": "查找最近车站"
+  },
+  "loc_bad": {
+   "ar": "لم نتعرّف على موقع داخل الرياض. جرّب رابطاً من خرائط Google أو إحداثيات مثل 24.71, 46.67.",
+   "en": "That doesn't look like a place in Riyadh. Try a Google Maps link or coordinates like 24.71, 46.67.",
+   "ur": "یہ ریاض کا کوئی مقام نہیں لگتا۔ گوگل میپس لنک یا 24.71, 46.67 جیسے کوآرڈینیٹس آزمائیں۔",
+   "hi": "यह रियाद की कोई जगह नहीं लगती। Google Maps लिंक या 24.71, 46.67 जैसे निर्देशांक आज़माएँ।",
+   "bn": "এটি রিয়াদের কোনো স্থান মনে হচ্ছে না। Google Maps লিংক বা 24.71, 46.67-এর মতো স্থানাঙ্ক দিন।",
+   "fil": "Mukhang hindi ito lugar sa Riyadh. Subukan ang link ng Google Maps o coordinates tulad ng 24.71, 46.67.",
+   "id": "Itu bukan lokasi di Riyadh. Coba tautan Google Maps atau koordinat seperti 24.71, 46.67.",
+   "zh": "这似乎不是利雅得的地点。请尝试 Google 地图链接或类似 24.71, 46.67 的坐标。"
+  },
+  "cur_loc": {
+   "ar": "الموقع الحالي",
+   "en": "Current location",
+   "ur": "موجودہ مقام",
+   "hi": "वर्तमान लोकेशन",
+   "bn": "বর্তমান অবস্থান",
+   "fil": "Kasalukuyang lokasyon",
+   "id": "Lokasi saat ini",
+   "zh": "当前位置"
+  },
+  "cur_loc_sub": {
+   "ar": "نحدّد موقعك ونختار أفضل محطة قريبة",
+   "en": "We'll find you and pick the best nearby station",
+   "ur": "ہم آپ کا مقام معلوم کر کے بہترین قریبی اسٹیشن چنیں گے",
+   "hi": "हम आपकी लोकेशन ढूँढकर सबसे अच्छा नज़दीकी स्टेशन चुनेंगे",
+   "bn": "আমরা আপনার অবস্থান খুঁজে সেরা কাছের স্টেশন বেছে নেব",
+   "fil": "Hahanapin ka namin at pipiliin ang pinakamainam na istasyon",
+   "id": "Kami akan menemukan Anda dan memilih stasiun terdekat terbaik",
+   "zh": "我们会定位你并选择附近最合适的车站"
+  },
+  "via_station": {
+   "ar": "عبر محطة {st} · {m} مشياً",
+   "en": "Via {st} · {m} walk",
+   "ur": "{st} کے راستے · {m} پیدل",
+   "hi": "{st} से होकर · {m} पैदल",
+   "bn": "{st} হয়ে · {m} হাঁটা",
+   "fil": "Sa {st} · {m} lakad",
+   "id": "Lewat {st} · {m} jalan kaki",
+   "zh": "经{st} · 步行 {m}"
+  },
+  "best_stop_note": {
+   "ar": "اخترنا المحطة التي توصلك أسرع، وليست بالضرورة الأقرب.",
+   "en": "We picked the station that gets you there fastest, not always the nearest.",
+   "ur": "ہم نے وہ اسٹیشن چنا جو آپ کو سب سے جلد پہنچائے، ضروری نہیں کہ قریب ترین ہو۔",
+   "hi": "हमने वह स्टेशन चुना जो आपको सबसे जल्दी पहुँचाए, ज़रूरी नहीं कि सबसे नज़दीकी हो।",
+   "bn": "আমরা সেই স্টেশন বেছেছি যা আপনাকে দ্রুত পৌঁছে দেয়, সবসময় নিকটতম নয়।",
+   "fil": "Pinili namin ang istasyong pinakamabilis kang madadala, hindi laging ang pinakamalapit.",
+   "id": "Kami memilih stasiun yang paling cepat mengantar Anda, tidak selalu yang terdekat.",
+   "zh": "我们选择了最快到达的车站，不一定是最近的。"
+  },
+  "walk_only": {
+   "ar": "وجهتك قريبة: {m} مشياً",
+   "en": "Your destination is close: {m} walk",
+   "ur": "آپ کی منزل قریب ہے: {m} پیدل",
+   "hi": "आपकी मंज़िल पास है: {m} पैदल",
+   "bn": "আপনার গন্তব্য কাছে: {m} হাঁটা",
+   "fil": "Malapit lang ang pupuntahan mo: {m} lakad",
+   "id": "Tujuan Anda dekat: {m} jalan kaki",
+   "zh": "目的地很近：步行 {m}"
+  },
+  "places_section": {
+   "ar": "أماكن",
+   "en": "Places",
+   "ur": "مقامات",
+   "hi": "स्थान",
+   "bn": "স্থান",
+   "fil": "Mga lugar",
+   "id": "Tempat",
+   "zh": "地点"
+  },
+  "stations_section": {
+   "ar": "محطات المترو",
+   "en": "Metro stations",
+   "ur": "میٹرو اسٹیشن",
+   "hi": "मेट्रो स्टेशन",
+   "bn": "মেট্রো স্টেশন",
+   "fil": "Mga istasyon ng metro",
+   "id": "Stasiun metro",
+   "zh": "地铁站"
+  },
+  "listen": {
+   "ar": "استمع للرحلة",
+   "en": "Listen to trip",
+   "ur": "سفر سنیں",
+   "hi": "यात्रा सुनें",
+   "bn": "যাত্রা শুনুন",
+   "fil": "Pakinggan ang biyahe",
+   "id": "Dengarkan perjalanan",
+   "zh": "收听行程"
+  },
+  "stop_listen": {
+   "ar": "إيقاف",
+   "en": "Stop",
+   "ur": "روکیں",
+   "hi": "रोकें",
+   "bn": "থামান",
+   "fil": "Ihinto",
+   "id": "Berhenti",
+   "zh": "停止"
+  },
+  "get_off": {
+   "ar": "انزل في محطة {st}",
+   "en": "Get off at {st}",
+   "ur": "{st} پر اتریں",
+   "hi": "{st} पर उतरें",
+   "bn": "{st}-এ নামুন",
+   "fil": "Bumaba sa {st}",
+   "id": "Turun di {st}",
+   "zh": "在{st}下车"
+  },
+  "walk_from_to": {
+   "ar": "امشِ من محطة {st} إلى {place}",
+   "en": "Walk from {st} to {place}",
+   "ur": "{st} سے {place} تک پیدل جائیں",
+   "hi": "{st} से {place} तक पैदल जाएँ",
+   "bn": "{st} থেকে {place} পর্যন্ত হাঁটুন",
+   "fil": "Maglakad mula {st} papuntang {place}",
+   "id": "Jalan kaki dari {st} ke {place}",
+   "zh": "从{st}步行至{place}"
+  },
+  "walk_direct": {
+   "ar": "المشي أسرع: {m}",
+   "en": "Walking is quicker: {m}",
+   "ur": "پیدل جانا تیز ہے: {m}",
+   "hi": "पैदल जाना तेज़ है: {m}",
+   "bn": "হেঁটে যাওয়া দ্রুত: {m}",
+   "fil": "Mas mabilis maglakad: {m}",
+   "id": "Jalan kaki lebih cepat: {m}",
+   "zh": "步行更快：{m}"
+  },
+  "far_metro": {
+   "ar": "هذا المكان بعيد عن المترو: {d} إلى أقرب محطة",
+   "en": "This place is far from the metro: {d} to the nearest station",
+   "ur": "یہ جگہ میٹرو سے دور ہے: قریب ترین اسٹیشن {d}",
+   "hi": "यह जगह मेट्रो से दूर है: नज़दीकी स्टेशन {d}",
+   "bn": "এই স্থানটি মেট্রো থেকে দূরে: নিকটতম স্টেশন {d}",
+   "fil": "Malayo ito sa metro: {d} papunta sa pinakamalapit na istasyon",
+   "id": "Tempat ini jauh dari metro: {d} ke stasiun terdekat",
+   "zh": "该地点离地铁较远：距最近车站 {d}"
+  },
+  "quick_dest": {
+   "ar": "وجهات سريعة",
+   "en": "Quick destinations",
+   "ur": "فوری منزلیں",
+   "hi": "त्वरित गंतव्य",
+   "bn": "দ্রুত গন্তব্য",
+   "fil": "Mabilis na destinasyon",
+   "id": "Tujuan cepat",
+   "zh": "快捷目的地"
+  },
+  "result_ready": {
+   "ar": "النتيجة: {m}، {x}. {eta}",
+   "en": "Result: {m}, {x}. {eta}",
+   "ur": "نتیجہ: {m}، {x}۔ {eta}",
+   "hi": "परिणाम: {m}, {x}। {eta}",
+   "bn": "ফলাফল: {m}, {x}। {eta}",
+   "fil": "Resulta: {m}, {x}. {eta}",
+   "id": "Hasil: {m}, {x}. {eta}",
+   "zh": "结果：{m}，{x}。{eta}"
+  },
+  "open_site": {
+   "ar": "افتح مسار بتحديد الموقع التلقائي",
+   "en": "Open Masar with automatic location",
+   "ur": "خودکار مقام کے ساتھ مسار کھولیں",
+   "hi": "स्वचालित लोकेशन के साथ Masar खोलें",
+   "bn": "স্বয়ংক্রিয় অবস্থানসহ Masar খুলুন",
+   "fil": "Buksan ang Masar na may awtomatikong lokasyon",
+   "id": "Buka Masar dengan lokasi otomatis",
+   "zh": "打开自动定位的 Masar"
+  },
+  "loc_site_body": {
+   "ar": "صفحات Claude لا تسمح بقراءة موقع جهازك. افتح مسار في المتصفح ليحدّد موقعك تلقائياً، ويمكنك إضافته إلى الشاشة الرئيسية.",
+   "en": "Pages inside Claude can't read your device's location. Open Masar in your browser and it finds you automatically; you can also add it to your Home Screen.",
+   "ur": "Claude کے اندر صفحات آپ کا مقام نہیں پڑھ سکتے۔ مسار کو براؤزر میں کھولیں، یہ خود آپ کا مقام معلوم کرے گا؛ اسے ہوم اسکرین پر بھی شامل کر سکتے ہیں۔",
+   "hi": "Claude के अंदर के पेज आपकी लोकेशन नहीं पढ़ सकते। Masar को ब्राउज़र में खोलें, यह आपकी लोकेशन अपने आप ढूँढेगा; आप इसे होम स्क्रीन पर भी जोड़ सकते हैं।",
+   "bn": "Claude-এর ভেতরের পেজ আপনার অবস্থান পড়তে পারে না। ব্রাউজারে Masar খুলুন, এটি নিজেই আপনার অবস্থান খুঁজে নেবে; হোম স্ক্রিনেও যোগ করতে পারেন।",
+   "fil": "Hindi mabasa ng mga page sa loob ng Claude ang lokasyon mo. Buksan ang Masar sa browser at awtomatiko ka nitong mahahanap; puwede mo rin itong idagdag sa Home Screen.",
+   "id": "Halaman di dalam Claude tidak dapat membaca lokasi Anda. Buka Masar di browser dan lokasi Anda ditemukan otomatis; Anda juga bisa menambahkannya ke Layar Utama.",
+   "zh": "Claude 内的页面无法读取设备位置。在浏览器中打开 Masar 即可自动定位，也可以添加到主屏幕。"
+  },
+  "paste_manual": {
+   "ar": "أو أدخل موقعك يدوياً",
+   "en": "Or enter your location manually",
+   "ur": "یا اپنا مقام خود درج کریں",
+   "hi": "या अपनी लोकेशन खुद डालें",
+   "bn": "অথবা নিজে অবস্থান লিখুন",
+   "fil": "O ilagay nang mano-mano ang lokasyon mo",
+   "id": "Atau masukkan lokasi secara manual",
+   "zh": "或手动输入位置"
+  }
+ }
+}

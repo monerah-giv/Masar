@@ -1,0 +1,16 @@
+{
+  "currency": "SAR",
+  "asOf": "2026-01-01",
+  "notes": "Standard 2h/3d/7d/30d unchanged since Dec 2024; annual and student semester passes added Jan 2026. 50% discount applies to regular tickets for eligible groups. Children under 6 free.",
+  "tickets": [
+    {"id": "t_2h",   "hours": 2,    "standard": 4,    "first": 10},
+    {"id": "t_3d",   "hours": 72,   "standard": 20,   "first": 50},
+    {"id": "t_7d",   "hours": 168,  "standard": 40,   "first": 100},
+    {"id": "t_30d",  "hours": 720,  "standard": 140,  "first": 350},
+    {"id": "t_year", "hours": 8760, "standard": 1260, "first": 3150},
+    {"id": "t_sem",  "hours": null, "standard": 260,  "first": null, "studentsOnly": true}
+  ],
+  "discount": {"rate": 0.5, "appliesTo": ["t_2h", "t_3d", "t_7d", "t_30d"], "class": "standard"},
+  "hours": {"open": {"default": "05:30", "friday": "08:00"}, "close": "24:00", "timeZone": "Asia/Riyadh"},
+  "darb": {"appStore": "https://apps.apple.com/app/id1549817739"}
+}

@@ -1,0 +1,24 @@
+{
+  "_note": "Paste into App Store Connect > App Information / Version. Name must be unique on the store; check availability first. Do not use official Riyadh Metro or RCRC logos or names as the app name.",
+  "primaryCategory": "Navigation",
+  "secondaryCategory": "Travel",
+  "ageRating": "4+",
+  "localizations": {
+    "ar-SA": {
+      "name": "مسار – رحلات مترو الرياض",
+      "subtitle": "أسرع طريق وأقل تحويلات",
+      "keywords": "مترو,الرياض,قطار,مسار,محطة,تذكرة,درب,مواصلات,خريطة,رحلة",
+      "promotionalText": "خطط رحلتك على المسارات الستة لمترو الرياض بثماني لغات.",
+      "description": "مسار يجد لك أسرع طريق أو الطريق الأقل تحويلات بين أي محطتين في مترو الرياض.\n\n• خطوات واضحة: أي مسار تركب، وباتجاه أي محطة، وأين تحوّل، ومتى تصل.\n• خريطة تخطيطية للمسارات الستة تُبرز رحلتك.\n• أماكنك المفضلة (المنزل، العمل) ومساراتك المحفوظة وسجل رحلاتك، تُحفظ في حسابك على iCloud وتظهر على كل أجهزتك.\n• أسعار التذاكر في مكان واحد، ومساعد يقترح التذكرة الأوفر حسب عدد رحلاتك.\n• ثماني لغات: العربية، الإنجليزية، الأردية، الهندية، البنغالية، الفلبينية، الإندونيسية، الصينية.\n• يدعم VoiceOver وأحجام الخط الكبيرة والوضع الداكن.\n\nمسار تطبيق مستقل وغير تابع لقطار الرياض أو الهيئة الملكية لمدينة الرياض. أزمنة الرحلات تقديرية، وتُشترى التذاكر من تطبيق درب."
+    },
+    "en-US": {
+      "name": "Masar – Riyadh Metro Trips",
+      "subtitle": "Fastest route, fewest changes",
+      "keywords": "riyadh,metro,train,route,station,ticket,darb,transit,map,saudi",
+      "promotionalText": "Plan trips across all six Riyadh Metro lines in eight languages.",
+      "description": "Masar finds the fastest route, or the one with the fewest changes, between any two Riyadh Metro stations.\n\n• Clear steps: which line to take, which direction, where to change and when you arrive.\n• A schematic map of all six lines with your trip highlighted.\n• Home, work and favourite places, saved routes and trip history, kept in your iCloud account across devices.\n• Every ticket price in one place, plus an advisor that picks the cheapest pass for how often you ride.\n• Eight languages: Arabic, English, Urdu, Hindi, Bengali, Filipino, Indonesian and Chinese.\n• Works with VoiceOver, larger text sizes and Dark Mode.\n\nMasar is independent and not affiliated with Riyadh Metro or the Royal Commission for Riyadh City. Journey times are estimates; tickets are bought in the Darb app."
+    }
+  },
+  "reviewNotes": "No login is required to plan trips. Sign in with Apple is optional and only names the account; records sync via the user's private CloudKit database. Account deletion is in Account > Delete my account and data.",
+  "privacyNutritionLabel": "Data Not Collected"
+}

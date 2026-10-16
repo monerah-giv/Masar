@@ -1,0 +1,72 @@
+name: iOS
+
+# Generates the Xcode project with XcodeGen, builds the app and runs the unit tests on a simulator.
+# Signing is off: this checks the code compiles and the tests pass; archiving for the App Store
+# happens on a Mac with your Apple Developer team (see README).
+on:
+  push:
+    branches: [main]
+    paths: ["ios/**", "data/**", "tools/**", ".github/workflows/ios.yml"]
+  pull_request:
+    paths: ["ios/**", "data/**", "tools/**", ".github/workflows/ios.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate resources
+        run: python3 tools/build.py
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        working-directory: ios
+        run: xcodegen generate
+
+      - name: Pick the newest iPhone simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, re, sys
+          d = json.load(sys.stdin)["devices"]
+          runtimes = sorted((k for k in d if "iOS" in k), key=lambda k: [int(x) for x in re.findall(r"\d+", k)], reverse=True)
+          for k in runtimes:
+              for dev in d[k]:
+                  if dev["name"].startswith("iPhone"):
+                      print(dev["udid"]); sys.exit(0)
+          sys.exit("no iPhone simulator")')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Build and test
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project Masar.xcodeproj -scheme Masar \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -resultBundlePath TestResults \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            2>&1 | tee xcodebuild.log | grep -E "error:|warning:|Test Case|Executed|\*\* (BUILD|TEST)" || true
+          grep -q "\*\* TEST SUCCEEDED \*\*" xcodebuild.log
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-logs
+          path: |
+            ios/xcodebuild.log
+            ios/TestResults
+          retention-days: 7

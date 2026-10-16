@@ -1,0 +1,16 @@
+# Generated web output (built by tools/build.py and in CI)
+/dist/
+
+# Xcode (the project is generated from ios/project.yml with XcodeGen)
+/ios/*.xcodeproj/
+/ios/*.xcworkspace/
+xcuserdata/
+DerivedData/
+*.xcuserstate
+/ios/TestResults/
+/ios/xcodebuild.log
+
+# Python / OS
+__pycache__/
+*.pyc
+.DS_Store

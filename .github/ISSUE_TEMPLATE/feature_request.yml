@@ -1,0 +1,21 @@
+name: اقتراح / Feature request
+description: فكرة لتحسين مسار — An idea to make Masar better
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: ما الذي تحتاجه؟ / What do you need?
+      description: صف المشكلة من جهة المستخدم — Describe the problem from the rider's side
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: الحل المقترح / Proposed solution
+  - type: dropdown
+    id: who
+    attributes:
+      label: لمن؟ / Who benefits?
+      multiple: true
+      options: [Daily commuters, Visitors, Elderly riders, Riders with disabilities, Non-Arabic speakers, Students]

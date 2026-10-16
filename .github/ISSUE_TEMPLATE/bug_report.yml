@@ -1,0 +1,36 @@
+name: مشكلة / Bug
+description: شيء لا يعمل كما ينبغي — Something isn't working
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: ماذا حدث؟ / What happened?
+      placeholder: مثال — اخترت «الموقع الحالي» ولم تظهر النتيجة
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: خطوات التكرار / Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+  - type: dropdown
+    id: where
+    attributes:
+      label: أين؟ / Where?
+      options: [iPhone app, Website (browser), Inside Claude]
+    validations:
+      required: true
+  - type: input
+    id: trip
+    attributes:
+      label: الرحلة / Trip (from → to)
+      placeholder: المطار – صالات 1-2 → قصر الحكم
+  - type: input
+    id: device
+    attributes:
+      label: الجهاز واللغة / Device and language
+      placeholder: iPhone 15, iOS 18, العربية
