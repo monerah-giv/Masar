@@ -185,6 +185,42 @@
    "zh": {
     "other": "{n} 次换乘"
    }
+  },
+  "p_week": {
+   "ar": {
+    "zero": "{n} أسبوع",
+    "one": "أسبوع واحد",
+    "two": "أسبوعان",
+    "few": "{n} أسابيع",
+    "many": "{n} أسبوعاً",
+    "other": "{n} أسبوع"
+   },
+   "en": {
+    "one": "{n} week",
+    "other": "{n} weeks"
+   },
+   "ur": {
+    "one": "{n} ہفتہ",
+    "other": "{n} ہفتے"
+   },
+   "hi": {
+    "one": "{n} सप्ताह",
+    "other": "{n} सप्ताह"
+   },
+   "bn": {
+    "one": "{n} সপ্তাহ",
+    "other": "{n} সপ্তাহ"
+   },
+   "fil": {
+    "one": "{n} linggo",
+    "other": "{n} linggo"
+   },
+   "id": {
+    "other": "{n} minggu"
+   },
+   "zh": {
+    "other": "{n}周"
+   }
   }
  },
  "strings": {
@@ -1821,6 +1857,516 @@
    "fil": "O ilagay nang mano-mano ang lokasyon mo",
    "id": "Atau masukkan lokasi secara manual",
    "zh": "或手动输入位置"
+  },
+  "ad_tag": {
+   "ar": "إعلان",
+   "en": "Ad",
+   "ur": "اشتہار",
+   "hi": "विज्ञापन",
+   "bn": "বিজ্ঞাপন",
+   "fil": "Ad",
+   "id": "Iklan",
+   "zh": "广告"
+  },
+  "ad_near": {
+   "ar": "قريب من محطة {st}",
+   "en": "Near {st} station",
+   "ur": "{st} اسٹیشن کے قریب",
+   "hi": "{st} स्टेशन के पास",
+   "bn": "{st} স্টেশনের কাছে",
+   "fil": "Malapit sa istasyong {st}",
+   "id": "Dekat stasiun {st}",
+   "zh": "{st}站附近"
+  },
+  "ad_visit": {
+   "ar": "زيارة",
+   "en": "Visit",
+   "ur": "دیکھیں",
+   "hi": "देखें",
+   "bn": "দেখুন",
+   "fil": "Bisitahin",
+   "id": "Kunjungi",
+   "zh": "访问"
+  },
+  "ad_call": {
+   "ar": "اتصال",
+   "en": "Call",
+   "ur": "کال کریں",
+   "hi": "कॉल करें",
+   "bn": "কল করুন",
+   "fil": "Tumawag",
+   "id": "Telepon",
+   "zh": "致电"
+  },
+  "ad_from_st": {
+   "ar": "{m} مشياً من المحطة",
+   "en": "{m} walk from the station",
+   "ur": "اسٹیشن سے {m} پیدل",
+   "hi": "स्टेशन से {m} पैदल",
+   "bn": "স্টেশন থেকে হেঁটে {m}",
+   "fil": "{m} lakad mula sa istasyon",
+   "id": "{m} jalan kaki dari stasiun",
+   "zh": "距车站步行{m}"
+  },
+  "ad_slot": {
+   "ar": "مساحة إعلانية متاحة قرب محطة {st}",
+   "en": "Ad space available near {st}",
+   "ur": "{st} کے قریب اشتہار کی جگہ دستیاب",
+   "hi": "{st} के पास विज्ञापन स्थान उपलब्ध",
+   "bn": "{st}-এর কাছে বিজ্ঞাপনের জায়গা খালি",
+   "fil": "May bakanteng ad space malapit sa {st}",
+   "id": "Ruang iklan tersedia dekat {st}",
+   "zh": "{st}附近广告位招租"
+  },
+  "ad_slot_sub": {
+   "ar": "اعرض نشاطك لمن يصل إلى هذه المحطة",
+   "en": "Show your business to riders arriving here",
+   "ur": "یہاں پہنچنے والے مسافروں کو اپنا کاروبار دکھائیں",
+   "hi": "यहाँ पहुँचने वाले यात्रियों को अपना व्यवसाय दिखाएँ",
+   "bn": "এখানে পৌঁছানো যাত্রীদের কাছে আপনার ব্যবসা দেখান",
+   "fil": "Ipakita ang negosyo mo sa mga pasaherong dumarating dito",
+   "id": "Tampilkan usaha Anda kepada penumpang yang tiba di sini",
+   "zh": "向到达此站的乘客展示您的商家"
+  },
+  "adv_open": {
+   "ar": "أعلن معنا",
+   "en": "Advertise with us",
+   "ur": "ہمارے ساتھ اشتہار دیں",
+   "hi": "हमारे साथ विज्ञापन दें",
+   "bn": "আমাদের সাথে বিজ্ঞাপন দিন",
+   "fil": "Mag-advertise sa amin",
+   "id": "Beriklan bersama kami",
+   "zh": "投放广告"
+  },
+  "adv_title": {
+   "ar": "أعلن لركاب المترو قرب نشاطك",
+   "en": "Reach metro riders near your business",
+   "ur": "اپنے کاروبار کے قریب میٹرو مسافروں تک پہنچیں",
+   "hi": "अपने व्यवसाय के पास मेट्रो यात्रियों तक पहुँचें",
+   "bn": "আপনার ব্যবসার কাছে মেট্রো যাত্রীদের কাছে পৌঁছান",
+   "fil": "Abutin ang mga pasahero ng metro malapit sa negosyo mo",
+   "id": "Jangkau penumpang metro di dekat usaha Anda",
+   "zh": "触达您店铺附近的地铁乘客"
+  },
+  "adv_sub": {
+   "ar": "يظهر إعلانك لمن يتجه إلى المحطة القريبة منك، لحظة تخطيط رحلته.",
+   "en": "Your ad appears to riders heading to the station near you, right as they plan the trip.",
+   "ur": "آپ کا اشتہار ان مسافروں کو دکھتا ہے جو آپ کے قریبی اسٹیشن جا رہے ہیں، عین سفر کی منصوبہ بندی کے وقت۔",
+   "hi": "आपका विज्ञापन उन यात्रियों को दिखता है जो आपके पास के स्टेशन जा रहे हैं, ठीक यात्रा की योजना बनाते समय।",
+   "bn": "আপনার কাছের স্টেশনে যাওয়া যাত্রীরা যাত্রা পরিকল্পনার সময়েই আপনার বিজ্ঞাপন দেখেন।",
+   "fil": "Lumalabas ang ad mo sa mga pasaherong papunta sa istasyong malapit sa iyo, habang pinaplano nila ang biyahe.",
+   "id": "Iklan Anda tampil bagi penumpang yang menuju stasiun dekat Anda, tepat saat mereka merencanakan perjalanan.",
+   "zh": "前往您附近车站的乘客在规划行程时就会看到您的广告。"
+  },
+  "adv_p1": {
+   "ar": "يظهر في نتيجة الرحلة عند محطة الوصول وفي صفحة المحطة",
+   "en": "Shown in the trip result at the arrival station and on the station page",
+   "ur": "سفر کے نتیجے میں منزل کے اسٹیشن پر اور اسٹیشن کے صفحے پر",
+   "hi": "यात्रा परिणाम में गंतव्य स्टेशन पर और स्टेशन पेज पर",
+   "bn": "যাত্রার ফলাফলে গন্তব্য স্টেশনে ও স্টেশনের পাতায়",
+   "fil": "Makikita sa resulta ng biyahe sa istasyong pupuntahan at sa pahina ng istasyon",
+   "id": "Tampil di hasil perjalanan pada stasiun tujuan dan di halaman stasiun",
+   "zh": "显示在行程结果的到达站和车站页面"
+  },
+  "adv_p2": {
+   "ar": "إعلان سياقي: لا تتبّع ولا جمع لبيانات الركاب",
+   "en": "Contextual: no tracking, no rider data collected",
+   "ur": "سیاق پر مبنی: نہ ٹریکنگ، نہ مسافروں کا ڈیٹا",
+   "hi": "संदर्भ आधारित: न ट्रैकिंग, न यात्रियों का डेटा",
+   "bn": "প্রসঙ্গভিত্তিক: কোনো ট্র্যাকিং নেই, যাত্রীদের তথ্য সংগ্রহ নেই",
+   "fil": "Kontekstwal: walang tracking, walang kinokolektang data ng pasahero",
+   "id": "Kontekstual: tanpa pelacakan, tanpa mengumpulkan data penumpang",
+   "zh": "情境投放：不追踪，不收集乘客数据"
+  },
+  "adv_p3": {
+   "ar": "بثماني لغات، مع اتجاهات المشي من المحطة إلى نشاطك",
+   "en": "In 8 languages, with walking directions from the station to you",
+   "ur": "8 زبانوں میں، اسٹیشن سے آپ تک پیدل راستے کے ساتھ",
+   "hi": "8 भाषाओं में, स्टेशन से आप तक पैदल रास्ते के साथ",
+   "bn": "৮টি ভাষায়, স্টেশন থেকে আপনার কাছে হাঁটার পথসহ",
+   "fil": "Sa 8 wika, may direksyon sa paglalakad mula istasyon papunta sa iyo",
+   "id": "Dalam 8 bahasa, dengan petunjuk jalan kaki dari stasiun ke tempat Anda",
+   "zh": "支持8种语言，并提供从车站到您店铺的步行路线"
+  },
+  "adv_where": {
+   "ar": "أين يظهر؟",
+   "en": "Where",
+   "ur": "کہاں؟",
+   "hi": "कहाँ?",
+   "bn": "কোথায়?",
+   "fil": "Saan",
+   "id": "Di mana",
+   "zh": "投放位置"
+  },
+  "pkg_station": {
+   "ar": "محطة",
+   "en": "One station",
+   "ur": "ایک اسٹیشن",
+   "hi": "एक स्टेशन",
+   "bn": "একটি স্টেশন",
+   "fil": "Isang istasyon",
+   "id": "Satu stasiun",
+   "zh": "单个车站"
+  },
+  "pkg_line": {
+   "ar": "مسار كامل",
+   "en": "Whole line",
+   "ur": "پوری لائن",
+   "hi": "पूरी लाइन",
+   "bn": "পুরো লাইন",
+   "fil": "Buong linya",
+   "id": "Satu jalur",
+   "zh": "整条线路"
+  },
+  "pkg_network": {
+   "ar": "كل الشبكة",
+   "en": "Whole network",
+   "ur": "پورا نیٹ ورک",
+   "hi": "पूरा नेटवर्क",
+   "bn": "পুরো নেটওয়ার্ক",
+   "fil": "Buong network",
+   "id": "Seluruh jaringan",
+   "zh": "全网"
+  },
+  "adv_station": {
+   "ar": "المحطة",
+   "en": "Station",
+   "ur": "اسٹیشن",
+   "hi": "स्टेशन",
+   "bn": "স্টেশন",
+   "fil": "Istasyon",
+   "id": "Stasiun",
+   "zh": "车站"
+  },
+  "adv_line": {
+   "ar": "المسار",
+   "en": "Line",
+   "ur": "لائن",
+   "hi": "लाइन",
+   "bn": "লাইন",
+   "fil": "Linya",
+   "id": "Jalur",
+   "zh": "线路"
+  },
+  "adv_duration": {
+   "ar": "المدة",
+   "en": "Duration",
+   "ur": "مدت",
+   "hi": "अवधि",
+   "bn": "মেয়াদ",
+   "fil": "Tagal",
+   "id": "Durasi",
+   "zh": "时长"
+  },
+  "adv_start": {
+   "ar": "تاريخ البدء",
+   "en": "Start date",
+   "ur": "آغاز کی تاریخ",
+   "hi": "शुरू होने की तारीख",
+   "bn": "শুরুর তারিখ",
+   "fil": "Petsa ng simula",
+   "id": "Tanggal mulai",
+   "zh": "开始日期"
+  },
+  "adv_price": {
+   "ar": "السعر التقديري",
+   "en": "Estimated price",
+   "ur": "تخمینی قیمت",
+   "hi": "अनुमानित कीमत",
+   "bn": "আনুমানিক মূল্য",
+   "fil": "Tantyang presyo",
+   "id": "Perkiraan harga",
+   "zh": "预估价格"
+  },
+  "adv_vat": {
+   "ar": "غير شامل ضريبة القيمة المضافة {p}٪",
+   "en": "Excl. {p}% VAT",
+   "ur": "{p}% VAT کے بغیر",
+   "hi": "{p}% VAT के बिना",
+   "bn": "{p}% VAT ছাড়া",
+   "fil": "Hindi kasama ang {p}% VAT",
+   "id": "Belum termasuk PPN {p}%",
+   "zh": "不含{p}%增值税"
+  },
+  "adv_tier": {
+   "ar": "فئة المحطة: {t}",
+   "en": "Station tier: {t}",
+   "ur": "اسٹیشن درجہ: {t}",
+   "hi": "स्टेशन श्रेणी: {t}",
+   "bn": "স্টেশনের শ্রেণি: {t}",
+   "fil": "Antas ng istasyon: {t}",
+   "id": "Kelas stasiun: {t}",
+   "zh": "车站等级：{t}"
+  },
+  "tier_A": {
+   "ar": "مميزة",
+   "en": "Premium",
+   "ur": "پریمیم",
+   "hi": "प्रीमियम",
+   "bn": "প্রিমিয়াম",
+   "fil": "Premium",
+   "id": "Premium",
+   "zh": "优选"
+  },
+  "tier_B": {
+   "ar": "رئيسية",
+   "en": "Major",
+   "ur": "اہم",
+   "hi": "प्रमुख",
+   "bn": "প্রধান",
+   "fil": "Pangunahin",
+   "id": "Utama",
+   "zh": "主要"
+  },
+  "tier_C": {
+   "ar": "حيّ",
+   "en": "Neighbourhood",
+   "ur": "محلہ",
+   "hi": "मोहल्ला",
+   "bn": "পাড়া",
+   "fil": "Kapitbahayan",
+   "id": "Lingkungan",
+   "zh": "社区"
+  },
+  "adv_off": {
+   "ar": "خصم {p}٪",
+   "en": "{p}% off",
+   "ur": "{p}% رعایت",
+   "hi": "{p}% छूट",
+   "bn": "{p}% ছাড়",
+   "fil": "{p}% diskwento",
+   "id": "Diskon {p}%",
+   "zh": "优惠{p}%"
+  },
+  "adv_rate": {
+   "ar": "{p} للأسبوع لكل محطة",
+   "en": "{p} per station per week",
+   "ur": "{p} فی اسٹیشن فی ہفتہ",
+   "hi": "{p} प्रति स्टेशन प्रति सप्ताह",
+   "bn": "প্রতি স্টেশন প্রতি সপ্তাহ {p}",
+   "fil": "{p} bawat istasyon bawat linggo",
+   "id": "{p} per stasiun per minggu",
+   "zh": "每站每周{p}"
+  },
+  "adv_free": {
+   "ar": "متاح: {n} من {m}",
+   "en": "Available: {n} of {m}",
+   "ur": "دستیاب: {m} میں سے {n}",
+   "hi": "उपलब्ध: {m} में से {n}",
+   "bn": "খালি: {m}টির মধ্যে {n}টি",
+   "fil": "Bakante: {n} sa {m}",
+   "id": "Tersedia: {n} dari {m}",
+   "zh": "可用：{n}/{m}"
+  },
+  "adv_full": {
+   "ar": "محجوزة بالكامل في هذه الفترة — اختر تاريخاً آخر",
+   "en": "Fully booked for these dates — pick another start",
+   "ur": "ان تاریخوں کے لیے مکمل بک — دوسری تاریخ چنیں",
+   "hi": "इन तारीखों के लिए पूरी तरह बुक — दूसरी तारीख चुनें",
+   "bn": "এই তারিখগুলোর জন্য পুরোপুরি বুকড — অন্য তারিখ বেছে নিন",
+   "fil": "Puno na para sa mga petsang ito — pumili ng ibang simula",
+   "id": "Penuh untuk tanggal ini — pilih tanggal lain",
+   "zh": "该时段已订满，请选择其他开始日期"
+  },
+  "adv_biz": {
+   "ar": "اسم النشاط",
+   "en": "Business name",
+   "ur": "کاروبار کا نام",
+   "hi": "व्यवसाय का नाम",
+   "bn": "ব্যবসার নাম",
+   "fil": "Pangalan ng negosyo",
+   "id": "Nama usaha",
+   "zh": "商家名称"
+  },
+  "adv_offer": {
+   "ar": "عرضك في سطر واحد",
+   "en": "Your offer in one line",
+   "ur": "ایک سطر میں آپ کی پیشکش",
+   "hi": "एक पंक्ति में आपका ऑफ़र",
+   "bn": "এক লাইনে আপনার অফার",
+   "fil": "Ang alok mo sa isang linya",
+   "id": "Penawaran Anda dalam satu baris",
+   "zh": "一句话介绍您的优惠"
+  },
+  "adv_offer_ph": {
+   "ar": "مثال: خصم 15٪ لركاب المترو",
+   "en": "e.g. 15% off for metro riders",
+   "ur": "مثلاً: میٹرو مسافروں کے لیے 15٪ رعایت",
+   "hi": "जैसे: मेट्रो यात्रियों के लिए 15% छूट",
+   "bn": "যেমন: মেট্রো যাত্রীদের জন্য ১৫% ছাড়",
+   "fil": "hal. 15% diskwento sa mga pasahero ng metro",
+   "id": "mis. Diskon 15% untuk penumpang metro",
+   "zh": "例如：地铁乘客享85折"
+  },
+  "adv_cat": {
+   "ar": "النوع",
+   "en": "Category",
+   "ur": "زمرہ",
+   "hi": "श्रेणी",
+   "bn": "ধরন",
+   "fil": "Kategorya",
+   "id": "Kategori",
+   "zh": "类别"
+  },
+  "cat_food": {
+   "ar": "مطعم",
+   "en": "Restaurant",
+   "ur": "ریسٹورنٹ",
+   "hi": "रेस्तराँ",
+   "bn": "রেস্তোরাঁ",
+   "fil": "Restawran",
+   "id": "Restoran",
+   "zh": "餐厅"
+  },
+  "cat_cafe": {
+   "ar": "مقهى",
+   "en": "Café",
+   "ur": "کیفے",
+   "hi": "कैफ़े",
+   "bn": "ক্যাফে",
+   "fil": "Kapihan",
+   "id": "Kafe",
+   "zh": "咖啡馆"
+  },
+  "cat_shop": {
+   "ar": "متجر",
+   "en": "Shop",
+   "ur": "دکان",
+   "hi": "दुकान",
+   "bn": "দোকান",
+   "fil": "Tindahan",
+   "id": "Toko",
+   "zh": "商店"
+  },
+  "cat_health": {
+   "ar": "صحة وجمال",
+   "en": "Health & beauty",
+   "ur": "صحت و خوبصورتی",
+   "hi": "स्वास्थ्य और सौंदर्य",
+   "bn": "স্বাস্থ্য ও সৌন্দর্য",
+   "fil": "Kalusugan at kagandahan",
+   "id": "Kesehatan & kecantikan",
+   "zh": "健康美容"
+  },
+  "cat_services": {
+   "ar": "خدمات",
+   "en": "Services",
+   "ur": "خدمات",
+   "hi": "सेवाएँ",
+   "bn": "সেবা",
+   "fil": "Serbisyo",
+   "id": "Layanan",
+   "zh": "服务"
+  },
+  "cat_hotel": {
+   "ar": "فندق",
+   "en": "Hotel",
+   "ur": "ہوٹل",
+   "hi": "होटल",
+   "bn": "হোটেল",
+   "fil": "Hotel",
+   "id": "Hotel",
+   "zh": "酒店"
+  },
+  "cat_fun": {
+   "ar": "ترفيه",
+   "en": "Entertainment",
+   "ur": "تفریح",
+   "hi": "मनोरंजन",
+   "bn": "বিনোদন",
+   "fil": "Libangan",
+   "id": "Hiburan",
+   "zh": "娱乐"
+  },
+  "adv_preview": {
+   "ar": "معاينة الإعلان",
+   "en": "Ad preview",
+   "ur": "اشتہار کا پیش منظر",
+   "hi": "विज्ञापन पूर्वावलोकन",
+   "bn": "বিজ্ঞাপনের প্রিভিউ",
+   "fil": "Preview ng ad",
+   "id": "Pratinjau iklan",
+   "zh": "广告预览"
+  },
+  "adv_send": {
+   "ar": "أرسل طلب الحجز",
+   "en": "Send booking request",
+   "ur": "بکنگ کی درخواست بھیجیں",
+   "hi": "बुकिंग अनुरोध भेजें",
+   "bn": "বুকিং অনুরোধ পাঠান",
+   "fil": "Ipadala ang booking request",
+   "id": "Kirim permintaan pemesanan",
+   "zh": "发送预订申请"
+  },
+  "adv_wa": {
+   "ar": "واتساب",
+   "en": "WhatsApp",
+   "ur": "واٹس ایپ",
+   "hi": "WhatsApp",
+   "bn": "WhatsApp",
+   "fil": "WhatsApp",
+   "id": "WhatsApp",
+   "zh": "WhatsApp"
+  },
+  "adv_mail": {
+   "ar": "البريد",
+   "en": "Email",
+   "ur": "ای میل",
+   "hi": "ईमेल",
+   "bn": "ইমেইল",
+   "fil": "Email",
+   "id": "Email",
+   "zh": "邮件"
+  },
+  "adv_copy": {
+   "ar": "نسخ الطلب",
+   "en": "Copy request",
+   "ur": "درخواست کاپی کریں",
+   "hi": "अनुरोध कॉपी करें",
+   "bn": "অনুরোধ কপি করুন",
+   "fil": "Kopyahin ang request",
+   "id": "Salin permintaan",
+   "zh": "复制申请"
+  },
+  "adv_note": {
+   "ar": "الأسعار تقديرية، ويُؤكَّد الحجز بعد مراجعة الإعلان.",
+   "en": "Prices are estimates; bookings are confirmed after the ad is reviewed.",
+   "ur": "قیمتیں تخمینی ہیں؛ اشتہار کے جائزے کے بعد بکنگ کی تصدیق ہوتی ہے۔",
+   "hi": "कीमतें अनुमानित हैं; विज्ञापन की समीक्षा के बाद बुकिंग पक्की होती है।",
+   "bn": "মূল্য আনুমানিক; বিজ্ঞাপন যাচাইয়ের পর বুকিং নিশ্চিত হয়।",
+   "fil": "Tantya lang ang presyo; kinukumpirma ang booking pagkatapos suriin ang ad.",
+   "id": "Harga bersifat perkiraan; pemesanan dikonfirmasi setelah iklan ditinjau.",
+   "zh": "价格为预估，广告审核后确认预订。"
+  },
+  "adv_req": {
+   "ar": "طلب مساحة إعلانية في مسار",
+   "en": "Masar ad space request",
+   "ur": "مسار میں اشتہار کی جگہ کی درخواست",
+   "hi": "मसार में विज्ञापन स्थान का अनुरोध",
+   "bn": "মাসারে বিজ্ঞাপনের জায়গার অনুরোধ",
+   "fil": "Request para sa ad space sa Masar",
+   "id": "Permintaan ruang iklan di Masar",
+   "zh": "Masar 广告位申请"
+  },
+  "adv_need_name": {
+   "ar": "اكتب اسم النشاط أولاً",
+   "en": "Enter the business name first",
+   "ur": "پہلے کاروبار کا نام لکھیں",
+   "hi": "पहले व्यवसाय का नाम लिखें",
+   "bn": "আগে ব্যবসার নাম লিখুন",
+   "fil": "Ilagay muna ang pangalan ng negosyo",
+   "id": "Masukkan nama usaha dulu",
+   "zh": "请先填写商家名称"
+  },
+  "adv_sample": {
+   "ar": "نشاطك هنا",
+   "en": "Your business here",
+   "ur": "آپ کا کاروبار یہاں",
+   "hi": "आपका व्यवसाय यहाँ",
+   "bn": "আপনার ব্যবসা এখানে",
+   "fil": "Ang negosyo mo rito",
+   "id": "Usaha Anda di sini",
+   "zh": "您的商家"
   }
  }
 }

@@ -8,6 +8,7 @@ struct MasarApp: App {
     @State private var auth = AuthManager()
     @State private var router = AppRouter()
     @State private var location = LocationService()
+    @State private var ads = AdsService()
 
     /// User records (places, saved routes, trip history) live in SwiftData.
     /// With iCloud signed in they sync through the user's private CloudKit database,
@@ -35,7 +36,9 @@ struct MasarApp: App {
                 .environment(auth)
                 .environment(router)
                 .environment(location)
+                .environment(ads)
                 .task { await auth.refreshCredentialState() }
+                .task { await ads.refresh() }
         }
         .modelContainer(container)
     }

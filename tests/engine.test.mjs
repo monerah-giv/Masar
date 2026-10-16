@@ -1,4 +1,4 @@
-// Routing-engine tests for the web app: `node --test tests/`  (run tools/build.py first).
+// Routing-engine tests for the web app: `node --test tests/engine.test.mjs`  (run tools/build.py first).
 // The app ships as one self-contained HTML file, so the tests lift its engine out of dist/index.html
 // by fixed markers and run it in an isolated VM context.
 import { test } from "node:test";

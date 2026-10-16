@@ -1,0 +1,53 @@
+name: طلب مساحة إعلانية / Ad space request
+description: احجز إعلاناً قرب محطة مترو — Book an ad near a metro station
+title: "[Ad] "
+labels: [ad-request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        يظهر إعلانك في نتيجة الرحلة لمن يتجه إلى المحطة القريبة منك، وفي صفحة المحطة. الأسعار تقديرية ويؤكَّد الحجز بعد المراجعة.
+        Your ad shows in trip results for riders heading to the station near you, and on the station page. Prices are estimates until reviewed.
+  - type: input
+    id: business
+    attributes:
+      label: اسم النشاط / Business name
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: النوع / Category
+  - type: input
+    id: offer
+    attributes:
+      label: العرض في سطر / Offer in one line
+  - type: input
+    id: target
+    attributes:
+      label: المحطة أو المسار / Station or line
+    validations:
+      required: true
+  - type: input
+    id: period
+    attributes:
+      label: الفترة / Period
+  - type: input
+    id: quote
+    attributes:
+      label: السعر التقديري / Estimated price
+  - type: input
+    id: location
+    attributes:
+      label: موقع النشاط (رابط خرائط) / Business location (maps link)
+  - type: input
+    id: link
+    attributes:
+      label: رابط الموقع أو الحساب / Website or social link
+  - type: input
+    id: contact
+    attributes:
+      label: وسيلة التواصل / How to reach you
+      description: لا تكتب بيانات حساسة؛ هذا البلاغ عام — this issue is public, share only a business contact
+    validations:
+      required: true

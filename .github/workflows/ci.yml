@@ -38,8 +38,8 @@ jobs:
       - name: Data integrity tests
         run: python3 -m unittest discover -s tests -v
 
-      - name: Routing engine tests
-        run: node --test tests/engine.test.mjs
+      - name: Routing engine and ad tests
+        run: node --test tests/engine.test.mjs tests/ads.test.mjs
 
       - name: Script syntax check
         run: |

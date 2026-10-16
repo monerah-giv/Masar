@@ -88,6 +88,7 @@ struct PlanView: View {
                         alternativeRow(current: t, alt: a)
                     }
                     stepsSection(t)
+                    if let sid = arrivalStation(t) { SponsoredSection(stationID: sid) }
                 } else {
                     Section { Text(emptyMessage).foregroundStyle(.secondary) }
                 }
@@ -455,6 +456,13 @@ struct PlanView: View {
             }
             .accessibilityElement(children: .combine)
         }
+    }
+
+    /// The station the rider gets off at: where nearby businesses can reach them.
+    private func arrivalStation(_ t: DoorTrip) -> String? {
+        if let e = t.egress { return e.id }
+        if case .station(let id)? = router.destination { return id }
+        return t.journey?.legs.last?.alighting
     }
 
     /// nil = start the directions from wherever the phone is (Maps handles it); a place starts from its own point.

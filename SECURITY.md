@@ -11,4 +11,5 @@ Please use **Security → Report a vulnerability** (private advisory). Do not op
   Trip history keeps station-to-station pairs only — never addresses or coordinates.
 - في iOS تُزامَن الأماكن المحفوظة عبر iCloud الخاص بالمستخدم؛ لا يوجد خادم وسيط.
   On iOS saved places sync through the user's own iCloud; there is no intermediate server.
-- لا تحليلات ولا تتبّع ولا إعلانات. No analytics, tracking or ads.
+- الإعلانات سياقية فقط: تُختار حسب المحطة التي يتجه إليها الراكب، لا حسب هويته. لا تحليلات ولا تتبّع ولا معرّفات إعلانية، ولا يُرسل شيء عن الراكب عند جلب الإعلانات.
+  Ads are contextual only — chosen by the destination station, never by who the rider is. No analytics, tracking or ad identifiers; fetching the ad feed sends nothing about the rider.

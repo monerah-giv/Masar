@@ -9,6 +9,7 @@ struct AccountView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.colorScheme) private var scheme
     @Environment(\.openURL) private var openURL
+    @Environment(AdsService.self) private var ads
     @AppStorage("fare.class") private var fareClassRaw = FareClass.standard.rawValue
     @State private var confirmDelete = false
 
@@ -57,6 +58,13 @@ struct AccountView: View {
             Section(L10n.t("hours")) {
                 ServiceStatusBadge()
                 Text(L10n.t("hours_body")).font(.footnote)
+            }
+
+            if let url = ads.advertiseURL(station: nil) {
+                Section(L10n.t("adv_open")) {
+                    Text(L10n.t("adv_sub")).font(.footnote)
+                    Button { openURL(url) } label: { Label(L10n.t("adv_title"), systemImage: "megaphone") }
+                }
             }
 
             Section(L10n.t("about")) {
