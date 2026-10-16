@@ -1,0 +1,21 @@
+{
+ "contact": {
+  "whatsapp": "",
+  "email": ""
+ },
+ "currency": "SAR",
+ "vat": 0.15,
+ "slotsPerStation": 2,
+ "rates": {"A": 1200, "B": 700, "C": 400},
+ "tiers": {
+  "A": ["kafd", "stc", "museum", "qasrhokm", "moe", "hamra", "naseem", "rabi", "uthman", "sabic", "t12", "t34", "t5"],
+  "B": ["sabb", "darbaida", "ksu", "kfstadium", "jeddahrd", "khashm", "murabba", "batha", "transport", "exhibition", "railway", "pnu", "govcomplex", "takhassusi", "malaz", "khurais", "kacst"]
+ },
+ "durations": [
+  {"weeks": 1, "off": 0},
+  {"weeks": 4, "off": 0.10},
+  {"weeks": 12, "off": 0.20}
+ ],
+ "packages": {"station": 0, "line": 0.35, "network": 0.50},
+ "campaigns": []
+}

@@ -1,0 +1,123 @@
+{
+ "contact": {
+  "whatsapp": "",
+  "email": ""
+ },
+ "currency": "SAR",
+ "vat": 0.15,
+ "slotsPerStation": 2,
+ "rates": {
+  "A": 1200,
+  "B": 700,
+  "C": 400
+ },
+ "tiers": {
+  "A": [
+   "kafd",
+   "stc",
+   "museum",
+   "qasrhokm",
+   "moe",
+   "hamra",
+   "naseem",
+   "rabi",
+   "uthman",
+   "sabic",
+   "t12",
+   "t34",
+   "t5"
+  ],
+  "B": [
+   "sabb",
+   "darbaida",
+   "ksu",
+   "kfstadium",
+   "jeddahrd",
+   "khashm",
+   "murabba",
+   "batha",
+   "transport",
+   "exhibition",
+   "railway",
+   "pnu",
+   "govcomplex",
+   "takhassusi",
+   "malaz",
+   "khurais",
+   "kacst"
+  ]
+ },
+ "durations": [
+  {
+   "weeks": 1,
+   "off": 0
+  },
+  {
+   "weeks": 4,
+   "off": 0.1
+  },
+  {
+   "weeks": 12,
+   "off": 0.2
+  }
+ ],
+ "packages": {
+  "station": 0,
+  "line": 0.35,
+  "network": 0.5
+ },
+ "campaigns": [
+  {
+   "id": "demo-qasr-1",
+   "name": {
+    "ar": "مقهى الديرة",
+    "en": "Deira Café"
+   },
+   "category": "cafe",
+   "title": {
+    "ar": "قهوة سعودية مجانية مع أي حلى لركاب المترو",
+    "en": "Free Saudi coffee with any dessert for metro riders"
+   },
+   "body": {
+    "ar": "على بُعد خطوات من بوابة قصر الحكم",
+    "en": "Steps from the Qasr Al Hokm gate"
+   },
+   "url": "https://example.com/cafe",
+   "phone": "+966 11 000 0000",
+   "lat": 24.6301,
+   "lng": 46.7149,
+   "start": "2026-10-01",
+   "end": "2026-12-31",
+   "stations": [
+    "qasrhokm"
+   ]
+  },
+  {
+   "id": "demo-qasr-2",
+   "name": "مكتبة المعيقلية",
+   "category": "shop",
+   "title": "خصم 10٪ على الكتب",
+   "start": "2026-10-10",
+   "end": "2026-11-30",
+   "stations": [
+    "qasrhokm"
+   ],
+   "weight": 2
+  },
+  {
+   "id": "demo-line4",
+   "name": {
+    "en": "Airport Lounge"
+   },
+   "category": "services",
+   "title": {
+    "en": "Day passes from SAR 99"
+   },
+   "start": "2026-10-01",
+   "end": "2026-10-31",
+   "lines": [
+    4
+   ]
+  }
+ ]
+}

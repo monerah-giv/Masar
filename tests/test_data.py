@@ -96,5 +96,66 @@ class FaresTests(unittest.TestCase):
         self.assertTrue(0 < f["discount"]["rate"] < 1)
 
 
+class AdsTests(unittest.TestCase):
+    """The ad book (data/ads.json) and the build's validation of it."""
+    @classmethod
+    def setUpClass(cls):
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import build
+        cls.build = build
+        cls.net, cls.strings, cls.app = load("data", "network.json"), load("data", "strings.json"), load("data", "app.json")
+        cls.ads = load("data", "ads.json")
+
+    def feed(self, book):
+        return self.build.ads_feed(self.net, json.loads(json.dumps(book)), self.strings, self.app)
+
+    def book(self, *campaigns):
+        b = json.loads(json.dumps(self.ads)); b["campaigns"] = list(campaigns); return b
+
+    def camp(self, **kw):
+        c = {"id": "x", "name": "اسم", "category": "cafe", "title": "عرض", "start": "2027-01-01", "end": "2027-01-31", "stations": ["malaz"]}
+        c.update(kw); return c
+
+    def test_live_book_and_sample_are_valid(self):
+        self.feed(self.ads)
+        f = self.feed(load("tests", "fixtures", "ads.sample.json"))
+        self.assertEqual(len(f["campaigns"]), 3)
+
+    def test_rate_card_is_sane(self):
+        r = self.ads["rates"]
+        self.assertTrue(r["A"] > r["B"] > r["C"] > 0)
+        self.assertTrue(all(0 <= d["off"] < 1 for d in self.ads["durations"]))
+        self.assertTrue(all(0 <= v < 1 for v in self.ads["packages"].values()))
+        self.assertGreaterEqual(self.ads["slotsPerStation"], 1)
+
+    def test_targets_expand_to_stations(self):
+        f = self.feed(self.book(self.camp(id="l", stations=[], lines=[5]), self.camp(id="n", stations=[], network=True,
+                                                                                  start="2028-01-01", end="2028-01-02")))
+        by = {c["id"]: c for c in f["campaigns"]}
+        self.assertEqual(len(by["l"]["stations"]), 12)
+        self.assertEqual(len(by["n"]["stations"]), 83)
+        self.assertEqual(by["l"]["name"], {"ar": "اسم"})
+
+    def test_bad_campaigns_are_rejected(self):
+        bad = [self.camp(stations=["nowhere"]), self.camp(category="casino"), self.camp(start="2027-02-01"),
+               self.camp(url="http://insecure.example"), self.camp(lat=21.5, lng=39.2), self.camp(start="1/1/2027"),
+               self.camp(title={"xx": "?"}), self.camp(weight=0), self.camp(stations=[])]
+        for c in bad:
+            with self.assertRaises(SystemExit, msg=c):
+                self.feed(self.book(c))
+        with self.assertRaises(SystemExit):
+            self.feed(self.book(self.camp(id="a"), self.camp(id="a", start="2027-03-01", end="2027-03-02")))
+
+    def test_a_station_is_never_overbooked(self):
+        cap = self.ads["slotsPerStation"]
+        ok = [self.camp(id=f"c{i}") for i in range(cap)]
+        self.feed(self.book(*ok))
+        with self.assertRaises(SystemExit):
+            self.feed(self.book(*ok, self.camp(id="extra", start="2027-01-20", end="2027-02-20")))
+        # back-to-back bookings share a slot
+        self.feed(self.book(*ok, self.camp(id="next", start="2027-02-01", end="2027-02-28")))
+
+
 if __name__ == "__main__":
     unittest.main()
