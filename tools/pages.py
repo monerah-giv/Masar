@@ -268,7 +268,13 @@ def build_pages(out, net, strings, ads, app):
 {"".join(groups)}""")
 
     # ---------- printable QR stickers (A6), one per station for partner shops ----------
-    if site:
+    try:
+        import reportlab  # noqa: F401  (QR encoder for the sticker page)
+        has_qr = True
+    except ImportError:
+        has_qr = False
+        print("note: sticker page not built (pip install reportlab)")
+    if site and has_qr:
         link = lambda sid: f"{site}/?utm_source=qr&utm_medium=sticker" + (f"&utm_content={sid}" if sid else "")
         codes = {"": qr_rows(link(""))}
         codes.update({sid: qr_rows(link(sid)) for sid in order})

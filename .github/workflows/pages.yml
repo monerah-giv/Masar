@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: "22"
 
-      - run: pip install --disable-pip-version-check pillow
+      - run: pip install --disable-pip-version-check pillow reportlab
 
       - name: Build
         run: python3 tools/build.py

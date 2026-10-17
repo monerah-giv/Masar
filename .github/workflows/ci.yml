@@ -30,7 +30,7 @@ jobs:
           node-version: "22"
 
       - name: Install build dependency (icons)
-        run: pip install --disable-pip-version-check pillow
+        run: pip install --disable-pip-version-check pillow reportlab
 
       - name: Build web app, site and iOS resources
         run: python3 tools/build.py
