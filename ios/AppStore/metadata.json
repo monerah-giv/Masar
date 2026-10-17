@@ -13,10 +13,52 @@
     },
     "en-US": {
       "name": "Masar – Riyadh Metro Trips",
-      "subtitle": "Fastest trip from where you are",
+      "subtitle": "Fastest metro trip, one tap",
       "keywords": "riyadh,metro,train,route,station,ticket,darb,transit,map,saudi",
       "promotionalText": "Open Masar, pick where you're going, get the fastest trip from where you stand. In eight languages.",
       "description": "Masar finds the fastest Riyadh Metro trip from where you are to any station or place in one tap: it picks the best station to board, counting the walk, and shows the whole journey.\n\n• Clear steps: which line to take, which direction, where to change and when you arrive.\n• A schematic map of all six lines with your trip highlighted.\n• Home, work and favourite places, saved routes and trip history, kept in your iCloud account across devices.\n• Every ticket price in one place, plus an advisor that picks the cheapest pass for how often you ride.\n• Eight languages: Arabic, English, Urdu, Hindi, Bengali, Filipino, Indonesian and Chinese.\n• Works with VoiceOver, larger text sizes and Dark Mode.\n\nMasar shows ads for businesses near your arrival station, chosen by the station rather than by who you are, with no tracking.\n\nMasar is independent and not affiliated with Riyadh Metro or the Royal Commission for Riyadh City. Journey times are estimates; tickets are bought in the Darb app."
+    },
+    "hi": {
+      "name": "Masar – रियाद मेट्रो यात्रा",
+      "subtitle": "आपकी जगह से सबसे तेज़ यात्रा",
+      "keywords": "riyadh,metro,रियाद,मेट्रो,ट्रेन,स्टेशन,टिकट,रूट,नक्शा,सऊदी",
+      "promotionalText": "Masar खोलें, मंज़िल चुनें और अपनी जगह से सबसे तेज़ मेट्रो यात्रा पाएँ। आठ भाषाओं में।",
+      "description": "Masar आपकी मौजूदा जगह से रियाद मेट्रो के किसी भी स्टेशन या जगह तक सबसे तेज़ यात्रा एक टैप में बताता है। पैदल दूरी गिनकर यह चढ़ने के लिए सबसे अच्छा स्टेशन चुनता है।\n\n• साफ़ कदम: कौन सी लाइन, किस दिशा में, कहाँ बदलें और कब पहुँचें।\n• घर, काम और पसंदीदा जगहें सहेजें।\n• टिकट की कीमतें और सबसे सस्ता पास।\n• आठ भाषाएँ, VoiceOver, बड़े अक्षर और डार्क मोड।\n\nMasar आपकी यात्रा के गंतव्य स्टेशन के पास के व्यवसायों के विज्ञापन दिखाता है, जो स्टेशन के आधार पर चुने जाते हैं, आपके आधार पर नहीं। कोई ट्रैकिंग नहीं।\n\nMasar स्वतंत्र है और रियाद मेट्रो या रॉयल कमीशन फ़ॉर रियाद सिटी से संबद्ध नहीं है। यात्रा समय अनुमानित हैं।"
+    },
+    "id": {
+      "name": "Masar – Metro Riyadh",
+      "subtitle": "Rute tercepat dari lokasi Anda",
+      "keywords": "riyadh,metro,kereta,stasiun,tiket,rute,peta,transportasi,saudi,darb",
+      "promotionalText": "Buka Masar, pilih tujuan, dan dapatkan perjalanan metro tercepat dari tempat Anda berada. Dalam delapan bahasa.",
+      "description": "Masar menemukan perjalanan Metro Riyadh tercepat dari lokasi Anda ke stasiun atau tempat mana pun dalam satu ketukan. Masar memilih stasiun terbaik untuk naik dengan menghitung jarak jalan kaki.\n\n• Langkah jelas: jalur mana, arah mana, di mana berganti, dan kapan tiba.\n• Simpan rumah, kantor, dan tempat favorit.\n• Harga tiket dan saran tiket termurah.\n• Delapan bahasa, VoiceOver, teks besar, dan Mode Gelap.\n\nMasar menampilkan iklan usaha di dekat stasiun tujuan Anda, dipilih berdasarkan stasiun, bukan siapa Anda. Tanpa pelacakan.\n\nMasar adalah aplikasi independen dan tidak berafiliasi dengan Riyadh Metro atau Royal Commission for Riyadh City. Waktu perjalanan adalah perkiraan."
+    },
+    "zh-Hans": {
+      "name": "Masar – 利雅得地铁出行",
+      "subtitle": "从你所在位置出发的最快路线",
+      "keywords": "利雅得,地铁,riyadh,metro,车站,车票,路线,地图,沙特,交通",
+      "promotionalText": "打开 Masar，选择目的地，即可获得从你所在位置出发的最快地铁路线。支持八种语言。",
+      "description": "Masar 一键找到从你当前位置到利雅得地铁任意车站或地点的最快路线，并计入步行距离，为你选择最佳上车站。\n\n• 步骤清晰：乘哪条线、往哪个方向、在哪换乘、何时到达。\n• 保存家、公司和常去地点。\n• 票价一览，并推荐最划算的车票。\n• 八种语言，支持 VoiceOver、大字体和深色模式。\n\nMasar 会显示你到达车站附近商家的广告，按车站而非按你本人选择，不做任何追踪。\n\nMasar 是独立应用，与利雅得地铁及利雅得市皇家委员会无关。行程时间为估算值。"
+    },
+    "ur": {
+      "name": "Masar – ریاض میٹرو سفر",
+      "subtitle": "آپ کی جگہ سے تیز ترین سفر",
+      "keywords": "riyadh,metro,ریاض,میٹرو,ٹرین,اسٹیشن,ٹکٹ,راستہ,نقشہ,سعودی",
+      "promotionalText": "Masar کھولیں، منزل چنیں اور اپنی جگہ سے تیز ترین میٹرو سفر پائیں۔ آٹھ زبانوں میں۔",
+      "description": "Masar آپ کی موجودہ جگہ سے ریاض میٹرو کے کسی بھی اسٹیشن یا جگہ تک تیز ترین سفر ایک ٹیپ میں بتاتا ہے، اور پیدل فاصلہ گن کر سوار ہونے کے لیے بہترین اسٹیشن چنتا ہے۔\n\n• واضح مراحل: کون سی لائن، کس سمت، کہاں تبدیل کریں اور کب پہنچیں۔\n• گھر، کام اور پسندیدہ جگہیں محفوظ کریں۔\n• ٹکٹ کی قیمتیں اور سب سے سستا پاس۔\n• آٹھ زبانیں، VoiceOver، بڑا متن اور ڈارک موڈ۔\n\nMasar آپ کے منزل اسٹیشن کے قریب کاروباروں کے اشتہار دکھاتا ہے، جو اسٹیشن کی بنیاد پر چنے جاتے ہیں، آپ کی بنیاد پر نہیں۔ کوئی ٹریکنگ نہیں۔\n\nMasar ایک آزاد ایپ ہے اور ریاض میٹرو یا رائل کمیشن فار ریاض سٹی سے وابستہ نہیں۔ سفر کے اوقات تخمینی ہیں۔"
+    },
+    "bn": {
+      "name": "Masar – রিয়াদ মেট্রো যাত্রা",
+      "subtitle": "আপনার জায়গা থেকে দ্রুত যাত্রা",
+      "keywords": "riyadh,metro,রিয়াদ,মেট্রো,ট্রেন,স্টেশন,টিকিট,রুট,মানচিত্র,সৌদি",
+      "promotionalText": "Masar খুলুন, গন্তব্য বেছে নিন, আর আপনার জায়গা থেকে দ্রুততম মেট্রো যাত্রা পান। আটটি ভাষায়।",
+      "description": "Masar আপনার বর্তমান জায়গা থেকে রিয়াদ মেট্রোর যেকোনো স্টেশন বা জায়গায় দ্রুততম যাত্রা এক ট্যাপে দেখায়, আর হাঁটার দূরত্ব হিসাব করে ওঠার জন্য সেরা স্টেশন বেছে নেয়।\n\n• স্পষ্ট ধাপ: কোন লাইন, কোন দিকে, কোথায় বদলাবেন এবং কখন পৌঁছাবেন।\n• বাড়ি, কর্মস্থল ও প্রিয় জায়গা সংরক্ষণ।\n• টিকিটের দাম এবং সবচেয়ে সাশ্রয়ী পাস।\n• আটটি ভাষা, VoiceOver, বড় লেখা ও ডার্ক মোড।\n\nMasar আপনার গন্তব্য স্টেশনের কাছের ব্যবসার বিজ্ঞাপন দেখায়, যা স্টেশন অনুযায়ী বাছাই হয়, আপনার পরিচয় অনুযায়ী নয়। কোনো ট্র্যাকিং নেই।\n\nMasar একটি স্বাধীন অ্যাপ এবং রিয়াদ মেট্রো বা রয়্যাল কমিশন ফর রিয়াদ সিটির সঙ্গে যুক্ত নয়। যাত্রার সময় আনুমানিক।"
+    },
+    "fil": {
+      "name": "Masar – Biyahe sa Riyadh Metro",
+      "subtitle": "Pinakamabilis na biyahe, 1 tap",
+      "keywords": "riyadh,metro,tren,istasyon,tiket,ruta,mapa,saudi,biyahe,darb",
+      "promotionalText": "Buksan ang Masar, piliin ang pupuntahan, at makuha ang pinakamabilis na biyahe sa metro mula sa kinaroroonan mo. Sa walong wika.",
+      "description": "Hinahanap ng Masar ang pinakamabilis na biyahe sa Riyadh Metro mula sa kinaroroonan mo papunta sa kahit anong istasyon o lugar sa isang tap. Pinipili nito ang pinakamainam na istasyong sasakyan, kasama ang lakad.\n\n• Malinaw na hakbang: aling linya, saang direksyon, saan lilipat, at kailan darating.\n• I-save ang bahay, trabaho at paboritong lugar.\n• Presyo ng tiket at pinakamurang pass.\n• Walong wika, VoiceOver, malalaking titik at Dark Mode.\n\nNagpapakita ang Masar ng mga ad ng negosyo malapit sa istasyong pupuntahan mo, pinipili ayon sa istasyon at hindi ayon sa iyo. Walang tracking.\n\nAng Masar ay independiyente at hindi kaugnay ng Riyadh Metro o ng Royal Commission for Riyadh City. Tantya lang ang oras ng biyahe."
     }
   },
   "reviewNotes": "No login is required to plan trips. Sign in with Apple is optional and only names the account; records sync via the user's private CloudKit database. Account deletion is in Account > Delete my account and data. Ads are contextual: chosen only by the destination station from a public JSON feed; no identifiers are collected and no tracking takes place.",
@@ -27,5 +69,6 @@
     "marketing": "https://monerah-giv.github.io/Masar/"
   },
   "containsAds": true,
-  "_ads_note": "App Store Connect → App Information: answer 'Yes' to 'Does your app contain ads?'. Ads are contextual (by destination station), no tracking, so no App Tracking Transparency prompt is needed."
+  "_ads_note": "App Store Connect → App Information: answer 'Yes' to 'Does your app contain ads?'. Ads are contextual (by destination station), no tracking, so no App Tracking Transparency prompt is needed.",
+  "_languages_note": "ar-SA, en-US, hi, id, zh-Hans are App Store languages. ur and bn: use them if App Store Connect offers them for your account; fil is not an App Store language, so its text is for the website and social posts. Have a native speaker review each before publishing. Name ≤ 30 characters, subtitle ≤ 30, keywords ≤ 100, promotional text ≤ 170."
 }
