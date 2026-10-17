@@ -6,19 +6,26 @@
   "localizations": {
     "ar-SA": {
       "name": "مسار – رحلات مترو الرياض",
-      "subtitle": "أسرع طريق وأقل تحويلات",
+      "subtitle": "أسرع رحلة من مكانك بضغطة",
       "keywords": "مترو,الرياض,قطار,مسار,محطة,تذكرة,درب,مواصلات,خريطة,رحلة",
-      "promotionalText": "خطط رحلتك على المسارات الستة لمترو الرياض بثماني لغات.",
-      "description": "مسار يجد لك أسرع طريق أو الطريق الأقل تحويلات بين أي محطتين في مترو الرياض.\n\n• خطوات واضحة: أي مسار تركب، وباتجاه أي محطة، وأين تحوّل، ومتى تصل.\n• خريطة تخطيطية للمسارات الستة تُبرز رحلتك.\n• أماكنك المفضلة (المنزل، العمل) ومساراتك المحفوظة وسجل رحلاتك، تُحفظ في حسابك على iCloud وتظهر على كل أجهزتك.\n• أسعار التذاكر في مكان واحد، ومساعد يقترح التذكرة الأوفر حسب عدد رحلاتك.\n• ثماني لغات: العربية، الإنجليزية، الأردية، الهندية، البنغالية، الفلبينية، الإندونيسية، الصينية.\n• يدعم VoiceOver وأحجام الخط الكبيرة والوضع الداكن.\n\nمسار تطبيق مستقل وغير تابع لقطار الرياض أو الهيئة الملكية لمدينة الرياض. أزمنة الرحلات تقديرية، وتُشترى التذاكر من تطبيق درب."
+      "promotionalText": "افتح مسار، اختر وجهتك، تظهر أسرع رحلة من مكانك. بثماني لغات.",
+      "description": "مسار يجد لك أسرع رحلة في مترو الرياض من مكانك الحالي إلى أي محطة أو مكان، بضغطة واحدة: يختار أفضل محطة للركوب بحساب المشي، ويعرض الطريق كاملاً.\n\n• خطوات واضحة: أي مسار تركب، وباتجاه أي محطة، وأين تحوّل، ومتى تصل.\n• خريطة تخطيطية للمسارات الستة تُبرز رحلتك.\n• أماكنك المفضلة (المنزل، العمل) ومساراتك المحفوظة وسجل رحلاتك، تُحفظ في حسابك على iCloud وتظهر على كل أجهزتك.\n• أسعار التذاكر في مكان واحد، ومساعد يقترح التذكرة الأوفر حسب عدد رحلاتك.\n• ثماني لغات: العربية، الإنجليزية، الأردية، الهندية، البنغالية، الفلبينية، الإندونيسية، الصينية.\n• يدعم VoiceOver وأحجام الخط الكبيرة والوضع الداكن.\n\nيعرض مسار إعلانات لأنشطة قريبة من محطة وصولك، تُختار حسب المحطة لا حسب هويتك، ولا يتتبّعك.\n\nمسار تطبيق مستقل وغير تابع لقطار الرياض أو الهيئة الملكية لمدينة الرياض. أزمنة الرحلات تقديرية، وتُشترى التذاكر من تطبيق درب."
     },
     "en-US": {
       "name": "Masar – Riyadh Metro Trips",
-      "subtitle": "Fastest route, fewest changes",
+      "subtitle": "Fastest trip from where you are",
       "keywords": "riyadh,metro,train,route,station,ticket,darb,transit,map,saudi",
-      "promotionalText": "Plan trips across all six Riyadh Metro lines in eight languages.",
-      "description": "Masar finds the fastest route, or the one with the fewest changes, between any two Riyadh Metro stations.\n\n• Clear steps: which line to take, which direction, where to change and when you arrive.\n• A schematic map of all six lines with your trip highlighted.\n• Home, work and favourite places, saved routes and trip history, kept in your iCloud account across devices.\n• Every ticket price in one place, plus an advisor that picks the cheapest pass for how often you ride.\n• Eight languages: Arabic, English, Urdu, Hindi, Bengali, Filipino, Indonesian and Chinese.\n• Works with VoiceOver, larger text sizes and Dark Mode.\n\nMasar is independent and not affiliated with Riyadh Metro or the Royal Commission for Riyadh City. Journey times are estimates; tickets are bought in the Darb app."
+      "promotionalText": "Open Masar, pick where you're going, get the fastest trip from where you stand. In eight languages.",
+      "description": "Masar finds the fastest Riyadh Metro trip from where you are to any station or place in one tap: it picks the best station to board, counting the walk, and shows the whole journey.\n\n• Clear steps: which line to take, which direction, where to change and when you arrive.\n• A schematic map of all six lines with your trip highlighted.\n• Home, work and favourite places, saved routes and trip history, kept in your iCloud account across devices.\n• Every ticket price in one place, plus an advisor that picks the cheapest pass for how often you ride.\n• Eight languages: Arabic, English, Urdu, Hindi, Bengali, Filipino, Indonesian and Chinese.\n• Works with VoiceOver, larger text sizes and Dark Mode.\n\nMasar shows ads for businesses near your arrival station, chosen by the station rather than by who you are, with no tracking.\n\nMasar is independent and not affiliated with Riyadh Metro or the Royal Commission for Riyadh City. Journey times are estimates; tickets are bought in the Darb app."
     }
   },
-  "reviewNotes": "No login is required to plan trips. Sign in with Apple is optional and only names the account; records sync via the user's private CloudKit database. Account deletion is in Account > Delete my account and data.",
-  "privacyNutritionLabel": "Data Not Collected"
+  "reviewNotes": "No login is required to plan trips. Sign in with Apple is optional and only names the account; records sync via the user's private CloudKit database. Account deletion is in Account > Delete my account and data. Ads are contextual: chosen only by the destination station from a public JSON feed; no identifiers are collected and no tracking takes place.",
+  "privacyNutritionLabel": "Data Not Collected",
+  "urls": {
+    "privacyPolicy": "https://monerah-giv.github.io/Masar/privacy/",
+    "support": "https://monerah-giv.github.io/Masar/terms/",
+    "marketing": "https://monerah-giv.github.io/Masar/"
+  },
+  "containsAds": true,
+  "_ads_note": "App Store Connect → App Information: answer 'Yes' to 'Does your app contain ads?'. Ads are contextual (by destination station), no tracking, so no App Tracking Transparency prompt is needed."
 }

@@ -13,8 +13,9 @@ struct AccountView: View {
     @AppStorage("fare.class") private var fareClassRaw = FareClass.standard.rawValue
     @State private var confirmDelete = false
 
-    /// Replace with your hosted privacy policy before submitting to the App Store.
-    private let privacyURL = URL(string: "https://example.com/masar/privacy")!
+    /// Published from tools/pages.py with the website.
+    private let privacyURL = URL(string: "https://monerah-giv.github.io/Masar/privacy/")!
+    private let termsURL = URL(string: "https://monerah-giv.github.io/Masar/terms/")!
 
     var body: some View {
         Form {
@@ -71,6 +72,7 @@ struct AccountView: View {
                 MasarLockup(height: 40).padding(.vertical, 6)
                 Text(L10n.t("about_body")).font(.footnote)
                 Link(L10n.t("privacy"), destination: privacyURL)
+                Link(L10n.t("terms"), destination: termsURL)
             }
 
             if auth.isSignedIn {

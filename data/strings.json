@@ -2367,6 +2367,16 @@
    "fil": "Ang negosyo mo rito",
    "id": "Usaha Anda di sini",
    "zh": "您的商家"
+  },
+  "terms": {
+   "ar": "شروط الاستخدام",
+   "en": "Terms of use",
+   "ur": "شرائط استعمال",
+   "hi": "उपयोग की शर्तें",
+   "bn": "ব্যবহারের শর্তাবলি",
+   "fil": "Mga tuntunin ng paggamit",
+   "id": "Ketentuan penggunaan",
+   "zh": "使用条款"
   }
  }
 }

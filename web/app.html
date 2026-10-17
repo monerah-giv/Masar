@@ -1101,7 +1101,7 @@ function autoLocate(){
     try{
       navigator.geolocation.getCurrentPosition(pos => {
         const p = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-        if(inRiyadh(p.lat, p.lng) && st.tab === "plan" && !st.fromHere) setHere(p, true);
+        if(inRiyadh(p.lat, p.lng) && st.tab === "plan" && !st.fromHere && !st.lockFrom) setHere(p, true);
       }, () => {}, {enableHighAccuracy: true, timeout: 10000, maximumAge: 120000});
     }catch(e){}
   };
@@ -1417,6 +1417,7 @@ function viewAccount(){
       '</tbody></table></div><div class="pad" style="padding-top:4px"><button type="button" class="btn ghost" id="cpjson">'+ICON.copy+esc(t("copy_json"))+'</button></div></details></section>'+
     '<section class="card"><div class="card-h"><h2>'+esc(t("adv_open"))+'</h2></div><div class="prose"><p>'+esc(t("adv_sub"))+'</p></div><div class="pad" style="padding-top:0"><button type="button" class="btn" id="advbtn">'+ICON.megaphone+esc(t("adv_title"))+'</button></div></section>'+
     '<section class="card"><div class="card-h"><h2>'+esc(t("about"))+'</h2></div><div class="lockup"><span class="sym" aria-hidden="true">'+BRAND_SYM+'</span><span class="wm" role="img" aria-label="'+esc(t("app_name"))+'">'+BRAND_WM+'</span></div><div class="prose links"><p>'+esc(t("about_body"))+'</p>'+
+      (APP && APP.siteUrl ? '<p class="small"><a href="'+esc(APP.siteUrl)+'privacy/" target="_blank" rel="noopener">'+esc(t("privacy"))+'</a> · <a href="'+esc(APP.siteUrl)+'terms/" target="_blank" rel="noopener">'+esc(t("terms"))+'</a> · <a href="'+esc(APP.siteUrl)+'station/" target="_blank" rel="noopener">'+esc(t("stations_section"))+'</a></p>' : '')+
       '<p class="small"><a href="https://en.wikipedia.org/wiki/Riyadh_Metro" target="_blank" rel="noopener">Wikipedia</a> · <a href="https://platinumlist.net/guide/riyadh-metro-sets-annual-pass-prices-for-2026-here-are-the-fares" target="_blank" rel="noopener">Fares 2026</a> · <a href="https://platinumlist.net/guide/riyadh-metro-changes-operating-hours-on-fridays-starting-july-4/" target="_blank" rel="noopener">Hours</a></p></div></section></div>';
 }
 function bindAccount(){
@@ -1434,6 +1435,14 @@ function bindAccount(){
 loadLocal();
 const hash = (location.hash || "").slice(1);
 if(["plan","saved","fares","account"].includes(hash)) st.tab = hash;
+/* Links from station pages and QR stickers: ?from=<station>&to=<station>. An explicit start
+   wins over automatic location; a destination alone keeps the one-tap "from here" flow. */
+try{
+  const q = new URLSearchParams(location.search), qf = q.get("from"), qt = q.get("to");
+  if(qf && S[qf]){ st.from = qf; st.fromHere = false; st.lockFrom = true; }
+  if(qt && S[qt]) st.to = qt;
+  if((qf && S[qf]) || (qt && S[qt])) st.tab = "plan";
+}catch(e){}
 applyPrefs(); renderAll();
 if(hash.split(":")[0] === "advertise") openAdvertise(decodeURIComponent(hash.split(":")[1] || ""));
 setInterval(renderStatus, 60000);
