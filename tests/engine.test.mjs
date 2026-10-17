@@ -113,3 +113,16 @@ test("plurals resolve in every language", () => {
   assert.equal(E.minTxt(2), "دقيقتان");
   assert.equal(E.xferTxt(0), "بدون تحويل");
 });
+
+test("station pages quote the same times as the app's engine", () => {
+  const pages = JSON.parse(readFileSync(new URL("../dist/site/station-times.json", import.meta.url), "utf8"));
+  let n = 0;
+  for (const [from, dests] of Object.entries(pages))
+    for (const [to, [min, xfers]] of Object.entries(dests)) {
+      const r = E.route(from, to, "fast");
+      assert.ok(Math.abs(r.total - min) < 0.01, `${from} → ${to}: page ${min}, app ${r.total}`);
+      assert.equal(r.xfers, xfers, `${from} → ${to} transfers`);
+      n++;
+    }
+  assert.ok(n > 400);
+});

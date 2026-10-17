@@ -252,9 +252,12 @@ if __name__ == "__main__":
     ads_src = json.load(open(os.environ["MASAR_ADS"], encoding="utf-8")) if os.environ.get("MASAR_ADS") else load("ads.json")
     ADS = ads_feed(net, ads_src, strings, load("app.json") if os.path.exists(D("data", "app.json")) else {})
     web(net, fares, strings)
+    sys.path.insert(0, D("tools"))
+    import pages
+    n_pages = pages.build_pages(D("dist", "site"), net, strings, ads_src, load("app.json") if os.path.exists(D("data", "app.json")) else {})
     if os.path.exists(D("web", "admin.html")):
         admin(net, load("app.json") if os.path.exists(D("data", "app.json")) else {})
     if os.path.isdir(D("ios")):
         ios(net, fares, strings)
     print("built:", len(net["stations"]), "stations,", len(net["lines"]), "lines,",
-          len(strings["strings"]) + len(strings["plurals"]), "strings x", len(strings["languages"]), "languages,", len(ADS["campaigns"]), "ad campaigns")
+          len(strings["strings"]) + len(strings["plurals"]), "strings x", len(strings["languages"]), "languages,", len(ADS["campaigns"]), "ad campaigns,", n_pages, "site pages")
