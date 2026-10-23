@@ -64,9 +64,9 @@
   "reviewNotes": "No login is required to plan trips. Sign in with Apple is optional and only names the account; records sync via the user's private CloudKit database. Account deletion is in Account > Delete my account and data. Ads are contextual: chosen only by the destination station from a public JSON feed; no identifiers are collected and no tracking takes place.",
   "privacyNutritionLabel": "Data Not Collected",
   "urls": {
-    "privacyPolicy": "https://masar.sa/privacy/",
-    "support": "https://masar.sa/terms/",
-    "marketing": "https://masar.sa/"
+    "privacyPolicy": "https://masarmetro.sa/privacy/",
+    "support": "https://masarmetro.sa/terms/",
+    "marketing": "https://masarmetro.sa/"
   },
   "containsAds": true,
   "_ads_note": "App Store Connect → App Information: answer 'Yes' to 'Does your app contain ads?'. Ads are contextual (by destination station), no tracking, so no App Tracking Transparency prompt is needed.",

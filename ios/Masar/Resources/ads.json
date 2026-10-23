@@ -1,7 +1,7 @@
 {
  "contact": {
   "whatsapp": "",
-  "email": "info@masar.sa"
+  "email": "info@masarmetro.sa"
  },
  "currency": "SAR",
  "vat": 0.15,
@@ -65,6 +65,6 @@
   "kacst": "B"
  },
  "issueUrl": "https://github.com/monerah-giv/Masar/issues/new",
- "feedUrl": "https://masar.sa/ads.json",
+ "feedUrl": "https://masarmetro.sa/ads.json",
  "campaigns": []
 }

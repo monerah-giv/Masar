@@ -2,9 +2,9 @@
 
 [![CI](https://github.com/monerah-giv/Masar/actions/workflows/ci.yml/badge.svg)](https://github.com/monerah-giv/Masar/actions/workflows/ci.yml)
 [![iOS](https://github.com/monerah-giv/Masar/actions/workflows/ios.yml/badge.svg)](https://github.com/monerah-giv/Masar/actions/workflows/ios.yml)
-[![Site](https://github.com/monerah-giv/Masar/actions/workflows/pages.yml/badge.svg)](https://masar.sa/)
+[![Site](https://github.com/monerah-giv/Masar/actions/workflows/pages.yml/badge.svg)](https://masarmetro.sa/)
 
-**جرّبه الآن:** https://masar.sa/ — يحدد موقعك تلقائياً ويعرض أسرع رحلة.
+**جرّبه الآن:** https://masarmetro.sa/ — يحدد موقعك تلقائياً ويعرض أسرع رحلة.
 
 > **Masar** — the fastest Riyadh Metro route from where you stand, in one tap. Native iOS (SwiftUI) + an installable web app, built from one data source, in 8 languages.
 
