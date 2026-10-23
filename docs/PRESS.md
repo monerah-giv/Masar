@@ -10,8 +10,8 @@
 
 «مسار» تطبيق مستقل، غير تابع لقطار الرياض أو للهيئة الملكية لمدينة الرياض. التذاكر تُشترى من القنوات الرسمية.
 
-- التطبيق: https://monerah-giv.github.io/Masar/
-- للمعلنين: https://monerah-giv.github.io/Masar/advertise/
+- التطبيق: https://masarmetro.sa/
+- للمعلنين: https://masarmetro.sa/advertise/
 - للتواصل الإعلامي: [البريد الرسمي يُضاف هنا]
 
 ---

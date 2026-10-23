@@ -1,6 +1,6 @@
 # لوحة التحكم / Admin control page
 
-**الرابط:** `https://monerah-giv.github.io/Masar/admin/`
+**الرابط:** `https://masarmetro.sa/admin/`
 
 الرابط غير ظاهر في التطبيق، ومحجوب عن محركات البحث. ومعرفته وحدها لا تكفي للدخول.
 

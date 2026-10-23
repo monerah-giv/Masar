@@ -1,0 +1,15 @@
+; DNS records for masarmetro.sa — the site part, ready to import.
+; Most DNS panels (including Cloudflare: DNS > Records > Import) accept this file as is.
+; Mail records (MX, SPF, DKIM, verification TXT) come from the mail provider's panel; add them after import.
+$ORIGIN masarmetro.sa.
+$TTL 3600
+@     IN A     185.199.108.153
+@     IN A     185.199.109.153
+@     IN A     185.199.110.153
+@     IN A     185.199.111.153
+@     IN AAAA  2606:50c0:8000::153
+@     IN AAAA  2606:50c0:8001::153
+@     IN AAAA  2606:50c0:8002::153
+@     IN AAAA  2606:50c0:8003::153
+www   IN CNAME monerah-giv.github.io.
+_dmarc IN TXT  "v=DMARC1; p=none; rua=mailto:info@masarmetro.sa"
