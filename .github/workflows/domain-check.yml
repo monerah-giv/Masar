@@ -1,0 +1,27 @@
+name: Domain check
+
+# Checks that the custom domain, the site and the business mailbox are set up correctly.
+# Run it from the Actions tab (Run workflow) after the domain is approved and after each DNS change.
+# It reads public DNS and HTTPS only; it changes nothing.
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: "Domain to check"
+        required: true
+        default: "masarmetro.sa"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check DNS, HTTPS and mail records
+        env:
+          DOMAIN: ${{ inputs.domain }}
+        run: bash tools/check_domain.sh "$DOMAIN"
