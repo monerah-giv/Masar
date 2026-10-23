@@ -14,8 +14,8 @@ struct AccountView: View {
     @State private var confirmDelete = false
 
     /// Published from tools/pages.py with the website.
-    private let privacyURL = URL(string: "https://monerah-giv.github.io/Masar/privacy/")!
-    private let termsURL = URL(string: "https://monerah-giv.github.io/Masar/terms/")!
+    private let privacyURL = URL(string: "https://masar.sa/privacy/")!
+    private let termsURL = URL(string: "https://masar.sa/terms/")!
 
     var body: some View {
         Form {
