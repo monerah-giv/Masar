@@ -1,19 +1,28 @@
-# النطاق masarmetro.sa والبريد info@masarmetro.sa
+# النطاق masarmetro.com والبريد info@masarmetro.com
 
-هذا الدليل ينقل موقع مسار من `monerah-giv.github.io/Masar` إلى `https://masarmetro.sa/`، ويفعّل بريد الأعمال `info@masarmetro.sa`.
+هذا الدليل ينقل موقع مسار من `monerah-giv.github.io/Masar` إلى `https://masarmetro.com/`، ويفعّل بريد الأعمال `info@masarmetro.com`.
 الشيفرة جاهزة في فرع `feat/custom-domain`. **لا تدمجيه قبل الخطوة 5**، وإلا ستشير روابط الخصوصية والشروط وملف الإعلانات في التطبيق إلى نطاق لا يعمل، وسترتد رسائل المعلنين.
 
 ## 1. حجز النطاق
 
-- يُسجَّل `.sa` لدى المركز السعودي للمعلومات الشبكية (SaudiNIC) عبر مسجّل معتمد.
-- يشترط وجود صاحب الطلب في السعودية، ومعه سجل تجاري ساري، أو علامة تجارية مسجّلة بالاسم نفسه.
-- تحتاج قبل التقديم إلى خادمَي أسماء (DNS) يعملان. يكفي حساب مجاني في Cloudflare، أو خوادم المسجّل نفسه.
-- التفعيل يأخذ عادة 3 إلى 4 أيام عمل بعد اكتمال الأوراق. ويُرفض الطلب إن لم تكتمل الأوراق خلال 3 أسابيع.
-- **إن كان `masarmetro.sa` محجوزاً** فالبدائل بالترتيب: `masar-metro.sa`، ثم `masarapp.sa`، ثم `masarapp.com` (لا يحتاج أوراقاً). يكفي تغيير النطاق في `data/app.json` و`data/ads.json` ثم تشغيل `python3 tools/build.py`.
+- `.com` نطاق عالمي. لا يطلب سجلاً تجارياً ولا هوية ولا وثائق سعودية، ويُفعَّل خلال دقائق من الدفع.
+- **المسجّل المقترح: Cloudflare Registrar.** يبيع بسعر التكلفة دون هامش، نحو 10 إلى 11 دولاراً سنوياً. ويخفي بيانات المالك (WHOIS) مجاناً، وDNS فيه جاهز في اللوحة نفسها. البدائل: Namecheap أو Porkbun.
+- عند الشراء:
+  - فعّلي **التجديد التلقائي** و**قفل النقل (Transfer lock)**.
+  - احجزي لسنتين أو أكثر.
+  - سجّلي باسم الشركة والبريد الذي تملكينه، لا بريد مطوّر.
+  - فعّلي التحقق الثنائي (2FA) في حساب المسجّل.
+- عند الفحص في 2 نوفمبر 2026 كان `masarmetro.com` متاحاً، والبدائل المتاحة كانت `masar-metro.com` و`ridemasar.com` و`masarmetroapp.com`. المحجوزة: `masarapp.com` و`getmasar.com` و`masarriyadh.com` و`masarksa.com` و`usemasar.com` و`masar.app`.
+- **إن حجزتِ اسماً آخر** فأمر واحد ينقل كل الروابط والبريد والملفات المولّدة إليه:
+
+  ```
+  python3 tools/set_domain.py masar-metro.com
+  ```
+- النطاق `.sa` يمكن إضافته لاحقاً، بعد قيد كيان يحمل الاسم، ويُحوَّل إلى `.com`.
 
 ## 2. توثيق النطاق في GitHub (قبل ربطه)
 
-من Settings في حسابك على GitHub، ثم Pages، ثم Add a domain. أدخلي `masarmetro.sa`، وانسخي سجل TXT الذي يعطيك إياه إلى DNS، ثم Verify. هذا يمنع أي أحد من الاستيلاء على النطاق عبر GitHub.
+من Settings في حسابك على GitHub، ثم Pages، ثم Add a domain. أدخلي `masarmetro.com`، وانسخي سجل TXT الذي يعطيك إياه إلى DNS، ثم Verify. هذا يمنع أي أحد من الاستيلاء على النطاق عبر GitHub.
 
 ## 3. سجلات DNS للموقع
 
@@ -29,10 +38,10 @@
 | AAAA | `@` | `2606:50c0:8003::153` |
 | CNAME | `www` | `monerah-giv.github.io` |
 
-- لا تضيفي سجلاً عاماً مثل `*.masarmetro.sa`.
+- لا تضيفي سجلاً عاماً مثل `*.masarmetro.com`.
 - في Cloudflare اجعلي هذه السجلات «DNS only» (السحابة الرمادية)، حتى يستطيع GitHub إصدار شهادة HTTPS.
 
-## 4. البريد info@masarmetro.sa
+## 4. البريد info@masarmetro.com
 
 اختاري مزوداً واحداً:
 
@@ -46,29 +55,30 @@
 3. أضيفي سجلات **MX** كما تظهر في لوحة المزود بقيمها وأولوياتها. تختلف القيم حسب المزود ومركز البيانات، فلا تنسخيها من مكان آخر.
 4. **SPF**: سجل TXT واحد فقط على `@`، يُنسخ من لوحة المزود. مثاله لـ Zoho: `v=spf1 include:zoho.com ~all`.
 5. **DKIM**: أنشئي المفتاح في لوحة المزود، وأضيفي سجل TXT الذي يعطيك إياه، ثم اضغطي Verify.
-6. **DMARC**: سجل TXT على الاسم `_dmarc` بالقيمة `v=DMARC1; p=none; rua=mailto:info@masarmetro.sa`. بعد شهر بلا مشاكل غيّري `p=none` إلى `p=quarantine`.
-7. اختبري البريد بإرسال رسالة من Gmail إلى `info@masarmetro.sa` والرد عليها، وتأكدي أن الرد لم يصل إلى الرسائل غير المرغوب فيها.
+6. **DMARC**: سجل TXT على الاسم `_dmarc` بالقيمة `v=DMARC1; p=none; rua=mailto:info@masarmetro.com`. بعد شهر بلا مشاكل غيّري `p=none` إلى `p=quarantine`.
+7. اختبري البريد بإرسال رسالة من Gmail إلى `info@masarmetro.com` والرد عليها، وتأكدي أن الرد لم يصل إلى الرسائل غير المرغوب فيها.
 
 ## 5. ربط الموقع بالنطاق
 
-1. في المستودع افتحي Settings، ثم Pages، ثم Custom domain. اكتبي `masarmetro.sa` واحفظي. النشر يتم عبر GitHub Actions، فلا يلزم ملف CNAME.
+1. في المستودع افتحي Settings، ثم Pages، ثم Custom domain. اكتبي `masarmetro.com` واحفظي. النشر يتم عبر GitHub Actions، فلا يلزم ملف CNAME.
 2. انتظري حتى يكتمل فحص DNS، ثم فعّلي **Enforce HTTPS**. قد يستغرق ظهور هذا الخيار حتى 24 ساعة.
-3. افتحي `https://masarmetro.sa/` و`https://www.masarmetro.sa/`.
+3. افتحي `https://masarmetro.com/` و`https://www.masarmetro.sa/`.
 
 ## 6. الدمج والتحقق
 
 بعد نجاح الخطوتين 4 و5:
 
 1. ادمجي طلب الدمج من الفرع `feat/custom-domain`. سيعيد Deploy site نشر الموقع بالروابط الجديدة.
-2. تأكدي أن `https://masarmetro.sa/ads.json` يعرض `"email": "info@masarmetro.sa"`.
-3. تأكدي أن `https://masarmetro.sa/privacy/` يعرض البريد.
-4. أرسلي `https://masarmetro.sa/sitemap.xml` إلى Google Search Console.
+2. تأكدي أن `https://masarmetro.com/ads.json` يعرض `"email": "info@masarmetro.com"`.
+3. تأكدي أن `https://masarmetro.com/privacy/` يعرض البريد.
+4. أرسلي `https://masarmetro.com/sitemap.xml` إلى Google Search Console.
 5. الرابط القديم `monerah-giv.github.io/Masar/` يحوّله GitHub تلقائياً إلى النطاق الجديد، فلا تنكسر الروابط المطبوعة سابقاً.
 6. تطبيق iPhone يأخذ الروابط الجديدة من نسخته القادمة. وحتى ذلك الحين تعمل روابطه القديمة عبر التحويل نفسه.
 
 ## ما تغيّر في الشيفرة
 
-- `data/app.json`: صار `siteUrl` هو `https://masarmetro.sa/`، وأُضيف `contactEmail` بقيمة `info@masarmetro.sa`. هذا البريد يظهر في صفحتي الخصوصية والشروط.
-- `data/ads.json`: صار `contact.email` هو `info@masarmetro.sa`، فتصل طلبات المعلنين إلى البريد بدل بلاغات GitHub.
+- `data/app.json`: صار `siteUrl` هو `https://masarmetro.com/`، وأُضيف `contactEmail` بقيمة `info@masarmetro.com`. هذا البريد يظهر في صفحتي الخصوصية والشروط.
+- `data/ads.json`: صار `contact.email` هو `info@masarmetro.com`، فتصل طلبات المعلنين إلى البريد بدل بلاغات GitHub.
 - روابط الخصوصية والشروط في تطبيق iPhone وفي بيانات المتجر، وروابط README وPRESS وADMIN.
 - الملفات المولّدة (sitemap وروابط canonical وملف الإعلانات المضمَّن في التطبيق) تُبنى من `siteUrl` تلقائياً.
+- `tools/set_domain.py`: ينقل كل ما سبق إلى نطاق آخر بأمر واحد، ثم يعيد البناء.
