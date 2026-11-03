@@ -58,8 +58,10 @@ spf=$(q TXT "$D" | grep -i 'v=spf1' | tr '\n' ' ')
 n_spf=$(q TXT "$D" | grep -ci 'v=spf1')
 if [ "$n_spf" -gt 1 ]; then log FAIL "SPF" "$n_spf SPF records: keep exactly one"
 elif [ -n "$spf" ]; then log PASS "SPF" "$spf"; else log WAIT "SPF" "none"; fi
-dk=$(q TXT "zoho._domainkey.$D" | head -c 60)
-if [ -n "$dk" ]; then log PASS "DKIM (zoho)" "$dk..."; else log WAIT "DKIM (zoho)" "none at zoho._domainkey (another provider uses another selector)"; fi
+# DKIM: Zoho's automatic setup uses the selector "zmail"; manual setups often use "zoho".
+dk=""; sel=""
+for s in zmail zoho; do dk=$(q TXT "$s._domainkey.$D" | head -c 60); [ -n "$dk" ] && { sel=$s; break; }; done
+if [ -n "$dk" ]; then log PASS "DKIM ($sel)" "$dk..."; else log WAIT "DKIM" "none at zmail._domainkey or zoho._domainkey (another provider uses another selector)"; fi
 dm=$(q TXT "_dmarc.$D" | tr '\n' ' ')
 case "$dm" in *DMARC1*) log PASS "DMARC" "$dm";; *) log WAIT "DMARC" "none";; esac
 
