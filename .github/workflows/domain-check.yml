@@ -9,7 +9,7 @@ on:
       domain:
         description: "Domain to check"
         required: true
-        default: "masarmetro.com"
+        default: "masarmetro.app"
 
 permissions:
   contents: read
