@@ -5,10 +5,11 @@
 
 ## 1. حجز النطاق
 
-- النطاق الأساسي هو `masarmetro.app`، ومعه `masarmetro.com` محجوز منذ 1 نوفمبر 2026 ويُحوَّل إليه (الخطوة 7).
+- النطاق الوحيد للموقع والبريد هو `masarmetro.app`. حُجز في 3 نوفمبر 2026 لسنتين، والتجديد التلقائي مفعّل.
+- **`masarmetro.com` ليس لنا.** حجزه طرف آخر في 2 نوفمبر 2026. لا تذكريه في أي مادة تسويقية، ونبّهي المعلنين إلى أن المراسلات الرسمية تصل من `@masarmetro.app` فقط.
 - `.app` و`.com` نطاقان عالميان. لا يطلبان سجلاً تجارياً ولا وثائق سعودية، ويُفعَّلان خلال دقائق من الدفع.
 - **`.app` يعمل عبر HTTPS فقط.** هذا إلزامي في كل المتصفحات، فلا يفتح الموقع على النطاق إلا بعد أن يصدر GitHub الشهادة (الخطوة 5).
-- **المسجّل: Cloudflare Registrar**، وهو نفس حساب `masarmetro.com`. يبيع بسعر التكلفة، ويخفي بيانات المالك (WHOIS) مجاناً.
+- **المسجّل: Cloudflare Registrar**، يبيع بسعر التكلفة، ويخفي بيانات المالك (WHOIS) مجاناً.
 - عند الشراء:
   - فعّلي **التجديد التلقائي** و**قفل النقل (Transfer lock)**.
   - احجزي لسنتين أو أكثر.
@@ -74,21 +75,6 @@
 4. أرسلي `https://masarmetro.app/sitemap.xml` إلى Google Search Console.
 5. الرابط القديم `monerah-giv.github.io/Masar/` يحوّله GitHub تلقائياً إلى النطاق الجديد، فلا تنكسر الروابط المطبوعة سابقاً.
 6. تطبيق iPhone يأخذ الروابط الجديدة من نسخته القادمة. وحتى ذلك الحين تعمل روابطه القديمة عبر التحويل نفسه.
-
-## 7. تحويل masarmetro.com إلى masarmetro.app
-
-GitHub Pages يقبل نطاقاً واحداً، فيُحوَّل `.com` إلى `.app` من Cloudflare مع الحفاظ على المسار. مثلاً `masarmetro.com/privacy/` يذهب إلى `masarmetro.app/privacy/`.
-
-1. في Cloudflare افتحي `masarmetro.com`، ثم **DNS → Records**، وأضيفي:
-   - `A` باسم `@` وقيمة `192.0.2.1`، مع **Proxied** (السحابة البرتقالية).
-   - `CNAME` باسم `www` وقيمة `masarmetro.com`، مع **Proxied**.
-
-   هذا العنوان لا يُستخدم فعلياً، فـ Cloudflare يجيب بنفسه.
-2. افتحي **Rules → Redirect Rules → Create rule** واملئي:
-   - **If:** All incoming requests.
-   - **Then:** Dynamic، والعبارة `concat("https://masarmetro.app", http.request.uri.path)`.
-   - **Status code:** 301، وفعّلي **Preserve query string**.
-3. احفظي، ثم جرّبي `https://masarmetro.com/station/` و`https://www.masarmetro.com/`.
 
 ## ما تغيّر في الشيفرة
 

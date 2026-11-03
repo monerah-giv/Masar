@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Checks the custom domain of the site and its business mailbox, using public DNS and HTTPS only.
-# Usage: bash tools/check_domain.sh masarmetro.com
+# Usage: bash tools/check_domain.sh masarmetro.app
 # Prints one line per check (PASS / FAIL / WAIT) and a summary table to $GITHUB_STEP_SUMMARY when set.
 # Exits 1 if a check the site needs fails. Mail checks only warn, since the mailbox is set up after the site.
 set -uo pipefail
 
-D="${1:?domain required, e.g. masarmetro.com}"
+D="${1:?domain required, e.g. masarmetro.app}"
 PAGES_A="185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153"
 NS=1.1.1.1
 fail=0
