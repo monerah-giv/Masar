@@ -21,7 +21,7 @@ TEXT = {".json", ".md", ".swift", ".yml", ".yaml", ".zone", ".html", ".py", ".sh
 
 def main():
     if len(sys.argv) != 2 or not re.fullmatch(r"[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9-]+)+", sys.argv[1].lower()):
-        sys.exit("usage: python3 tools/set_domain.py <domain>   e.g. masarmetro.com")
+        sys.exit("usage: python3 tools/set_domain.py <domain>   e.g. masarmetro.app")
     new = sys.argv[1].lower()
     app = json.loads((ROOT / "data/app.json").read_text(encoding="utf-8"))
     old = urlparse(app["siteUrl"]).hostname or ""
