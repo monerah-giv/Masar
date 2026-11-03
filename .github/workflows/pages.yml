@@ -41,7 +41,7 @@ jobs:
           python3 -m unittest discover -s tests
           node --test tests/engine.test.mjs tests/ads.test.mjs tests/admin.test.mjs
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v3
         with:
