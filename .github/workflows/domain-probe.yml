@@ -1,0 +1,17 @@
+name: Domain availability probe (temporary)
+on: push
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          for d in masarmetro.app masarmetro.com; do
+            code=$(curl -sL -o /tmp/r.json -w '%{http_code}' --max-time 20 "https://rdap.org/domain/$d")
+            if [ "$code" = 404 ]; then st=AVAILABLE
+            elif [ "$code" = 200 ]; then st="TAKEN reg=$(jq -r '[.events[]?|select(.eventAction=="registration")|.eventDate][0]' /tmp/r.json) registrar=$(jq -r '[.entities[]?|select(.roles|index("registrar"))|.vcardArray[1][]?|select(.[0]=="fn")|.[3]][0]' /tmp/r.json) status=$(jq -r '.status|join(",")' /tmp/r.json)"
+            else st="UNKNOWN http=$code"; fi
+            echo "::notice title=$d::$st"
+          done
