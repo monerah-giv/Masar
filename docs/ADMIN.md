@@ -1,6 +1,6 @@
 # لوحة التحكم / Admin control page
 
-**الرابط:** `https://masarmetro.com/admin/`
+**الرابط:** `https://masarmetro.app/admin/`
 
 الرابط غير ظاهر في التطبيق، ومحجوب عن محركات البحث. ومعرفته وحدها لا تكفي للدخول.
 
