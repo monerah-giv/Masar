@@ -29,6 +29,8 @@ jobs:
   screenshots:
     runs-on: macos-15
     timeout-minutes: 45
+    permissions:
+      contents: write          # pushes the images to the store-assets branch
     steps:
       - uses: actions/checkout@v4
 
@@ -100,6 +102,25 @@ jobs:
           name: app-store-screenshots
           path: shots
           retention-days: 30
+
+      # The same images on the store-assets branch, so they can be viewed on GitHub one by one.
+      - name: Publish to the store-assets branch
+        run: |
+          dir=$(mktemp -d)
+          cp -R shots "$dir/"
+          cd "$dir"
+          git init -q -b store-assets
+          {
+            echo "# App Store screenshots"
+            echo
+            echo "6.9-inch iPhone, $(sips -g pixelWidth -g pixelHeight shots/ar/1-plan.png | awk '/pixel/{printf "%s ", $2}')px. Built from ${GITHUB_SHA::7} by the App Store workflow; replaced on every run."
+            echo
+            for f in shots/*/*.png; do echo "![$f]($f)"; done
+          } > README.md
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Screenshots from ${GITHUB_SHA::7}"
+          git push -q --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" store-assets
 
   upload:
     if: github.event_name == 'workflow_dispatch' && inputs.upload
