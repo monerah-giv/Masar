@@ -175,5 +175,38 @@ class LedgerTests(unittest.TestCase):
             self.assertNotIn(word, raw)
 
 
+class StoreMetadataTests(unittest.TestCase):
+    """The App Store text that tools/asc_metadata.py sends must fit Apple's limits."""
+
+    def setUp(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("asc", os.path.join(ROOT, "tools", "asc_metadata.py"))
+        self.asc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.asc)
+
+    def test_payloads_fit_store_limits(self):
+        p = self.asc.plan(*self.asc.load())
+        self.assertEqual(p["problems"], [])
+        self.assertRegex(p["version"], r"^\d+\.\d+\.\d+$")
+        for locale in ("ar-SA", "en-US"):
+            self.assertIn(locale, p["info"])
+            self.assertIn(locale, p["versionText"])
+        self.assertEqual(p["categories"], {"primaryCategory": "NAVIGATION", "secondaryCategory": "TRAVEL"})
+
+    def test_store_links_use_the_live_domain(self):
+        p = self.asc.plan(*self.asc.load())
+        app = load("data", "app.json")
+        for attrs in list(p["info"].values()) + list(p["versionText"].values()):
+            for k, v in attrs.items():
+                if k.endswith("Url"):
+                    self.assertTrue(v.startswith(app["siteUrl"]), v)
+
+    def test_bundle_id_matches_the_project(self):
+        with open(os.path.join(ROOT, "ios", "project.yml"), encoding="utf-8") as f:
+            spec = f.read()
+        self.assertIn(f"PRODUCT_BUNDLE_IDENTIFIER: {self.asc.BUNDLE_ID}\n", spec)
+        self.assertIn(f"iCloud.{self.asc.BUNDLE_ID}", spec)
+
+
 if __name__ == "__main__":
     unittest.main()

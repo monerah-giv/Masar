@@ -23,7 +23,7 @@ enum Endpoint: Hashable {
 /// reopens where the person left off; the current location is never stored.
 @Observable
 final class AppRouter {
-    enum Tab: Hashable { case plan, saved, fares, account }
+    enum Tab: String, Hashable { case plan, saved, fares, account }
 
     var tab: Tab = .plan
     private(set) var fromCurrentLocation = false
@@ -47,6 +47,9 @@ final class AppRouter {
         fromPlace = Self.loadJSON(Keys.fromPlace)
         toPlace = Self.loadJSON(Keys.toPlace)
         preference = RoutePreference(rawValue: d.string(forKey: Keys.pref) ?? "") ?? .fastest
+        // App Store screenshots: the workflow launches the app with `-screenshot.tab fares` and so on.
+        // Launch arguments land in UserDefaults' argument domain, so normal launches never see this key.
+        if let t = d.string(forKey: "screenshot.tab").flatMap(Tab.init(rawValue:)) { tab = t }
     }
 
     var origin: Endpoint? {

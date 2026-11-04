@@ -1,0 +1,198 @@
+name: App Store
+
+# Run from the Actions tab: App Store → Run workflow.
+#   screenshots: 6.9-inch iPhone screens in Arabic and English, taken from the app itself (artifact "app-store-screenshots").
+#   upload:      a signed build sent to App Store Connect / TestFlight, then the store text from ios/AppStore/metadata.json.
+# Upload needs four repository secrets (docs/APPSTORE.md): APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8.
+on:
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: "Sign and upload the build to App Store Connect"
+        type: boolean
+        default: true
+      metadata:
+        description: "Send the store text (name, description, keywords) after the upload"
+        type: boolean
+        default: true
+  pull_request:
+    paths: [".github/workflows/appstore.yml"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: appstore-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  screenshots:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use the newest stable Xcode
+        run: |
+          X=$(ls -d /Applications/Xcode_*.app | grep -viE "beta|release_candidate" | sort -V | tail -1)
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
+
+      - name: Generate resources and project
+        run: |
+          python3 tools/build.py
+          brew install xcodegen
+          cd ios && xcodegen generate
+
+      - name: Pick a 6.9-inch iPhone simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, re, sys
+          d = json.load(sys.stdin)["devices"]
+          runtimes = sorted((k for k in d if "iOS" in k), key=lambda k: [int(x) for x in re.findall(r"\d+", k)], reverse=True)
+          for k in runtimes:
+              for dev in d[k]:
+                  if "Pro Max" in dev["name"]:
+                      print(dev["udid"]); sys.exit(0)
+          sys.exit("no Pro Max simulator")')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl list devices | grep "$UDID"
+
+      - name: Build for the simulator
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild build -project Masar.xcodeproj -scheme Masar -configuration Release \
+            -destination "id=${{ steps.sim.outputs.udid }}" -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tail -5
+
+      - name: Take the screenshots
+        env:
+          UDID: ${{ steps.sim.outputs.udid }}
+        run: |
+          APP=$(ls -d ios/build/Build/Products/Release-iphonesimulator/Masar.app)
+          BID=app.masarmetro.ios
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_bar "$UDID" override --time "9:41" --dataNetwork wifi --wifiMode active \
+            --wifiBars 3 --cellularMode active --cellularBars 4 --batteryState charged --batteryLevel 100
+          xcrun simctl install "$UDID" "$APP"
+          xcrun simctl privacy "$UDID" grant location "$BID" || true
+          xcrun simctl location "$UDID" set 24.6880,46.6850 || true        # central Riyadh
+          for lang in ar en; do
+            locale=$([ "$lang" = ar ] && echo ar_SA || echo en_US)
+            mkdir -p "shots/$lang"
+            n=1
+            for tab in plan fares saved account; do
+              xcrun simctl launch --terminate-running-process "$UDID" "$BID" \
+                -AppleLanguages "($lang)" -AppleLocale "$locale" -screenshot.tab "$tab" \
+                -plan.from t12 -plan.to qasrhokm
+              sleep 8
+              xcrun simctl io "$UDID" screenshot "shots/$lang/$n-$tab.png"
+              n=$((n+1))
+            done
+          done
+          sips -g pixelWidth -g pixelHeight shots/ar/1-plan.png
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshots
+          path: shots
+          retention-days: 30
+
+  upload:
+    if: github.event_name == 'workflow_dispatch' && inputs.upload
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check the Apple secrets
+        run: |
+          missing=""
+          for s in APPLE_TEAM_ID ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8; do [ -n "${!s}" ] || missing="$missing $s"; done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secrets:$missing. See docs/APPSTORE.md, step 3."; exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      - name: Use the newest stable Xcode
+        run: |
+          X=$(ls -d /Applications/Xcode_*.app | grep -viE "beta|release_candidate" | sort -V | tail -1)
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
+
+      - name: Generate resources and project
+        run: |
+          python3 tools/build.py
+          brew install xcodegen
+          cd ios && xcodegen generate
+
+      - name: Write the API key
+        run: |
+          KEY="$RUNNER_TEMP/AuthKey_$ASC_KEY_ID.p8"
+          if printf '%s' "$ASC_KEY_P8" | grep -q "BEGIN PRIVATE KEY"; then printf '%s\n' "$ASC_KEY_P8" > "$KEY"
+          else printf '%s' "$ASC_KEY_P8" | base64 --decode > "$KEY"; fi
+          echo "ASC_KEY_PATH=$KEY" >> "$GITHUB_ENV"
+
+      - name: Archive (signed by Apple's cloud signing)
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild archive -project Masar.xcodeproj -scheme Masar -configuration Release \
+            -destination "generic/platform=iOS" -archivePath build/Masar.xcarchive \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGN_STYLE=Automatic \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" 2>&1 | tee archive.log | grep -E "error:|warning: .*sign|\*\* ARCHIVE" || true
+          grep -q "\*\* ARCHIVE SUCCEEDED \*\*" archive.log
+
+      - name: Upload to App Store Connect
+        working-directory: ios
+        run: |
+          cat > build/ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$APPLE_TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          EOF
+          set -o pipefail
+          xcodebuild -exportArchive -archivePath build/Masar.xcarchive \
+            -exportOptionsPlist build/ExportOptions.plist -exportPath build/export \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" 2>&1 | tee export.log | tail -20
+          grep -q "EXPORT SUCCEEDED\|Upload succeeded\|Uploaded" export.log
+          echo "Build ${{ github.run_number }} uploaded. It appears in App Store Connect → TestFlight after Apple finishes processing (usually 10–30 minutes)." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Send the store text
+        if: inputs.metadata
+        run: |
+          python3 -m pip install --quiet pyjwt cryptography requests
+          python3 tools/asc_metadata.py
+
+      - name: Keep logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appstore-logs
+          path: |
+            ios/archive.log
+            ios/export.log
+          retention-days: 7

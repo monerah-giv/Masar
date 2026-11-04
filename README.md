@@ -156,7 +156,7 @@ python3 tools/build.py
 3. في `project.yml` غيّر هذه القيم ثم أعد تشغيل `xcodegen generate`:
    - `DEVELOPMENT_TEAM`: رقم فريقك في Apple Developer.
    - `bundleIdPrefix` و `PRODUCT_BUNDLE_IDENTIFIER`: معرّف تملكه.
-   - `iCloud.sa.masar.app`: اسم حاوية CloudKit الخاصة بك.
+   - `iCloud.app.masarmetro.ios`: اسم حاوية CloudKit الخاصة بك.
 4. من Xcode، في تبويب **Signing & Capabilities**، تأكد من تفعيل:
    - Sign in with Apple
    - iCloud ← CloudKit
