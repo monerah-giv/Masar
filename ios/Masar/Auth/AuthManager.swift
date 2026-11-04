@@ -61,7 +61,7 @@ final class AuthManager {
 }
 
 enum Keychain {
-    private static let service = "sa.masar.app"
+    private static let service = "app.masarmetro.ios"
 
     static func save(_ value: String, for key: String) {
         delete(key)
