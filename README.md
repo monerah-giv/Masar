@@ -165,13 +165,7 @@ python3 tools/build.py
 
 ## الرفع إلى App Store
 
-1. اشترك في Apple Developer Program، والاشتراك سنوي برسوم 99 دولاراً.
-2. أنشئ التطبيق في App Store Connect بالمعرّف نفسه.
-3. انسخ النصوص من `ios/AppStore/metadata.json`: الاسم، العنوان الفرعي، الوصف، الكلمات المفتاحية.
-4. ارفع لقطات شاشة لآيفون مقاس 6.9 بوصة، ويُفضَّل أن تكون بالعربية والإنجليزية.
-5. في قسم الخصوصية اختر **Data Not Collected**، وانشر صفحة سياسة خصوصية ثم ضع رابطها في `AccountView.swift` بدل `example.com`.
-6. من Xcode: Product ← Archive ← Distribute App ← App Store Connect.
-7. أرسل التطبيق للمراجعة مع ملاحظات المراجِع الموجودة في `metadata.json`.
+البناء والتوقيع والرفع وصور الشاشات ونصوص المتجر تتم من GitHub عبر سير العمل **App Store**. الخطوات المطلوبة مرة واحدة في حساب Apple موجودة في [`docs/APPSTORE.md`](docs/APPSTORE.md).
 
 ## قبل الإطلاق
 
