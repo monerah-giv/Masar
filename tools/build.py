@@ -178,7 +178,9 @@ CSP_SITE = ("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 's
             "manifest-src 'self'; worker-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
 CSP_ADMIN = CSP_SITE.replace("connect-src 'self'", "connect-src 'self' https://api.github.com").replace("form-action 'self'", "form-action 'none'")
 # the admin page refuses to run inside a frame (clickjacking); frame-ancestors is ignored in a meta tag
-FRAME_GUARD = '<style id="fg">html{display:none!important}</style><script>if(self===top){document.getElementById("fg").remove()}else{top.location=self.location}</script>'
+# (the style hides the page; the first lines of the page's own script show it again only outside a frame)
+FRAME_GUARD = '<style id="fg">html{display:none!important}</style>'
+FRAME_GUARD_JS = 'if(self===top){document.getElementById("fg").remove()}else{try{top.location=self.location}catch(e){}}\n'
 
 SITE_HEAD = """<!doctype html>
 <html lang="ar" dir="rtl">
@@ -226,6 +228,9 @@ def admin(net, app):
         if token not in src:
             sys.exit(f"placeholder {token} missing in web/admin.html")
         src = src.replace(token, dump(obj))
+    if "<script>" not in src:
+        sys.exit("no <script> in web/admin.html for the frame guard")
+    src = src.replace("<script>", "<script>\n" + FRAME_GUARD_JS, 1)
     out = D("dist", "site", "admin"); os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
         f.write(ADMIN_HEAD.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="' + CSP_ADMIN + '">\n' + FRAME_GUARD, 1) + src + "\n</body>\n</html>\n")
