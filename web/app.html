@@ -1208,9 +1208,10 @@ const loc = o => !o ? "" : typeof o === "string" ? o : o[lang] != null ? o[lang]
 function adLink(c, id){
   try{
     const u = new URL(c.url);
+    if(u.protocol !== "https:") return "";   // only https links reach riders (no javascript:, data: or http:)
     [["utm_source","masar"],["utm_medium","app"],["utm_campaign",c.id],["utm_content",id]].forEach(([k, v]) => { if(!u.searchParams.has(k)) u.searchParams.set(k, v); });
     return u.toString();
-  }catch(e){ return c.url; }
+  }catch(e){ return ""; }
 }
 const walkURL = (a, b) => "https://www.google.com/maps/dir/?api=1&origin="+ll(a)+"&destination="+ll(b)+"&travelmode=walking";
 function adCard(c, id, preview){
@@ -1219,7 +1220,8 @@ function adCard(c, id, preview){
   const a = (href, ic, label, ext) => preview ? '<span class="btn line" aria-hidden="true">'+ic+esc(label)+'</span>'
     : '<a class="btn line" href="'+esc(href)+'"'+(ext ? ' target="_blank" rel="noopener sponsored"' : '')+'>'+ic+esc(label)+'</a>';
   const acts = [];
-  if(c.url) acts.push(a(adLink(c, id), ICON.ext, t("ad_visit"), true));
+  const href = c.url ? adLink(c, id) : "";
+  if(href) acts.push(a(href, ICON.ext, t("ad_visit"), true));
   if(c.lat != null) acts.push(a(walkURL(S[id], c), ICON.walk, t("walk_dir"), true));
   if(c.phone) acts.push(a("tel:" + String(c.phone).replace(/\s/g, ""), ICON.phone, t("ad_call")));
   return '<aside class="card ad" aria-label="'+esc(t("ad_tag")+": "+loc(c.name))+'"><div class="ad-h"><span class="ad-tag">'+esc(t("ad_tag"))+'</span><span>'+esc(near)+'</span></div>'+

@@ -88,3 +88,12 @@ test("prices follow the rate card, durations and packages", () => {
   assert.equal(E.quote("network", null, 1, "2027-01-03").sts.length, 83);
   assert.equal(E.quote("station", "kafd", 4, "2027-01-03").end, "2027-01-30");
 });
+
+test("ad links reach riders only over https (no javascript:, data: or http:)", () => {
+  const c2 = vm.createContext({ URL });
+  vm.runInContext(slice("function adLink(", "const walkURL") + "\nglobalThis.adLink = adLink;", c2);
+  const link = url => c2.adLink({ id: "t", url }, "kafd");
+  assert.match(link("https://shop.example/a"), /^https:\/\/shop\.example\/a\?utm_source=masar/);
+  for (const bad of ["javascript:alert(1)", "JavaScript:alert(1)", "data:text/html,x", "http://shop.example", "not a url"])
+    assert.equal(link(bad), "", bad);
+});

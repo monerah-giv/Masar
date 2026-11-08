@@ -21,3 +21,15 @@ Please use **Security → Report a vulnerability** (private advisory). Do not op
   Advertiser and payment data are encrypted (AES-256-GCM, PBKDF2-SHA256 ×310k) in `data/billing.enc`; the repo never holds them in clear.
 - الصفحة لا تحمل أسراراً ولا بيانات؛ معرفة رابطها لا تمنح أي وصول.
   The page itself carries no secrets or data; knowing its address grants nothing.
+
+## الحماية في الموقع / Site hardening
+- سياسة أمان المحتوى (CSP) في كل صفحة: لا سكربتات أو إطارات أو إضافات من مواقع أخرى، ولا إرسال بيانات إلا للموقع نفسه، ولوحة التحكم لا تتصل إلا بـGitHub.
+  A Content-Security-Policy on every page: no foreign scripts, frames or plug-ins, no data sent anywhere but the site; the admin page talks to GitHub only.
+- لوحة التحكم ترفض العمل داخل إطار (حماية من clickjacking).
+  The admin page refuses to run inside a frame (clickjacking).
+- روابط المعلنين تُقبل بـhttps فقط، في البناء وفي التطبيق.
+  Advertiser links must be https, checked at build time and again in the app.
+- إجراءات GitHub Actions مثبّتة على بصمة الإيداع (SHA)، ولا تحتفظ بمفتاح GitHub بعد الجلب.
+  GitHub Actions are pinned to commit SHAs and checkout does not keep the token.
+- ملف `/.well-known/security.txt` يدل على طريقة الإبلاغ الخاص.
+  `/.well-known/security.txt` points to private reporting.
