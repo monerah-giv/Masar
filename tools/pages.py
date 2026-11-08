@@ -42,6 +42,12 @@ footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--rule);color:v
 footer a{color:var(--muted)}
 """
 
+# same policy as tools/build.py CSP_SITE (meta tag, since GitHub Pages sends no headers)
+CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+       "font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; "
+       "frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
+CSP_META = f'<meta http-equiv="Content-Security-Policy" content="{CSP}">\n<meta name="referrer" content="strict-origin-when-cross-origin">'
+
 def shell(title, desc, body, depth, path, site_url):
     up = "../" * depth
     canon = (site_url.rstrip("/") + "/" + path) if site_url else ""
@@ -49,6 +55,7 @@ def shell(title, desc, body, depth, path, site_url):
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+{CSP_META}
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
@@ -279,7 +286,7 @@ def build_pages(out, net, strings, ads, app):
         codes = {"": qr_rows(link(""))}
         codes.update({sid: qr_rows(link(sid)) for sid in order})
         opts = "".join(f'<option value="{sid}">{E(S[sid]["ar"])}</option>' for sid in order)
-        write(out, "sticker", STICKER.replace("/*CODES*/null", json.dumps(codes, separators=(",", ":"))).replace("<!--OPTS-->", opts))
+        write(out, "sticker", STICKER.replace('<meta charset="utf-8">', '<meta charset="utf-8">' + CSP_META, 1).replace("/*CODES*/null", json.dumps(codes, separators=(",", ":"))).replace("<!--OPTS-->", opts))
     # ---------- sitemap ----------
     if site:
         locs = "".join(f"<url><loc>{E(site)}/{E(u)}</loc></url>" for u in [""] + urls)

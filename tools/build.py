@@ -170,6 +170,16 @@ def ios(net, fares, strings):
     with open(os.path.join(res, "InfoPlist.xcstrings"), "w", encoding="utf-8") as f:
         json.dump(info, f, ensure_ascii=False, indent=2)
 
+# Content-Security-Policy for the published pages (GitHub Pages cannot send headers, so it rides in a meta tag).
+# Scripts stay inline, so the gain is in what an injected script could reach: no foreign scripts, no
+# plug-ins, no <base> hijack, no form posts or fetches to other sites (the admin page may talk to GitHub only).
+CSP_SITE = ("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; "
+            "manifest-src 'self'; worker-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
+CSP_ADMIN = CSP_SITE.replace("connect-src 'self'", "connect-src 'self' https://api.github.com").replace("form-action 'self'", "form-action 'none'")
+# the admin page refuses to run inside a frame (clickjacking); frame-ancestors is ignored in a meta tag
+FRAME_GUARD = '<style id="fg">html{display:none!important}</style><script>if(self===top){document.getElementById("fg").remove()}else{top.location=self.location}</script>'
+
 SITE_HEAD = """<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -218,7 +228,14 @@ def admin(net, app):
         src = src.replace(token, dump(obj))
     out = D("dist", "site", "admin"); os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
-        f.write(ADMIN_HEAD + src + "\n</body>\n</html>\n")
+        f.write(ADMIN_HEAD.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="' + CSP_ADMIN + '">\n' + FRAME_GUARD, 1) + src + "\n</body>\n</html>\n")
+    # RFC 9116: where to report a security problem privately
+    os.makedirs(D("dist", "site", ".well-known"), exist_ok=True)
+    with open(D("dist", "site", ".well-known", "security.txt"), "w", encoding="utf-8") as f:
+        f.write("Contact: mailto:info@masarmetro.app\n"
+                "Contact: https://github.com/monerah-giv/Masar/security/advisories/new\n"
+                "Expires: 2027-11-01T00:00:00Z\nPreferred-Languages: ar, en\n"
+                "Policy: https://github.com/monerah-giv/Masar/blob/main/SECURITY.md\n")
     with open(D("dist", "site", "robots.txt"), "w", encoding="utf-8") as f:
         f.write("User-agent: *\nDisallow: /Masar/admin/\nDisallow: /admin/\n")
 
@@ -227,7 +244,7 @@ def site(page):
     location, so the app opens already located; it can also be added to the Home Screen."""
     out = D("dist", "site"); os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
-        f.write(SITE_HEAD + page + "\n</body>\n</html>\n")
+        f.write(SITE_HEAD.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="' + CSP_SITE + '">\n<meta name="referrer" content="strict-origin-when-cross-origin">', 1) + page + "\n</body>\n</html>\n")
     manifest = {"name": "مسار – رحلات مترو الرياض", "short_name": "مسار", "lang": "ar", "dir": "rtl",
                 "start_url": "./", "display": "standalone", "background_color": "#EEF3F1", "theme_color": "#00795C",
                 "icons": [{"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
