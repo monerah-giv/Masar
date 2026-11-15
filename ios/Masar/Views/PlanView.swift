@@ -88,7 +88,9 @@ struct PlanView: View {
                         alternativeRow(current: t, alt: a)
                     }
                     stepsSection(t)
-                    if let sid = arrivalStation(t) { SponsoredSection(stationID: sid) }
+                    if let sid = arrivalStation(t) {
+                        SponsoredSection(stationID: sid, arrival: (leaveNow ? Date() : departure).addingTimeInterval(t.totalMinutes * 60))
+                    }
                 } else {
                     Section { Text(emptyMessage).foregroundStyle(.secondary) }
                 }

@@ -13,6 +13,8 @@ Please use **Security → Report a vulnerability** (private advisory). Do not op
   On iOS saved places sync through the user's own iCloud; there is no intermediate server.
 - الإعلانات سياقية فقط: تُختار حسب المحطة التي يتجه إليها الراكب، لا حسب هويته. لا تحليلات ولا تتبّع ولا معرّفات إعلانية، ولا يُرسل شيء عن الراكب عند جلب الإعلانات.
   Ads are contextual only — chosen by the destination station, never by who the rider is. No analytics, tracking or ad identifiers; fetching the ad feed sends nothing about the rider.
+- ترتيب إعلانات المحطة الواحدة يُحسب على الجهاز: وقت الوصول، نوع المحطة، اتجاه الحركة، وما فتحه الراكب أو أخفاه من عروض. هذا «الذوق» يُحفظ في تخزين الجهاز فقط (`masar.taste.v1` في الويب، `ads.taste` في iOS)، خارج مزامنة الحساب وiCloud، ويوقفه الراكب أو يمسحه من «حسابي». الاتجاه والموقع يبقيان في الذاكرة ولا يُحفظان.
+  Ordering a station's ads happens on the device: arrival time, kind of station, direction of travel, and the offers the rider opened or hid. That taste lives in device storage only (`masar.taste.v1` on the web, `ads.taste` on iOS), outside account sync and iCloud, and the rider can switch it off or clear it. Heading and location stay in memory and are never stored.
 
 ## لوحة التحكم / Admin page
 - الدخول بمفتاح GitHub دقيق الصلاحية (Contents على هذا المستودع فقط) لحساب مُدرج في `admins`، ولا يُحفظ المفتاح إلا في متصفح المدير.

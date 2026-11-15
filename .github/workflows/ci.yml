@@ -40,7 +40,7 @@ jobs:
         run: python3 -m unittest discover -s tests -v
 
       - name: Routing engine and ad tests
-        run: node --test tests/engine.test.mjs tests/ads.test.mjs tests/admin.test.mjs
+        run: node --test tests/engine.test.mjs tests/ads.test.mjs tests/admin.test.mjs tests/intent.test.mjs
 
       - name: Script syntax check
         run: |

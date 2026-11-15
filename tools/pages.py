@@ -7,7 +7,7 @@ import heapq, html, json, os
 
 E = html.escape
 LANDMARKS = ["t12", "kafd", "qasrhokm", "museum", "ksu", "kfstadium"]
-EFFECTIVE = "2026-10-17"
+EFFECTIVE = "2026-11-15"
 
 CSS = """
 :root{--bg:#EEF3F1;--surface:#fff;--soft:#E3ECE8;--ink:#0B1A22;--muted:#51635D;--rule:#D3DED9;--accent:#00795C;--accent-ink:#fff;--accent-soft:#D6EEE5;--gold:#F6B53C;--gold-soft:#FCEFD2;
@@ -152,6 +152,7 @@ def build_pages(out, net, strings, ads, app):
 <h2>ما يُحفظ وأين</h2><ul><li><b>الأماكن المحفوظة والمسارات وسجل الرحلات</b> تُحفظ على جهازك. في تطبيق iPhone تُزامَن عبر حساب iCloud الخاص بك فقط، ولا تمر بأي خادم لنا. سجل الرحلات يحفظ «محطة ← محطة» ولا يحفظ عناوين.</li>
 <li><b>تسجيل الدخول بـ Apple</b> اختياري، ويُستخدم لتسمية الحساب فقط. يمكنك حذف كل بياناتك من «حسابي ← حذف حسابي وبياناتي».</li></ul>
 <h2>الإعلانات</h2><ul><li>الإعلانات <b>سياقية</b>: تُختار حسب المحطة التي تتجه إليها، لا حسب هويتك.</li>
+<li><b>الترتيب يتم على جهازك:</b> إذا حجز أكثر من معلن في المحطة نفسها، يقدّم التطبيق الأنسب لوقت وصولك ونوع المحطة، ولما فتحته أو أخفيته من عروض، ولاتجاه حركتك عند عرض ما حولك. ما يتعلّمه التطبيق من ضغطاتك يُحفظ على جهازك فقط، ولا يُرسل إلينا ولا إلى المعلن، ولا يدخل في مزامنة الحساب. توقفه أو تمسحه من «حسابي ← إعلانات تناسبني».</li>
 <li>يجلب التطبيق قائمة الإعلانات من موقعنا على GitHub Pages دون إرسال أي معلومة عنك. قد يسجّل مزوّد الاستضافة (GitHub) عنوان IP في سجلاته وفق سياسته.</li>
 <li>عند فتح رابط معلن تنتقل إلى موقعه وتسري عليه سياسته. يحمل الرابط اسم الحملة والمحطة فقط، ولا شيء عنك.</li></ul>
 <h2>خدمات خارجية</h2><p>اتجاهات المشي تفتح في خرائط Google أو Apple وتسري عليها سياستهما.</p>
@@ -162,7 +163,7 @@ def build_pages(out, net, strings, ads, app):
 <li>Your <b>location</b> is used on your device only to pick the nearest station; it is never stored or sent to us.</li>
 <li>Saved places, routes and trip history stay on your device; on iPhone they sync only through your own iCloud. History keeps station pairs, never addresses.</li>
 <li>Sign in with Apple is optional. Delete everything from Account → Delete my account and data.</li>
-<li>Ads are <b>contextual</b>: chosen by the station you are heading to, not by who you are. The ad list is fetched from GitHub Pages with nothing about you; GitHub may log IP addresses under its own policy. Advertiser links carry the campaign and station only.</li>
+<li>Ads are <b>contextual</b>: chosen by the station you are heading to, not by who you are. When several advertisers booked the same station, the app orders them <b>on your device</b> by your arrival time, the kind of station, the offers you opened or hid and, for offers around you, your direction of travel. What it learns from your taps stays on your device, is never sent to us or to advertisers, and is not synced; switch it off or clear it under Account → Ads that suit me. The ad list is fetched from GitHub Pages with nothing about you; GitHub may log IP addresses under its own policy. Advertiser links carry the campaign and station only.</li>
 <li>Walking directions open in Google or Apple Maps under their policies. Advertiser contact and payment data are used for billing only and kept encrypted.</li>
 <li>You may access, correct or delete your data under the Saudi Personal Data Protection Law. Contact: {contact_en}.</li></ul></section>""")
 

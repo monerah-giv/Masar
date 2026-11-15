@@ -30,6 +30,218 @@
   "line": 0.35,
   "network": 0.5
  },
+ "context": {
+  "momentCats": {
+   "morning": [
+    "cafe",
+    "food",
+    "health"
+   ],
+   "midday": [
+    "food",
+    "cafe"
+   ],
+   "afternoon": [
+    "cafe",
+    "shop",
+    "services"
+   ],
+   "evening": [
+    "food",
+    "shop",
+    "fun"
+   ],
+   "night": [
+    "food",
+    "cafe",
+    "fun"
+   ]
+  },
+  "weekendCats": [
+   "fun",
+   "shop",
+   "food"
+  ],
+  "placeCats": {
+   "home": [
+    "food",
+    "shop",
+    "health",
+    "services"
+   ],
+   "work": [
+    "cafe",
+    "food",
+    "services"
+   ]
+  },
+  "kindOf": {
+   "t12": [
+    "airport"
+   ],
+   "t34": [
+    "airport"
+   ],
+   "t5": [
+    "airport"
+   ],
+   "railway": [
+    "transit"
+   ],
+   "transport": [
+    "transit"
+   ],
+   "western": [
+    "transit"
+   ],
+   "ksu": [
+    "campus"
+   ],
+   "pnu": [
+    "campus"
+   ],
+   "kacst": [
+    "campus"
+   ],
+   "kafd": [
+    "business"
+   ],
+   "sabb": [
+    "business"
+   ],
+   "stc": [
+    "business"
+   ],
+   "alinma": [
+    "business"
+   ],
+   "bilad": [
+    "business"
+   ],
+   "kfd": [
+    "business"
+   ],
+   "kfd2": [
+    "business"
+   ],
+   "murooj": [
+    "business"
+   ],
+   "sabic": [
+    "business"
+   ],
+   "govcomplex": [
+    "business"
+   ],
+   "moi": [
+    "business"
+   ],
+   "moe": [
+    "business"
+   ],
+   "mof": [
+    "business"
+   ],
+   "mod": [
+    "business"
+   ],
+   "wizarat": [
+    "business"
+   ],
+   "gosi": [
+    "business"
+   ],
+   "courts": [
+    "business"
+   ],
+   "passport": [
+    "business"
+   ],
+   "mewa": [
+    "business"
+   ],
+   "qasrhokm": [
+    "heritage"
+   ],
+   "museum": [
+    "heritage"
+   ],
+   "murabba": [
+    "heritage"
+   ],
+   "batha": [
+    "heritage"
+   ],
+   "kflib": [
+    "heritage"
+   ],
+   "kfstadium": [
+    "events"
+   ],
+   "exhibition": [
+    "events"
+   ],
+   "salmanoasis": [
+    "events"
+   ],
+   "habib": [
+    "health"
+   ],
+   "iman": [
+    "health"
+   ],
+   "ishbiliyah": [
+    "shopping"
+   ],
+   "granada": [
+    "shopping"
+   ],
+   "hamra": [
+    "shopping"
+   ]
+  },
+  "kindCats": {
+   "airport": [
+    "hotel",
+    "services",
+    "food"
+   ],
+   "transit": [
+    "food",
+    "services",
+    "hotel"
+   ],
+   "campus": [
+    "cafe",
+    "food",
+    "shop"
+   ],
+   "business": [
+    "cafe",
+    "food",
+    "services"
+   ],
+   "heritage": [
+    "food",
+    "cafe",
+    "shop",
+    "fun"
+   ],
+   "events": [
+    "fun",
+    "food"
+   ],
+   "health": [
+    "health",
+    "cafe"
+   ],
+   "shopping": [
+    "shop",
+    "food",
+    "fun"
+   ]
+  }
+ },
  "graceDays": 0,
  "version": 1,
  "tierOf": {

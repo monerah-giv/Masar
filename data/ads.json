@@ -18,5 +18,26 @@
   {"weeks": 12, "off": 0.20}
  ],
  "packages": {"station": 0, "line": 0.35, "network": 0.50},
+ "context": {
+  "momentCats": {
+   "morning": ["cafe", "food", "health"],
+   "midday": ["food", "cafe"],
+   "afternoon": ["cafe", "shop", "services"],
+   "evening": ["food", "shop", "fun"],
+   "night": ["food", "cafe", "fun"]
+  },
+  "weekendCats": ["fun", "shop", "food"],
+  "placeCats": {"home": ["food", "shop", "health", "services"], "work": ["cafe", "food", "services"]},
+  "kinds": {
+   "airport": {"cats": ["hotel", "services", "food"], "stations": ["t12", "t34", "t5"]},
+   "transit": {"cats": ["food", "services", "hotel"], "stations": ["railway", "transport", "western"]},
+   "campus": {"cats": ["cafe", "food", "shop"], "stations": ["ksu", "pnu", "kacst"]},
+   "business": {"cats": ["cafe", "food", "services"], "stations": ["kafd", "sabb", "stc", "alinma", "bilad", "kfd", "kfd2", "murooj", "sabic", "govcomplex", "moi", "moe", "mof", "mod", "wizarat", "gosi", "courts", "passport", "mewa"]},
+   "heritage": {"cats": ["food", "cafe", "shop", "fun"], "stations": ["qasrhokm", "museum", "murabba", "batha", "kflib"]},
+   "events": {"cats": ["fun", "food"], "stations": ["kfstadium", "exhibition", "salmanoasis"]},
+   "health": {"cats": ["health", "cafe"], "stations": ["habib", "iman"]},
+   "shopping": {"cats": ["shop", "food", "fun"], "stations": ["ishbiliyah", "granada", "hamra"]}
+  }
+ },
  "campaigns": []
 }
