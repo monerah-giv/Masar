@@ -21,6 +21,8 @@ struct AdCampaign: Codable, Identifiable, Hashable {
     let paidUntil: String?
     /// "active" or "suspended" (cancelled bookings never reach the feed).
     let status: String?
+    /// Parts of the day the advertiser asked to favour: morning, midday, afternoon, evening, night.
+    var moments: [String]? = nil
 
     /// Shown only while running, not suspended and paid for (plus grace days). An unpaid ad
     /// disappears by itself the day after its paid period, even before the feed refreshes.
@@ -36,6 +38,34 @@ struct AdFeed: Codable {
     var graceDays: Int? = 0
     let feedUrl: String?
     let campaigns: [AdCampaign]
+    var context: AdRules? = nil
+}
+
+/// The rules from data/ads.json («context») that say which categories suit a moment, a saved place
+/// or a kind of station. Missing rules mean no preference.
+struct AdRules: Codable {
+    var momentCats: [String: [String]]? = nil
+    var weekendCats: [String]? = nil
+    var placeCats: [String: [String]]? = nil
+    var kindOf: [String: [String]]? = nil
+    var kindCats: [String: [String]]? = nil
+}
+
+/// What is known about a stop for this rider, worked out on the phone and never sent anywhere.
+struct AdContext: Equatable {
+    var moment: String
+    var weekend: Bool
+    var place: String?
+    var kinds: [String]
+}
+
+/// What this phone learned from the rider's own taps on offers. Lives in UserDefaults on this device:
+/// it is not part of the iCloud records and is never sent to Masar.
+struct AdTaste: Codable, Equatable {
+    var on = true
+    var cats: [String: Double] = [:]
+    var hide: [String] = []
+    static let limit = 3.0
 }
 
 /// Contextual ads: chosen only by the station a rider is heading to, never by who the rider is.
@@ -45,6 +75,8 @@ struct AdFeed: Codable {
 @Observable
 final class AdsService {
     private(set) var feed: AdFeed
+    private(set) var taste: AdTaste
+    private static let tasteKey = "ads.taste"
 
     private static let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
         .appendingPathComponent("ads.json")
@@ -52,6 +84,7 @@ final class AdsService {
     private static let refreshEvery: TimeInterval = 6 * 3600
 
     init(bundle: Bundle = .main) {
+        taste = UserDefaults.standard.data(forKey: Self.tasteKey).flatMap { try? JSONDecoder().decode(AdTaste.self, from: $0) } ?? AdTaste()
         if let data = try? Data(contentsOf: Self.cacheURL), let f = try? JSONDecoder().decode(AdFeed.self, from: data) {
             feed = f
         } else if let url = bundle.url(forResource: "ads", withExtension: "json"),
@@ -78,9 +111,40 @@ final class AdsService {
     }
 
     /// Active campaigns at a station in a weighted rotation that stays the same all day.
-    /// Same hash as the web app, so a rider sees the same ad on both.
-    func ads(at station: String, day: String = AdsService.today(), limit: Int = 1) -> [AdCampaign] {
-        Self.rotate(feed.campaigns, at: station, day: day, limit: limit, graceDays: feed.graceDays ?? 0)
+    /// Same hash and the same relevance rules as the web app. With a context, the paid weight is
+    /// scaled by how well the ad suits this rider and moment; without one it is the plain paid rotation.
+    func ads(at station: String, day: String = AdsService.today(), limit: Int = 1, context: AdContext? = nil) -> [AdCampaign] {
+        Self.rotate(feed.campaigns, at: station, day: day, limit: limit, graceDays: feed.graceDays ?? 0,
+                    context: context, rules: feed.context, taste: taste)
+    }
+
+    /// The context of a stop at the time the rider arrives. A saved place counts only while personalising is on.
+    func context(for station: String, at date: Date = Date(), place: String? = nil) -> AdContext {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "Asia/Riyadh")!
+        let c = cal.dateComponents([.hour, .minute, .weekday], from: date)
+        return AdContext(moment: Self.moment(minutes: (c.hour ?? 0) * 60 + (c.minute ?? 0)),
+                         weekend: c.weekday == 6 || c.weekday == 7,
+                         place: taste.on ? place : nil,
+                         kinds: feed.context?.kindOf?[station] ?? [])
+    }
+
+    func reasons(for c: AdCampaign, context: AdContext) -> [String] {
+        Self.relevance(c, context: context, rules: feed.context, taste: taste).why
+    }
+
+    /// A tap on an offer counts for its category; «ليس لي» counts against it and hides that one ad here.
+    func note(_ c: AdCampaign, _ delta: Double, hide: Bool = false) {
+        if taste.on { taste.cats[c.category] = max(-AdTaste.limit, min(AdTaste.limit, (taste.cats[c.category] ?? 0) + delta)) }
+        if hide, !taste.hide.contains(c.id) { taste.hide = Array((taste.hide + [c.id]).suffix(60)) }
+        saveTaste()
+    }
+
+    func setPersonalised(_ on: Bool) { taste.on = on; saveTaste() }
+    func clearTaste() { taste.cats = [:]; taste.hide = []; saveTaste() }
+
+    private func saveTaste() {
+        if let data = try? JSONEncoder().encode(taste) { UserDefaults.standard.set(data, forKey: Self.tasteKey) }
     }
 
     func freeSlots(at station: String, day: String = AdsService.today()) -> Int {
@@ -96,12 +160,51 @@ final class AdsService {
 
     // MARK: pure helpers (unit-tested)
 
-    nonisolated static func rotate(_ all: [AdCampaign], at station: String, day: String, limit: Int, graceDays: Int = 0) -> [AdCampaign] {
-        all.filter { $0.stations.contains(station) && $0.isShown(on: day, graceDays: graceDays) }
-            .map { (c: $0, k: -log(hash01("\($0.id)|\(station)|\(day)")) / $0.weight) }
+    nonisolated static func rotate(_ all: [AdCampaign], at station: String, day: String, limit: Int, graceDays: Int = 0,
+                                   context: AdContext? = nil, rules: AdRules? = nil, taste: AdTaste = AdTaste()) -> [AdCampaign] {
+        let hidden = context == nil ? [] : taste.hide
+        return all.filter { $0.stations.contains(station) && $0.isShown(on: day, graceDays: graceDays) && !hidden.contains($0.id) }
+            .map { c -> (c: AdCampaign, k: Double) in
+                let rel = context.map { relevance(c, context: $0, rules: rules, taste: taste).m } ?? 1
+                return (c: c, k: -log(hash01("\(c.id)|\(station)|\(day)")) / (c.weight * rel))
+            }
             .sorted { $0.k < $1.k }
             .prefix(limit)
             .map(\.c)
+    }
+
+    /// The part of the day for a time in Riyadh minutes; the same boundaries as the web app.
+    nonisolated static func moment(minutes: Int) -> String {
+        let m = ((minutes % 1440) + 1440) % 1440
+        switch m {
+        case 300..<660: return "morning"
+        case 660..<900: return "midday"
+        case 900..<1080: return "afternoon"
+        case 1080..<1320: return "evening"
+        default: return "night"
+        }
+    }
+
+    /// How well an ad suits this rider and moment: a multiplier on the paid weight, held between 0.5 and 3
+    /// so every advertiser keeps a share. Mirrors `relevance` in web/app.html (tests/intent.test.mjs).
+    nonisolated static func relevance(_ c: AdCampaign, context cx: AdContext, rules: AdRules?, taste: AdTaste) -> (m: Double, why: [String]) {
+        func has(_ list: [String]?) -> Bool { list?.contains(c.category) ?? false }
+        var m = 1.0
+        var why: [String] = []
+        if let moments = c.moments {
+            if moments.contains(cx.moment) { m *= 1.6; why.append("time") } else { m *= 0.7 }
+        } else if has(rules?.momentCats?[cx.moment]) {
+            m *= 1.3; why.append("time")
+        }
+        if cx.weekend, has(rules?.weekendCats) { m *= 1.15 }
+        if let place = cx.place, has(rules?.placeCats?[place]) { m *= 1.2 }
+        if cx.kinds.contains(where: { has(rules?.kindCats?[$0]) }) { m *= 1.25 }
+        if taste.on {
+            let a = (taste.cats[c.category] ?? 0) / AdTaste.limit
+            m *= 1 + 0.5 * a
+            if a >= 0.3 { why.append("taste") }
+        }
+        return (min(3, max(0.5, m)), why)
     }
 
     /// FNV-1a over UTF-16 code units, mapped into (0, 1).

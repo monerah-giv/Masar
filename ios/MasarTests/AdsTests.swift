@@ -49,6 +49,39 @@ final class AdsTests: XCTestCase {
         XCTAssertEqual(items.first { $0.name == "utm_content" }?.value, "kafd")
     }
 
+    /// The same numbers as tests/intent.test.mjs, so both apps rank ads identically.
+    func testRelevanceMatchesTheWebApp() {
+        let rules = AdRules(momentCats: ["morning": ["cafe"]], weekendCats: ["fun"], placeCats: ["work": ["cafe"]],
+                            kindOf: ["qasrhokm": ["heritage"]], kindCats: ["heritage": ["shop"]])
+        let cafe = camp("cafe")
+        var grill = camp("grill"); grill.moments = ["evening", "night"]
+        let morning = AdContext(moment: "morning", weekend: false, place: nil, kinds: ["heritage"])
+        let evening = AdContext(moment: "evening", weekend: false, place: nil, kinds: ["heritage"])
+        XCTAssertEqual(AdsService.relevance(cafe, context: morning, rules: rules, taste: AdTaste()).m, 1.3, accuracy: 1e-9)
+        XCTAssertEqual(AdsService.relevance(grill, context: morning, rules: rules, taste: AdTaste()).m, 0.7, accuracy: 1e-9)
+        XCTAssertEqual(AdsService.relevance(grill, context: evening, rules: rules, taste: AdTaste()).m, 1.6, accuracy: 1e-9)
+        XCTAssertEqual(AdsService.relevance(grill, context: evening, rules: rules, taste: AdTaste()).why, ["time"])
+        XCTAssertEqual(AdsService.relevance(cafe, context: AdContext(moment: "midday", weekend: false, place: "work", kinds: []),
+                                            rules: rules, taste: AdTaste()).m, 1.2, accuracy: 1e-9)
+        // Bounded whatever the rider did, and switched off on request.
+        let fan = AdTaste(on: true, cats: ["cafe": 3], hide: [])
+        let all = AdContext(moment: "morning", weekend: true, place: "work", kinds: ["heritage"])
+        XCTAssertLessThanOrEqual(AdsService.relevance(cafe, context: all, rules: rules, taste: fan).m, 3)
+        XCTAssertEqual(AdsService.relevance(cafe, context: evening, rules: rules, taste: fan).m, 1.5, accuracy: 1e-9)
+        XCTAssertEqual(AdsService.relevance(cafe, context: evening, rules: rules, taste: AdTaste(on: false, cats: ["cafe": 3], hide: [])).m, 1, accuracy: 1e-9)
+        XCTAssertGreaterThanOrEqual(AdsService.relevance(grill, context: morning, rules: rules, taste: AdTaste(on: true, cats: ["cafe": -3], hide: [])).m, 0.5)
+    }
+
+    func testMomentsAndHiddenAds() {
+        XCTAssertEqual([0, 299, 300, 659, 660, 899, 900, 1079, 1080, 1319, 1320, 1439].map(AdsService.moment(minutes:)),
+                       ["night", "night", "morning", "morning", "midday", "midday", "afternoon", "afternoon", "evening", "evening", "night", "night"])
+        let all = [camp("a"), camp("b")]
+        let cx = AdContext(moment: "midday", weekend: false, place: nil, kinds: [])
+        let hid = AdTaste(on: true, cats: [:], hide: ["b"])
+        XCTAssertEqual(AdsService.rotate(all, at: "qasrhokm", day: "2026-10-20", limit: 5, context: cx, taste: hid).map(\.id), ["a"])
+        XCTAssertEqual(AdsService.rotate(all, at: "qasrhokm", day: "2026-10-20", limit: 5, taste: hid).count, 2)   // the booking itself is untouched
+    }
+
     func testRiyadhCalendarDay() {
         // 22:30 UTC on 31 Dec is already 1 Jan in Riyadh (UTC+3).
         let d = ISO8601DateFormatter().date(from: "2026-12-31T22:30:00Z")!

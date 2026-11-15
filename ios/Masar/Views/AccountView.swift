@@ -61,6 +61,13 @@ struct AccountView: View {
                 Text(L10n.t("hours_body")).font(.footnote)
             }
 
+            Section {
+                Toggle(L10n.t("pers_title"), isOn: Binding(get: { ads.taste.on }, set: { ads.setPersonalised($0) }))
+                Button(L10n.t("pers_reset"), role: .destructive) { ads.clearTaste() }
+            } footer: {
+                Text(L10n.t("pers_body"))
+            }
+
             if let url = ads.advertiseURL(station: nil) {
                 Section(L10n.t("adv_open")) {
                     Text(L10n.t("adv_sub")).font(.footnote)

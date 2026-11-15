@@ -33,6 +33,8 @@ def check(net, strings):
 
 CATEGORIES = {"food", "cafe", "shop", "health", "services", "hotel", "fun"}
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+# Parts of the day an ad can favour, by the rider's arrival time in Riyadh (see docs/ADS.md, «الملاءمة»).
+MOMENTS = ("morning", "midday", "afternoon", "evening", "night")
 
 def _metres(a, b):
     r = math.pi / 180
@@ -98,7 +100,10 @@ def ads_feed(net, ads, strings, app):
                 print(f"warning: {cid} is more than 2.5 km from {far}")
         w = c.get("weight", 1)
         if not isinstance(w, (int, float)) or w <= 0: err(f"{cid}: weight must be > 0")
-        item = {k: c[k] for k in ("id", "name", "category", "title", "body", "url", "phone", "lat", "lng", "start", "end", "paidUntil") if c.get(k) is not None}
+        if "moments" in c:
+            m = c["moments"]
+            if not isinstance(m, list) or not m or not set(m) <= set(MOMENTS): err(f"{cid}: moments must be a list of {list(MOMENTS)}")
+        item = {k: c[k] for k in ("id", "name", "category", "title", "body", "url", "phone", "lat", "lng", "start", "end", "paidUntil", "moments") if c.get(k) is not None}
         item["stations"] = sts; item["weight"] = w; item["status"] = status
         out.append(item)
     # no station may be sold more often than it has slots on any day
@@ -111,12 +116,33 @@ def ads_feed(net, ads, strings, app):
             if n > cap: err(f"station {sid} is overbooked on {day} ({n} campaigns, {cap} slots)")
     if not isinstance(ads.get("graceDays", 0), int) or ads.get("graceDays", 0) < 0: err("graceDays must be a whole number ≥ 0")
     feed = {k: ads[k] for k in ("contact", "currency", "vat", "slotsPerStation", "rates", "durations", "packages")}
+    feed["context"] = ad_context(ads.get("context"), ids, err)
     feed["graceDays"] = ads.get("graceDays", 0)
     feed.update({"version": 1, "tierOf": tier_of,
                  "issueUrl": app.get("repoUrl", "").rstrip("/") + "/issues/new" if app.get("repoUrl") else "",
                  "feedUrl": (app.get("siteUrl") or "").rstrip("/") + "/ads.json" if app.get("siteUrl") else "",
                  "campaigns": out})
     return feed
+
+def ad_context(ctx, ids, err):
+    """The rules the apps use on the device to rank a station's paid ads for this rider and moment:
+    which categories suit each part of the day, the weekend, a saved home or work stop, and kinds of
+    station. Missing rules mean no preference, so every ad keeps its plain share."""
+    ctx = ctx or {}
+    cats = lambda v, where: v if isinstance(v, list) and set(v) <= CATEGORIES else err(f"context.{where}: categories must be from {sorted(CATEGORIES)}")
+    out = {"momentCats": {}, "weekendCats": cats(ctx.get("weekendCats", []), "weekendCats"), "placeCats": {}, "kindOf": {}, "kindCats": {}}
+    for m, v in ctx.get("momentCats", {}).items():
+        if m not in MOMENTS: err(f"context.momentCats: unknown moment {m}")
+        out["momentCats"][m] = cats(v, "momentCats." + m)
+    for k, v in ctx.get("placeCats", {}).items():
+        if k not in ("home", "work", "other"): err(f"context.placeCats: unknown place kind {k}")
+        out["placeCats"][k] = cats(v, "placeCats." + k)
+    for kind, spec in ctx.get("kinds", {}).items():
+        out["kindCats"][kind] = cats(spec.get("cats"), f"kinds.{kind}.cats")
+        for sid in spec.get("stations", []):
+            if sid not in ids: err(f"context.kinds.{kind}: unknown station {sid}")
+            out["kindOf"].setdefault(sid, []).append(kind)
+    return out
 
 def web(net, fares, strings):
     src = open(D("web", "app.html"), encoding="utf-8").read()

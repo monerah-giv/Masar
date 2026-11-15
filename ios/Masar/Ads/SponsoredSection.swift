@@ -1,17 +1,22 @@
 import SwiftUI
+import SwiftData
 import CoreLocation
 
 /// The ad for the station a rider is heading to — or, when the station has a free slot,
 /// a quiet invitation for local businesses to take it. Always labelled as an ad.
 struct SponsoredSection: View {
     let stationID: String
+    /// When the rider reaches the stop; the ad that suits that part of the day gets the larger share.
+    var arrival: Date = Date()
+    @Query private var places: [FavoritePlace]
     @Environment(AdsService.self) private var ads
     @Environment(MetroNetwork.self) private var network
     @Environment(\.openURL) private var openURL
 
     var body: some View {
         if let station = network.stationByID[stationID] {
-            if let c = ads.ads(at: stationID).first {
+            let cx = ads.context(for: stationID, at: arrival, place: places.first { $0.stationID == stationID }?.kindRaw)
+            if let c = ads.ads(at: stationID, context: cx).first {
                 Section {
                     card(c, station: station)
                 } header: {
@@ -22,6 +27,16 @@ struct SponsoredSection: View {
                             .background(Brand.gold.opacity(0.25), in: RoundedRectangle(cornerRadius: 6))
                             .foregroundStyle(.primary)
                         Text(L10n.t("ad_near", ["st": L10n.stationName(station)]))
+                        ForEach(ads.reasons(for: c, context: cx), id: \.self) { why in
+                            Text(L10n.t("why_" + why))
+                                .font(.caption.weight(.semibold))
+                                .padding(.horizontal, 8).padding(.vertical, 2)
+                                .background(Brand.green.opacity(0.14), in: Capsule())
+                        }
+                        Spacer(minLength: 0)
+                        Button(L10n.t("ad_hide")) { ads.note(c, -1.5, hide: true) }
+                            .font(.caption)
+                            .buttonStyle(.borderless)
                     }
                     .textCase(nil)
                 }
@@ -79,20 +94,20 @@ struct SponsoredSection: View {
 
             HStack(spacing: 8) {
                 if let url = AdsService.trackedURL(c, station: station.id) {
-                    Button { openURL(url) } label: { Label(L10n.t("ad_visit"), systemImage: "arrow.up.right.square") }
+                    Button { ads.note(c, 1); openURL(url) } label: { Label(L10n.t("ad_visit"), systemImage: "arrow.up.right.square") }
                 }
                 if let p = place {
                     Menu {
-                        Button { MapsLink.appleWalk(from: from, fromName: L10n.stationName(station), to: p, toName: name) } label: {
+                        Button { ads.note(c, 1); MapsLink.appleWalk(from: from, fromName: L10n.stationName(station), to: p, toName: name) } label: {
                             Label(L10n.t("apple_maps"), systemImage: "map")
                         }
-                        Button { openURL(MapsLink.googleWalk(from: from, to: p)) } label: {
+                        Button { ads.note(c, 1); openURL(MapsLink.googleWalk(from: from, to: p)) } label: {
                             Label(L10n.t("google_maps"), systemImage: "globe")
                         }
                     } label: { Label(L10n.t("walk_dir"), systemImage: "figure.walk") }
                 }
                 if let phone = c.phone, let url = URL(string: "tel:" + phone.filter { !$0.isWhitespace }) {
-                    Button { openURL(url) } label: { Label(L10n.t("ad_call"), systemImage: "phone") }
+                    Button { ads.note(c, 1); openURL(url) } label: { Label(L10n.t("ad_call"), systemImage: "phone") }
                 }
             }
             // Bordered buttons stay separately tappable inside a List row.

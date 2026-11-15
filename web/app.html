@@ -382,6 +382,11 @@ textarea.fallback{width:100%;height:120px;font-family:ui-monospace,monospace;fon
 .ad-cat{margin-inline-start:8px;font-size:.76rem;color:var(--muted)}
 .ad-b p{margin:2px 0 0;font-weight:600}
 .ad-b small{display:block;color:var(--muted);font-size:.82rem}
+.ad-why{background:var(--accent-soft);color:var(--accent);font-weight:600;padding:1px 8px;border-radius:99px}
+.ad-arrow{width:18px;height:18px;color:var(--accent);flex:none;stroke-width:2.4}
+.ad-x{margin-inline-start:auto;border:0;background:none;color:var(--muted);font-weight:600;font-size:.78rem;min-height:44px;margin-block:-12px;padding:0 4px;text-decoration:underline}
+.offers-h{font-family:var(--f-display);font-size:1rem;margin:14px 4px 0}
+#nearby .ad{margin-top:8px}
 .ad-acts{display:flex;gap:8px;flex-wrap:wrap}
 .ad-acts .btn{flex:1 1 120px;min-height:40px;padding:8px 12px;font-size:.88rem}
 .adslot{margin-top:12px;width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px dashed var(--rule);border-radius:var(--r);background:transparent;text-align:start;color:var(--ink);min-height:56px}
@@ -735,7 +740,7 @@ function openStationSheet(id){
   openSheet('<h3>'+esc(nm(id))+'</h3><p class="sub">'+esc(nm2(id))+'</p><div class="acts">'+at[id].map(roundel).join(" ")+(at[id].length>1?'<span class="chip">'+esc(t("interchange"))+'</span>':'')+'</div>'+
     '<div class="stack"><button type="button" class="btn" id="sh-from">'+esc(t("start_here"))+'</button><button type="button" class="btn ghost" id="sh-to">'+esc(t("go_here"))+'</button><button type="button" class="btn line" id="sh-place">'+ICON.plus+esc(t("save_place"))+'</button></div>'+
     '<p class="sub" style="margin:4px 0 -4px">'+esc(t("walk_dir"))+(isApprox(id)?' · '+esc(t("approx_pos")):'')+'</p>'+
-    '<div class="maplinks"><a class="btn line" href="'+esc(gmapsURL(id, st.here))+'" target="_blank" rel="noopener">'+ICON.walk+esc(t("google_maps"))+'</a><a class="btn line" href="'+esc(amapsURL(id, st.here))+'" target="_blank" rel="noopener">'+ICON.walk+esc(t("apple_maps"))+'</a></div>'+adsBlock(id), root => {
+    '<div class="maplinks"><a class="btn line" href="'+esc(gmapsURL(id, st.here))+'" target="_blank" rel="noopener">'+ICON.walk+esc(t("google_maps"))+'</a><a class="btn line" href="'+esc(amapsURL(id, st.here))+'" target="_blank" rel="noopener">'+ICON.walk+esc(t("apple_maps"))+'</a></div>'+adsBlock(id, adContext(id)), root => {
     bindAds(root);
     $("sh-from").onclick = () => { st.fromHere = false; setStation("from", id); closeSheet(); if(st.tab !== "plan") go("plan"); };
     $("sh-to").onclick = () => { setStation("to", id); closeSheet(); if(st.tab !== "plan") go("plan"); };
@@ -928,7 +933,7 @@ function refreshPlan(){
     });
   }
   h += '<li class="node dest"><b><bdi>'+esc(nm(st.to))+'</bdi></b><span class="alt"><bdi>'+esc(nm2(st.to))+'</bdi></span><span class="sub">'+esc(t("arrive"))+'</span></li></ol>';
-  h += adsBlock(st.to);
+  h += adsBlock(st.to, adContext(st.to, dep + T, now.wd));
   box.innerHTML = h;
   bindAds(box);
   const fav = $("fav"); if(fav) fav.onclick = () => {
@@ -1069,6 +1074,21 @@ function walkLinkHTML(id){
   const m = metres(st.here, S[id]);
   return '<a class="walklink" href="'+esc(gmapsURL(id, st.here))+'" target="_blank" rel="noopener">'+ICON.walk+esc(t("walk_to",{st: nm(id)}))+' · '+esc((isApprox(id)?"~ ":"")+t("walk_info",{m: minTxt(walkMin(m)), d: distTxt(m)}))+'</a>';
 }
+/* Direction: the compass bearing from a to b, and how far apart two bearings are (0–180). */
+function bearing(a, b){
+  const r = Math.PI/180, dl = (b.lng-a.lng)*r, y = Math.sin(dl)*Math.cos(b.lat*r);
+  const x = Math.cos(a.lat*r)*Math.sin(b.lat*r) - Math.sin(a.lat*r)*Math.cos(b.lat*r)*Math.cos(dl);
+  return (Math.atan2(y, x)/r + 360) % 360;
+}
+const angDiff = (a, b) => Math.abs(((a - b + 540) % 360) - 180);
+/* Where the rider is heading: the line between two fixes at least 20 m apart, else the phone's compass.
+   Kept in memory only, like the location itself. */
+function noteFix(p){
+  if(st.prev && metres(st.prev, p) < 20) return;
+  if(st.prev) st.move = {deg: bearing(st.prev, p), at: Date.now()};
+  st.prev = p;
+}
+const curHeading = () => st.move && Date.now() - st.move.at < 60000 ? st.move.deg : st.compass != null ? st.compass : null;
 function parseLoc(raw){
   const s = String(raw || "").replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632).replace(/٫/g, ".").trim();
   const pats = [/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/, /@(-?\d+\.\d+),\s*(-?\d+\.\d+)/,
@@ -1083,6 +1103,7 @@ function parseLoc(raw){
   return null;
 }
 function setHere(p, quiet){
+  noteFix(p);
   st.here = p; st.hereAt = Date.now();                  /* kept in memory only, never saved */
   st.fromHere = true; st.scrollNext = !quiet;           /* the trip now starts at the user's location */
   if(!st.prefs.autoHere){ st.prefs.autoHere = true; persist(); }   /* remember the choice, not the place */
@@ -1091,6 +1112,26 @@ function setHere(p, quiet){
   const f = $("f-from"); if(f) f.value = t("cur_loc");
   renderNearby(); drawMap(); refreshPlan();
   const box = $("nearby"); if(!quiet && box && box.scrollIntoView) try{ box.scrollIntoView({behavior:"smooth", block:"nearest"}); }catch(e){}
+  startWatch();
+}
+/* While the trip starts "from here" and the page is in view, follow the rider: the plan and the offers
+   around them stay current, and two fixes give the direction of travel. Stops when the page is hidden. */
+function startWatch(){
+  if(st.watchId != null || !st.geoOK || !navigator.geolocation || document.hidden) return;
+  try{
+    st.watchId = navigator.geolocation.watchPosition(pos => {
+      const p = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+      if(!st.fromHere || !st.here || !inRiyadh(p.lat, p.lng) || metres(st.here, p) < 25) return;
+      noteFix(p); st.here = p; st.hereAt = Date.now();
+      if(st.tab === "plan"){ renderNearby(); drawMap(); refreshPlan(); }
+    }, () => {}, {enableHighAccuracy: false, maximumAge: 15000});
+  }catch(e){}
+}
+function stopWatch(){ if(st.watchId != null){ try{ navigator.geolocation.clearWatch(st.watchId); }catch(e){} st.watchId = null; } }
+function onCompass(deg){
+  if(!Number.isFinite(deg)) return;
+  deg = (deg % 360 + 360) % 360; st.compass = deg;
+  if(st.here && st.tab === "plan" && (st.compassShown == null || angDiff(deg, st.compassShown) >= 25)){ st.compassShown = deg; renderNearby(); }
 }
 /* Open already located: when the browser has granted location (or the user chose "Current location"
    last time), locate silently on load. Where the page can't read location (inside Claude) this simply
@@ -1101,7 +1142,7 @@ function autoLocate(){
     try{
       navigator.geolocation.getCurrentPosition(pos => {
         const p = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-        if(inRiyadh(p.lat, p.lng) && st.tab === "plan" && !st.fromHere && !st.lockFrom) setHere(p, true);
+        if(inRiyadh(p.lat, p.lng) && st.tab === "plan" && !st.fromHere && !st.lockFrom){ st.geoOK = true; setHere(p, true); }
       }, () => {}, {enableHighAccuracy: true, timeout: 10000, maximumAge: 120000});
     }catch(e){}
   };
@@ -1128,7 +1169,7 @@ function locate(){
     navigator.geolocation.getCurrentPosition(pos => {
       if(settled) return; settled = true; clearTimeout(timer);
       const p = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-      if(inRiyadh(p.lat, p.lng)) setHere(p); else { settled = false; fallback(); }
+      if(inRiyadh(p.lat, p.lng)){ st.geoOK = true; setHere(p); } else { settled = false; fallback(); }
     }, () => { clearTimeout(timer); fallback(); }, {enableHighAccuracy: true, timeout: 4500, maximumAge: 60000});
   }catch(e){ clearTimeout(timer); fallback(); }
 }
@@ -1158,12 +1199,15 @@ function openLocSheet(){
 function renderNearby(){
   const box = $("nearby"); if(!box) return;
   if(!st.here){ box.innerHTML = ""; return; }
-  const near = nearestTo(st.here, 3);
+  const near = nearestTo(st.here, 3), head = curHeading(), offers = offersNear(st.here, head);
   box.innerHTML = '<div class="card"><div class="card-h"><h2>'+esc(t("nearest_title"))+'</h2>'+(near.some(n => isApprox(n.id)) ? '<p>'+esc(t("approx_pos"))+'</p>' : '')+'</div>'+
     '<ul class="list near">'+near.map(n =>
       '<li><button type="button" class="rowbtn" data-near="'+n.id+'"><span class="ico">'+ICON.walk+'</span><span class="grow"><bdi>'+esc(nm(n.id))+'</bdi><small class="num">'+esc((isApprox(n.id)?"~ ":"")+t("walk_info",{m: minTxt(walkMin(n.m)), d: distTxt(n.m)}))+'</small></span></button>'+
       '<span class="go"><a href="'+esc(gmapsURL(n.id, st.here))+'" target="_blank" rel="noopener" aria-label="'+esc(t("walk_dir")+" · "+t("google_maps"))+'" title="'+esc(t("walk_dir"))+'">'+ICON.walk+'</a>'+
-      '<button type="button" data-start="'+n.id+'">'+esc(t("start_here"))+'</button></span></li>').join("")+'</ul></div>';
+      '<button type="button" data-start="'+n.id+'">'+esc(t("start_here"))+'</button></span></li>').join("")+'</ul></div>'+
+    (offers.length ? '<h2 class="offers-h">'+esc(t("near_offers"))+'</h2>'+offers.map(o => adCard(o.c, o.id, false, {from: st.here, why: o.why,
+      arrow: head == null ? "" : '<svg class="i ad-arrow" viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate('+Math.round(o.brg - head)+'deg)"><path d="M12 20V5M6 11l6-6 6 6"/></svg>'})).join("") : "");
+  bindAds(box);
   box.onclick = e => {
     const s1 = e.target.closest("[data-start]"); if(s1){ st.fromHere = false; setStation("from", s1.dataset.start); const f = $("f-from"); if(f) f.value = nm(st.from); return; }
     const r1 = e.target.closest("[data-near]"); if(r1) openStationSheet(r1.dataset.near);
@@ -1180,12 +1224,79 @@ function hash01(s){ let h = 2166136261; for(let i = 0; i < s.length; i++){ h ^= 
 /* An ad shows only while it runs, is not suspended, and is paid for (plus any grace days).
    Unpaid ads disappear on their own the day after the paid period ends — no rebuild needed. */
 const isShown = (c, day) => c.status !== "suspended" && c.start <= day && day <= c.end && !!c.paidUntil && day <= addDays(c.paidUntil, ADS.graceDays || 0);
-/* Active campaigns at a station: a weighted rotation (exponential race) that stays stable for the day. */
-function adsAt(id, day, n){
+/* ---------- intent: which paid ad suits this rider at this stop, worked out on the device ----------
+   Three signals, none of which leaves the phone:
+   1. the moment  — the part of the day the rider arrives, the weekend, and the kind of station;
+   2. the purpose — a destination saved as home or work;
+   3. the taste   — which kinds of offer this rider opened, and which they dismissed with «ليس لي».
+   They only re-order the ads a station has sold: relevance is a multiplier on the paid weight, held
+   between 0.5 and 3, so every advertiser keeps a share and nobody is shown an ad that was not booked. */
+const MOMENTS = [["morning", 300], ["midday", 660], ["afternoon", 900], ["evening", 1080], ["night", 1320]];
+function momentOf(min){
+  min = ((Math.round(min) % 1440) + 1440) % 1440;
+  let m = "night"; for(const [k, from] of MOMENTS) if(min >= from) m = k;
+  return m;
+}
+const TASTE_KEY = "masar.taste.v1", TASTE_MAX = 3;
+const taste = {on: true, cats: {}, hide: []};       /* its own key on this device: never part of the synced account */
+function tasteLoad(){
+  try{
+    const d = JSON.parse(localStorage.getItem(TASTE_KEY) || "null"); if(!d || typeof d !== "object") return;
+    taste.on = d.on !== false;
+    if(d.cats && typeof d.cats === "object") Object.keys(d.cats).slice(0, 12).forEach(k => { if(Number.isFinite(d.cats[k])) taste.cats[k] = Math.max(-TASTE_MAX, Math.min(TASTE_MAX, d.cats[k])); });
+    if(Array.isArray(d.hide)) taste.hide = d.hide.filter(x => typeof x === "string").slice(-60);
+  }catch(e){}
+}
+function tasteSave(){ try{ localStorage.setItem(TASTE_KEY, JSON.stringify(taste)); }catch(e){} }
+/* A tap on an offer counts for its category, «ليس لي» counts against it and hides that one ad here. */
+function tasteNote(c, delta, hide){
+  if(taste.on) taste.cats[c.category] = Math.max(-TASTE_MAX, Math.min(TASTE_MAX, (taste.cats[c.category] || 0) + delta));
+  if(hide && !taste.hide.includes(c.id)) taste.hide = taste.hide.concat(c.id).slice(-60);
+  tasteSave();
+}
+function tasteClear(){ taste.cats = {}; taste.hide = []; tasteSave(); }
+/* What is known about a stop for this rider: `min` is the arrival time in Riyadh minutes (now, if omitted). */
+function adContext(id, min, wd){
+  const r = min == null || !wd ? riyadh() : null;
+  if(min == null) min = r.min; wd = wd || r.wd;
+  const p = taste.on ? st.places.find(x => x.station === id) : null;
+  return {moment: momentOf(min), weekend: wd === "Fri" || wd === "Sat", place: p ? p.kind : "", kinds: ((ADS.context || {}).kindOf || {})[id] || []};
+}
+function relevance(c, cx){
+  if(!cx) return {m: 1, why: []};
+  const R = ADS.context || {}, has = l => Array.isArray(l) && l.includes(c.category), why = [];
+  let m = 1;
+  if(c.moments){ if(c.moments.includes(cx.moment)){ m *= 1.6; why.push("time"); } else m *= 0.7; }
+  else if(has((R.momentCats || {})[cx.moment])){ m *= 1.3; why.push("time"); }
+  if(cx.weekend && has(R.weekendCats)) m *= 1.15;
+  if(cx.place && has((R.placeCats || {})[cx.place])) m *= 1.2;
+  if((cx.kinds || []).some(k => has((R.kindCats || {})[k]))) m *= 1.25;
+  if(taste.on){ const a = (taste.cats[c.category] || 0) / TASTE_MAX; m *= 1 + 0.5 * a; if(a >= 0.3) why.push("taste"); }
+  return {m: Math.min(3, Math.max(0.5, m)), why};
+}
+/* Active campaigns at a station: a weighted rotation (exponential race) that stays stable for the day.
+   With a context the paid weight is scaled by relevance; without one this is the plain paid rotation. */
+function adsAt(id, day, n, cx){
   day = day || todayISO();
-  return ADS.campaigns.filter(c => c.stations.includes(id) && isShown(c, day))
-    .map(c => ({c, k: -Math.log(hash01(c.id + "|" + id + "|" + day)) / c.weight}))
+  return ADS.campaigns.filter(c => c.stations.includes(id) && isShown(c, day) && !(cx && taste.hide.includes(c.id)))
+    .map(c => ({c, k: -Math.log(hash01(c.id + "|" + id + "|" + day)) / (c.weight * relevance(c, cx).m)}))
     .sort((a, b) => a.k - b.k).slice(0, n || 1).map(x => x.c);
+}
+/* Offers around the rider right now: paid ads of the stations within walking reach that gave their own
+   position, nearest and most relevant first, with a lift for those in the direction of travel. */
+function offersNear(here, heading, day, n){
+  const seen = new Set(), out = [];
+  nearestTo(here, 3).filter(s => s.m <= MAX_WALK).forEach(s => {
+    const cx = adContext(s.id);
+    adsAt(s.id, day, ADS.slotsPerStation, cx).forEach(c => {
+      if(c.lat == null || seen.has(c.id)) return;
+      seen.add(c.id);
+      const m = metres(here, c); if(m > MAX_WALK) return;
+      const brg = bearing(here, c), ahead = heading != null && angDiff(brg, heading) <= 60, rel = relevance(c, cx);
+      out.push({c, id: s.id, m, brg, ahead, why: (ahead ? ["way"] : []).concat(rel.why), score: rel.m * (ahead ? 1.5 : 1) / (1 + m / 400)});
+    });
+  });
+  return out.sort((a, b) => b.score - a.score).slice(0, n || 2);
 }
 /* Slots still free at a station on every day of [a, b]. */
 function freeSlots(id, a, b){
@@ -1214,29 +1325,39 @@ function adLink(c, id){
   }catch(e){ return ""; }
 }
 const walkURL = (a, b) => "https://www.google.com/maps/dir/?api=1&origin="+ll(a)+"&destination="+ll(b)+"&travelmode=walking";
-function adCard(c, id, preview){
-  const m = c.lat != null ? metres(S[id], c) : null;
-  const near = t("ad_near", {st: nm(id)}) + (m != null ? " · " + t("ad_from_st", {m: minTxt(walkMin(m))}) : "");
-  const a = (href, ic, label, ext) => preview ? '<span class="btn line" aria-hidden="true">'+ic+esc(label)+'</span>'
-    : '<a class="btn line" href="'+esc(href)+'"'+(ext ? ' target="_blank" rel="noopener sponsored"' : '')+'>'+ic+esc(label)+'</a>';
+function adCard(c, id, preview, o){
+  o = o || {};
+  const from = o.from || S[id], m = c.lat != null ? metres(from, c) : null;
+  const near = o.from ? distTxt(m) + " · " + minTxt(walkMin(m)) : t("ad_near", {st: nm(id)}) + (m != null ? " · " + t("ad_from_st", {m: minTxt(walkMin(m))}) : "");
+  const a = (act, href, ic, label, ext) => preview ? '<span class="btn line" aria-hidden="true">'+ic+esc(label)+'</span>'
+    : '<a class="btn line" data-act="'+act+'" href="'+esc(href)+'"'+(ext ? ' target="_blank" rel="noopener sponsored"' : '')+'>'+ic+esc(label)+'</a>';
   const acts = [];
   const href = c.url ? adLink(c, id) : "";
-  if(href) acts.push(a(href, ICON.ext, t("ad_visit"), true));
-  if(c.lat != null) acts.push(a(walkURL(S[id], c), ICON.walk, t("walk_dir"), true));
-  if(c.phone) acts.push(a("tel:" + String(c.phone).replace(/\s/g, ""), ICON.phone, t("ad_call")));
-  return '<aside class="card ad" aria-label="'+esc(t("ad_tag")+": "+loc(c.name))+'"><div class="ad-h"><span class="ad-tag">'+esc(t("ad_tag"))+'</span><span>'+esc(near)+'</span></div>'+
+  if(href) acts.push(a("visit", href, ICON.ext, t("ad_visit"), true));
+  if(c.lat != null) acts.push(a("walk", walkURL(from, c), ICON.walk, t("walk_dir"), true));
+  if(c.phone) acts.push(a("call", "tel:" + String(c.phone).replace(/\s/g, ""), ICON.phone, t("ad_call")));
+  const why = (o.why || []).map(k => '<span class="ad-why">'+esc(t("why_" + k))+'</span>').join("");
+  return '<aside class="card ad" data-cid="'+esc(c.id)+'" aria-label="'+esc(t("ad_tag")+": "+loc(c.name))+'"><div class="ad-h"><span class="ad-tag">'+esc(t("ad_tag"))+'</span>'+(o.arrow || "")+'<span class="num">'+esc(near)+'</span>'+why+
+    (preview ? '' : '<button type="button" class="ad-x" data-hide>'+esc(t("ad_hide"))+'</button>')+'</div>'+
     '<div class="ad-b"><span class="ad-ico" aria-hidden="true">'+ICON.store+'</span><div class="grow"><b><bdi>'+esc(loc(c.name))+'</bdi></b><span class="ad-cat">'+esc(t("cat_"+c.category))+'</span>'+
     '<p><bdi>'+esc(loc(c.title))+'</bdi></p>'+(c.body ? '<small><bdi>'+esc(loc(c.body))+'</bdi></small>' : '')+'</div></div>'+
     (acts.length ? '<div class="ad-acts">'+acts.join("")+'</div>' : '')+'</aside>';
 }
-function adsBlock(id){
-  const list = adsAt(id, null, 1);
-  if(list.length) return list.map(c => adCard(c, id)).join("");
+function adsBlock(id, cx){
+  const list = adsAt(id, null, 1, cx);
+  if(list.length) return list.map(c => adCard(c, id, false, {why: relevance(c, cx).why})).join("");
   const day = todayISO();
   if(freeSlots(id, day, day) < 1) return "";
   return '<button type="button" class="adslot" data-adv="'+esc(id)+'">'+ICON.megaphone+'<span class="grow"><b>'+esc(t("ad_slot", {st: nm(id)}))+'</b><small>'+esc(t("ad_slot_sub"))+'</small></span>'+ICON.arrow+'</button>';
 }
-function bindAds(root){ root.querySelectorAll("[data-adv]").forEach(b => b.onclick = () => openAdvertise(b.dataset.adv)); }
+function bindAds(root){
+  root.querySelectorAll("[data-adv]").forEach(b => b.onclick = () => openAdvertise(b.dataset.adv));
+  root.querySelectorAll(".ad[data-cid]").forEach(el => {
+    const c = ADS.campaigns.find(x => x.id === el.dataset.cid); if(!c) return;
+    el.querySelectorAll("[data-act]").forEach(b => b.addEventListener("click", () => tasteNote(c, 1)));
+    const x = el.querySelector("[data-hide]"); if(x) x.onclick = e => { e.stopPropagation(); tasteNote(c, -1.5, true); el.remove(); toast(t("ad_hidden")); };
+  });
+}
 
 /* «أعلن معنا»: pick where and how long, see the price and availability, preview the ad, send the request. */
 const CATS = ["food","cafe","shop","health","services","hotel","fun"];
@@ -1417,6 +1538,8 @@ function viewAccount(){
       '<div class="tablewrap"><table><thead><tr><th></th><th class="num">km</th><th class="num">#</th><th class="num">km/seg</th><th class="num">km/h</th><th class="num">min/seg</th><th class="num">min</th></tr></thead><tbody>'+
       LINES.map(L => '<tr><td>'+roundel(L.id)+' '+esc(lineName(L.id))+'</td><td class="num">'+L.lengthKm+'</td><td class="num">'+L.stations.length+'</td><td class="num">'+L.spacing.toFixed(2)+'</td><td class="num">'+L.speedKmh+'</td><td class="num">'+L.hop.toFixed(1)+'</td><td class="num">'+Math.round(L.hop*(L.stations.length-1))+'</td></tr>').join("")+
       '</tbody></table></div><div class="pad" style="padding-top:4px"><button type="button" class="btn ghost" id="cpjson">'+ICON.copy+esc(t("copy_json"))+'</button></div></details></section>'+
+    '<section class="card"><ul class="setlist" style="border:0"><li style="border:0"><span class="grow" id="pers-l"><b>'+esc(t("pers_title"))+'</b></span><button type="button" class="switch" role="switch" id="pers" aria-labelledby="pers-l" aria-checked="'+taste.on+'"></button></li></ul>'+
+      '<div class="prose"><p>'+esc(t("pers_body"))+'</p></div><div class="pad" style="padding-top:0"><button type="button" class="btn ghost" id="persclr">'+ICON.trash+esc(t("pers_reset"))+'</button></div></section>'+
     '<section class="card"><div class="card-h"><h2>'+esc(t("adv_open"))+'</h2></div><div class="prose"><p>'+esc(t("adv_sub"))+'</p></div><div class="pad" style="padding-top:0"><button type="button" class="btn" id="advbtn">'+ICON.megaphone+esc(t("adv_title"))+'</button></div></section>'+
     '<section class="card"><div class="card-h"><h2>'+esc(t("about"))+'</h2></div><div class="lockup"><span class="sym" aria-hidden="true">'+BRAND_SYM+'</span><span class="wm" role="img" aria-label="'+esc(t("app_name"))+'">'+BRAND_WM+'</span></div><div class="prose links"><p>'+esc(t("about_body"))+'</p>'+
       (APP && APP.siteUrl ? '<p class="small"><a href="'+esc(APP.siteUrl)+'privacy/" target="_blank" rel="noopener">'+esc(t("privacy"))+'</a> · <a href="'+esc(APP.siteUrl)+'terms/" target="_blank" rel="noopener">'+esc(t("terms"))+'</a> · <a href="'+esc(APP.siteUrl)+'station/" target="_blank" rel="noopener">'+esc(t("stations_section"))+'</a></p>' : '')+
@@ -1429,12 +1552,14 @@ function bindAccount(){
   $("hc").onclick = () => { st.prefs.contrast = !st.prefs.contrast; applyPrefs(); persist(); renderView(); };
   v.querySelectorAll("[data-cls]").forEach(b => b.onclick = () => { st.prefs.fareClass = b.dataset.cls; persist(); renderView(); });
   $("advbtn").onclick = () => openAdvertise();
+  $("pers").onclick = () => { taste.on = !taste.on; tasteSave(); renderView(); };
+  $("persclr").onclick = () => { tasteClear(); toast(t("pers_cleared")); };
   $("cpjson").onclick = () => copyText(JSON.stringify(NET, (k, val) => k === "hay" ? undefined : val, 1));
   paintSync();
 }
 
 /* ---------- boot ---------- */
-loadLocal();
+loadLocal(); tasteLoad();
 const hash = (location.hash || "").slice(1);
 if(["plan","saved","fares","account"].includes(hash)) st.tab = hash;
 /* Links from station pages and QR stickers: ?from=<station>&to=<station>. An explicit start
@@ -1450,5 +1575,11 @@ if(hash.split(":")[0] === "advertise") openAdvertise(decodeURIComponent(hash.spl
 setInterval(renderStatus, 60000);
 connect();
 autoLocate();
+document.addEventListener("visibilitychange", () => document.hidden ? stopWatch() : startWatch());
+/* Compass, where the browser gives it without asking (it never prompts here). */
+try{
+  window.addEventListener("deviceorientationabsolute", e => { if(e.alpha != null) onCompass(360 - e.alpha); });
+  window.addEventListener("deviceorientation", e => { if(e.webkitCompassHeading != null) onCompass(e.webkitCompassHeading); });
+}catch(e){}
 })();
 </script>
